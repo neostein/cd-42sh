@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 02:46:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 03:49:47 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/01 23:58:18 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_pipe
 void			free_tab(char **tab);
 void			free_data(t_arg *lst);
 
+char			*del_quotes(char *str);
 char			*check_head(char *str);
 
 int				split_line(char *line);

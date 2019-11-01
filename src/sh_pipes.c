@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 02:16:19 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 05:37:48 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/01 23:57:51 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int		split_blank_pipes(char *line, t_pipe **pipes)
 		}
 		if (i - b > 0)
 		{
-			if (!(tmp = ft_strsub(line, b, i - b)))
+			if (!(tmp = del_quotes(ft_strsub(line, b, i - b))))
 				return (0);
 			if (!add_to_list(&lst, tmp))
 				return (0);

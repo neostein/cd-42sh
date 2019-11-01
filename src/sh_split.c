@@ -6,13 +6,37 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 00:10:37 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 05:23:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/01 23:56:59 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_21sh.h"
 /* to delete */
 #include <stdio.h>
+
+char	*del_quotes(char *str)
+{
+	int		i;
+	char	b;
+	char	buf[1337];
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		if (*str == 34 || *str == 34)
+		{
+			b = *str++;
+			while (*str && *str != b)
+				buf[i++] = *str++;
+			str++;
+		}
+		buf[i++] = *str++;
+	}
+	buf[i] = '\0';
+	return (ft_strdup(buf));
+}
 
 int		split_blank(char *line)
 {
@@ -45,12 +69,13 @@ int		split_blank(char *line)
 		}
 		if (i - b > 0)
 		{
-			if (!(tmp = ft_strsub(line, b, i - b)))
+			if (!(tmp = del_quotes(ft_strsub(line, b, i - b))))
 				return (0);
 			add_to_list(&lst, tmp);
 			ft_memdel((void **)&tmp);
 		}
 	}
+
 	if (!rdi)
 		excute_args(lst);
 	else
