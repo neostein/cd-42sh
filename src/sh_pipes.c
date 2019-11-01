@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 02:16:19 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 04:54:07 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/01 05:37:48 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,15 @@ int		split_blank_pipes(char *line, t_pipe **pipes)
 		}
 		if (i - b > 0)
 		{
-			tmp = ft_strsub(line, b, i - b);
-			add_to_list(&lst, tmp);
+			if (!(tmp = ft_strsub(line, b, i - b)))
+				return (0);
+			if (!add_to_list(&lst, tmp))
+				return (0);
 			ft_memdel((void **)&tmp);
 		}
 	}
-	save_pipes(pipes, lst, rdi);
+	if (!save_pipes(pipes, lst, rdi))
+		return (0);;
 	free_data(lst);
 	return (1);
 }
@@ -192,7 +195,7 @@ int		split_blank_pipes(char *line, t_pipe **pipes)
 int		excute_pipes(t_pipe *pipes)
 {
 	int pid;
-	int	count;
+	int	cont;
 	int pfd[2];
 
 	while (pipes)
@@ -204,23 +207,25 @@ int		excute_pipes(t_pipe *pipes)
 			return -1;
 		else if (pid == 0) /*son code*/
 		{
-				if (pipes->w)
-					dup2(pipes->fd, 1);
-				else if (pipes->next)
-					dup2(pfd[1], 1);
-				if (pipes->r)
-					dup2(pipes->fd, 0);
-				else
-					dup2(count,0);
+			if (pipes->w)
+				dup2(pipes->fd, 1);
+			else if (pipes->next)
+				dup2(pfd[1], 1);
+			if (pipes->r)
+				dup2(pipes->fd, 0);
+			else
+				dup2(cont,0);
+			close(pfd[1]);
 			close(pfd[0]);
 			execve(pipes->args[0], pipes->args, 0);
 			return 0;
 		}
 		waitpid(pid, 0, 0);
 		close(pfd[1]);
-		count = pfd[0];
+		cont = pfd[0];
 		pipes = pipes->next;
 	}
+	close(pfd[1]);
 	return (1);
 }
 
@@ -253,21 +258,23 @@ int		split_pipes(char *line)
 		}
 		if (i - b > 0)
 		{
-			tmp = ft_strsub(line, b, i - b);
-			split_blank_pipes(tmp, &pipes);
+			if (!(tmp = ft_strsub(line, b, i - b)))
+				return (0);
+			if (!split_blank_pipes(tmp, &pipes))
+				return (0);
 			ft_memdel((void **)&tmp);
 		}
 		i++;
 	}
 	/*
-	while (pipes)
-	{
-		i = 0;
-		while (pipes->args[i])
-			ft_putendl(pipes->args[i++]);
-		pipes = pipes->next;
-	}
-	*/
+	   while (pipes)
+	   {
+	   i = 0;
+	   while (pipes->args[i])
+	   ft_putendl(pipes->args[i++]);
+	   pipes = pipes->next;
+	   }
+	   */
 	excute_pipes(pipes);
 	return (1);
 }

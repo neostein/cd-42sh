@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 00:10:37 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 04:52:55 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/01 05:23:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int		split_blank(char *line)
 		}
 		if (i - b > 0)
 		{
-			tmp = ft_strsub(line, b, i - b);
+			if (!(tmp = ft_strsub(line, b, i - b)))
+				return (0);
 			add_to_list(&lst, tmp);
 			ft_memdel((void **)&tmp);
 		}
@@ -87,11 +88,18 @@ int		split_line(char *line)
 		}
 		if (i - b > 0)
 		{
-			tmp = ft_strsub(line, b, i - b);
+			if (!(tmp = ft_strsub(line, b, i - b)))
+				return (0);
 			if (!pipe)
-				split_blank(tmp);
+			{
+				if (!split_blank(tmp))
+					return (0);
+			}
 			else
-				split_pipes(tmp);
+			{
+				if(!split_pipes(tmp))
+					return (0);
+			}
 			ft_memdel((void **)&tmp);
 		}
 		i++;
