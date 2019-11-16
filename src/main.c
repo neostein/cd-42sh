@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:12:11 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/16 04:57:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/16 22:53:33 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,36 +79,7 @@ int		save_redirections(t_fd **lst_rd, char *fir, int	val, char *sec)
 	return (0);
 }
 
-int		add_redirections(t_data *data, t_tok *toks)
-{
-	t_fd	*rd;
-	t_tok	*prev;
 
-	rd = 0;
-	if (check_redirection(toks->token))
-		save_redirections(&rd, 0, toks->val, toks->next->token);
-	prev = toks;
-	toks = toks->next;
-	while (toks)
-	{
-		if (check_redirection(toks->token) && toks->next)
-		{
-			if (save_redirections(&rd, prev->val ? prev->token : 0, toks->val, toks->next->token))
-				return (1);
-		}
-		prev = toks;
-		toks = toks->next;
-	}
-	data->lst_rd = rd;
-	/*
-	while (rd)
-	{
-		printf("%d -- %d\n", rd->fdfirst, rd->fdsecond);	
-		rd = rd->next;
-	}
-	*/
-	return (0);
-}
 
 int		args_len(t_tok	*toks)
 {
@@ -202,9 +173,10 @@ int		sh_excute(t_data *data)
 		if (data->rd)
 		{
 			rd = data->lst_rd;
+//			printf("**************\n");
 			while (rd)
 			{
-				printf("%d -- %d", rd->fdsecond, rd->fdfirst);
+//				printf("%d -- %d\n", rd->fdsecond, rd->fdfirst);
 				dup2(rd->fdsecond, rd->fdfirst);
 				rd = rd->next;
 			}
@@ -217,21 +189,6 @@ int		sh_excute(t_data *data)
 	dup2(err, 2);
 	waitpid(pid, 0, 0);
 	return (1);
-}
-
-int		check_numbers(char *str)
-{
-	int	i;
-
-	i = 0;
-
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int		check_token(char *str)
@@ -297,6 +254,24 @@ int		val_token(char *str)
 	return (-1);
 }
 
+int		check_numbers(char *str)
+{
+	int	i;
+
+	i = 0;
+
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+		{
+	//		printf("|%c|\n", str[i]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int		check_tokens(char *str)
 {
 	if (check_token(str))
@@ -315,16 +290,6 @@ int		edit_token(t_tok **toks)
 	tmp = *toks;
 	while (tmp)
 	{
-		if (ret == 5 || ret == 6)
-		{
-			if (check_numbers(tmp->token))
-			{
-				ft_putendl("error 3");
-				return (1);
-			}
-			else
-				tmp->val = 2;
-		}
 		ret = 0;
 		if (tmp->val == 1)
 		{
@@ -332,8 +297,19 @@ int		edit_token(t_tok **toks)
 			tmp->val = ret;
 			if(tmp->next && ret >= 3 && ret <= 8)
 			{
+				if (ret == 5 || ret == 6)
+				{
+					if (check_numbers(tmp->next->token))
+					{
+						ft_putendl("error 3");
+						return (1);
+					}
+					else
+						tmp->val = 9;
+				}
+				else
+					tmp->next->val = 2;
 				ret = 1;
-				tmp->next->val = 1;
 				tmp = tmp->next;
 			}
 		}
@@ -350,6 +326,37 @@ int		edit_token(t_tok **toks)
 	return (0);
 }
 
+int		add_redirections(t_data *data, t_tok *toks)
+{
+	t_fd	*rd;
+	t_tok	*prev;
+
+	rd = 0;
+	if (check_redirection(toks->token))
+		save_redirections(&rd, 0, toks->val, toks->next->token);
+	prev = toks;
+	toks = toks->next;
+	while (toks)
+	{
+		if (check_redirection(toks->token) && toks->next)
+		{
+			if (save_redirections(&rd, (prev->val == 1)? prev->token : 0, toks->val, toks->next->token))
+				return (1);
+		}
+		prev = toks;
+		toks = toks->next;
+	}
+	data->lst_rd = rd;
+/*
+	while (rd)
+	{
+		printf("%d -- %d\n", rd->fdfirst, rd->fdsecond);	
+		rd = rd->next;
+	} 
+*/
+	return (0);
+}
+
 int		save_data(char	*str)
 {
 	t_tok	*toks;
@@ -359,7 +366,7 @@ int		save_data(char	*str)
 
 	if (edit_token(&toks))
 		return (1);
-	
+
 	t_tok	*tmp;
 	tmp = toks;
 /*
@@ -380,6 +387,18 @@ int		save_data(char	*str)
 		return (1);
 
 
+//	t_fd	*rd;
+
+//	if (data->rd)
+//	{
+//		rd = data->lst_rd;
+//		ft_putendl("---------------");
+//		while (rd)
+//		{
+//			printf("%d -- %d\n", rd->fdsecond, rd->fdfirst);
+//			rd = rd->next;
+//		}
+//	}
 
 	sh_excute(data);
 /*			
