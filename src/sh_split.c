@@ -5,14 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/01 00:10:37 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 23:56:59 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/09 01:11:57 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/16 02:20:27 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
-/* to delete */
+#include "my_21sh.h"
 #include <stdio.h>
+
+int		check_spechar(char c)
+{
+	if (c == '<' || c == '>' || c == '&')
+		return (1);
+	return (0);
+}
 
 char	*del_quotes(char *str)
 {
@@ -25,7 +31,7 @@ char	*del_quotes(char *str)
 		return (0);
 	while (*str)
 	{
-		if (*str == 34 || *str == 34)
+		if (*str == 34 || *str == 39)
 		{
 			b = *str++;
 			while (*str && *str != b)
@@ -38,23 +44,24 @@ char	*del_quotes(char *str)
 	return (ft_strdup(buf));
 }
 
-int		split_blank(char *line)
+t_tok	*split_token(char *line)
 {
 	int		i;
 	int		b;
 	int		be;
-	int		rdi;
+	int		check;
 	char	*tmp;
-	t_arg	*lst;
+	t_tok	*lst;
 
 	i = 0;
-	rdi = 0;
 	lst = 0;
+	check = 0;
 	while (line[i])
 	{
 		while (line[i] && line[i] == ' ')
 			i++;
 		b = i;
+		be = 0;
 		while (line[i] && line[i] != ' ')
 		{
 			if (line[i] == 34 || line[i] == 39)
@@ -63,71 +70,38 @@ int		split_blank(char *line)
 				while (line[i] && line[i] != line[be])
 					i++;
 			}
-			if (line[i] == '>' || line[i] == '<')
-				rdi = 1;
+			if (check_spechar(line[i]) && check)
+			{
+				while (line[i] && check_spechar(line[i]))
+					i++;
+				be = 1337;
+				check = 0;
+				break ;
+			}
+			else if (check_spechar(line[i]) && !check)
+			{
+				be = 1337;
+				check = 1;
+				break ;
+			}
 			i++;
 		}
 		if (i - b > 0)
 		{
 			if (!(tmp = del_quotes(ft_strsub(line, b, i - b))))
 				return (0);
-			add_to_list(&lst, tmp);
+			add_to_list(&lst, tmp, be);
 			ft_memdel((void **)&tmp);
 		}
 	}
-
-	if (!rdi)
-		excute_args(lst);
-	else
-		excute_redirections(lst);
-	free_data(lst);
-	return (1);
-}
-
-int		split_line(char *line)
-{
-	int		i;
-	int		b;
-	int		be;
-	int		pipe;
-	char	*tmp;
-
-	i = 0;
-	while (line[i])
+	/*
+	t_tok 	*temp;
+	temp = lst;	
+	while (temp)
 	{
-		while (line[i] && line[i] == ' ')
-			i++;
-		b = i;
-		pipe = 0;
-		while (line[i] && line[i] != ';')
-		{
-			if (line[i] == 34 || line[i] == 39)
-			{
-				be = i++;
-				while (line[i] && line[i] != line[be])
-					i++;
-			}
-			if (line[i] == '|')
-				pipe = 1;
-			i++;
-		}
-		if (i - b > 0)
-		{
-			if (!(tmp = ft_strsub(line, b, i - b)))
-				return (0);
-			if (!pipe)
-			{
-				if (!split_blank(tmp))
-					return (0);
-			}
-			else
-			{
-				if(!split_pipes(tmp))
-					return (0);
-			}
-			ft_memdel((void **)&tmp);
-		}
-		i++;
+		printf("%d -- %s\n",temp->val, temp->token);
+		temp = temp->next;
 	}
-	return (1);
+	*/
+	return (lst);
 }

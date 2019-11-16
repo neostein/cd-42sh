@@ -6,7 +6,7 @@
 #    By: hastid <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/01 02:24:04 by hastid           ###   ########.fr        #
+#    Updated: 2019/11/16 05:00:16 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,6 @@ FLAG = -Wall -Wextra -Werror
 SRC = src/main.c \
 	  src/sh_list.c \
 	  src/sh_split.c \
-	  src/sh_pipes.c \
-	  src/sh_excute.c \
 
 OBJ = $(SRC:.c=.o)
 

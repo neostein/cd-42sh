@@ -5,67 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/31 23:53:18 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/01 00:04:41 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/09 01:28:02 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/09 04:31:57 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "my_21sh.h"
 
-static t_arg	*add_elm(char *str)
+static t_tok	*add_elm(char *str, int to)
 {
-	t_arg	*elm;
+	t_tok	*elm;
 
-	if (!(elm = (t_arg *)malloc(sizeof(t_arg))))
+	if (!(elm = (t_tok *)malloc(sizeof(t_tok))))
 		return (0);
-	if (!(elm->str = ft_strdup(str)))
+	if (!(elm->token = ft_strdup(str)))
 		return (0);
+	if (to == 1337)
+		elm->val = 1;
+	else
+		elm->val = 0;
 	elm->next = 0;
 	return (elm);
 }
 
-int				add_to_list(t_arg **lst, char *str)
+int				add_to_list(t_tok **lst, char *str, int	to)
 {
-	t_arg	*tmp;
+	t_tok	*tmp;
 
 	if (*lst)
 	{
 		tmp = *lst;
 		while (tmp->next)
 			tmp = tmp->next;
-		if (!(tmp->next = add_elm(str)))
+		if (!(tmp->next = add_elm(str, to)))
 			return (0);
 	}
 	else
 	{
-		if (!((*lst) = add_elm(str)))
+		if (!((*lst) = add_elm(str, to)))
 			return (0);
 	}
 	return (1);
 }
 
-void			free_data(t_arg *lst)
+void			free_token(t_tok *lst)
 {
-	t_arg	*tmp;
+	t_tok	*tmp;
 
 	while (lst)
 	{
 		tmp = lst->next;
-		ft_memdel((void **)&(lst->str));
+		ft_memdel((void **)&(lst->token));
 		ft_memdel((void **)&lst);
 		lst = tmp;
-	}
-}
-
-void			free_tab(char **tab)
-{
-	int i;
-
-	i = 0;
-	if (tab)
-	{
-		while (tab[i])
-			ft_memdel((void **)&tab[i++]);
-		free(tab);
 	}
 }
