@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:12:11 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/16 22:53:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/17 19:20:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,22 @@ int		save_redirections(t_fd **lst_rd, char *fir, int	val, char *sec)
 	}
 	if (val == 5)
 		tmp_fd->fdsecond = ft_atoi(sec);
+	if (val == 6)
+		tmp_fd->fdsecond = ft_atoi(sec);
 	if (val == 3)
 		tmp_fd->fdsecond = open(sec, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (val == 4)
+		tmp_fd->fdsecond = open(sec, O_RDONLY);
 	if (val == 7)
 		tmp_fd->fdsecond = open(sec, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (val == 8)
+		tmp_fd->fdsecond = open(sec, O_RDONLY);
 	if (fir)
 		tmp_fd->fdfirst = ft_atoi(fir);
-	else
+	else if (val == 5 || val == 3 || val == 7)
 		tmp_fd->fdfirst = 1;
+	else if (val == 6 || val == 4 || val == 8)
+		tmp_fd->fdfirst = 0;
 	return (0);
 }
 
@@ -213,7 +221,7 @@ int		val_token(char *str)
 
 	i = 0;
 	count = 1;
-	while (str[i] != '>' || str[i] == '<')
+	while (str[i] != '>' && str[i] != '<')
 		i++;
 	be = i++;
 	if (!str[i])
@@ -366,25 +374,29 @@ int		save_data(char	*str)
 
 	if (edit_token(&toks))
 		return (1);
-
-	t_tok	*tmp;
+/*	t_tok	*tmp;
 	tmp = toks;
-/*
+
 	while (tmp)
 	{
 		printf("%d --- %s\n",tmp->val, tmp->token);
 		tmp = tmp->next;
 	}
 */
+
+
 	if (!(data = init_struct()))
 		return (1);
+
 
 	if ((data->rd = check_redirection(str)))
 		if (add_redirections(data, toks))
 			return (1);
 
+
 	if (add_args(data, toks))
 		return (1);
+
 
 
 //	t_fd	*rd;
