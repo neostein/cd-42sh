@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:45:37 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 06:14:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*check_path(char *str)
 	char	**path;
 
 	i = 0;
+	if (!ft_strcmp(str, "echo"))
+		return (ft_strdup(str));
 	path = ft_strsplit("/usr/bin/:/bin/:/usr/sbin/:/sbin/:/usr/local/bin/:/usr/local/munki/", ':');
 	while (path[i])
 	{

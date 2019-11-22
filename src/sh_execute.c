@@ -6,11 +6,29 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:49:46 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 06:24:04 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
+
+int		built_cmd(t_cmdl *cmdl)
+{
+	if (!ft_strcmp(cmdl->excu, "echo"))
+		built_echo(cmdl->args);
+	else
+		return (1);
+	return (0);
+}
+
+int		execute(t_cmdl *cmdl, char **env)
+{
+	if (!built_cmd(cmdl))
+		exit(0);
+	if (execve(cmdl->excu, cmdl->args, env) == -1)
+		return (ft_perror(0, "exceve failed"));
+	return (0);
+}
 
 int		execute_cmdl(t_cmdl *cmdl, char **env)
 {
@@ -33,8 +51,8 @@ int		execute_cmdl(t_cmdl *cmdl, char **env)
 				lrd = lrd->next;
 			}
 		}
-		if (execve(cmdl->excu, cmdl->args, env) == -1)
-			return (ft_perror(0, "exceve failed"));
+		if (execute(cmdl, env))
+			return (1);
 	}
 	if (pid > 0)
 		wait(&pid);

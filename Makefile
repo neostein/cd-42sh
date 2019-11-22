@@ -6,7 +6,7 @@
 #    By: hastid <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/22 00:58:12 by hastid           ###   ########.fr        #
+#    Updated: 2019/11/22 06:11:17 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC = src/main.c \
 	  src/sh_token.c \
 	  src/sh_error.c \
 	  src/sh_cmdline.c \
+	  src/sh_builtin.c \
 	  src/sh_execute.c \
 	  src/sh_argument.c \
 

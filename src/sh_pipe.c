@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:35:34 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 06:20:10 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int		child_process(int inp, int out, t_pipe *pipes, char **env)
 			lrd = lrd->next;
 		}
 	}
-	if (execve(pipes->cmdl->excu, pipes->cmdl->args, env) == -1)
-		return (ft_perror(0, "exceve failed"));
+	if (execute(pipes->cmdl, env))
+		return (1);
 	return (0);
 }
 

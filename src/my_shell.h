@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:50:34 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 06:21:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ int				execute_cmdl(t_cmdl *cmdl, char **env);
 
 t_cmdl			*init_cmdl(void);
 t_fd			*init_redirect(void);
+
+int				built_echo(char **args);
+int				execute(t_cmdl *cmdl, char **env);
 
 int				ft_perror(char *s, char *str);
 
