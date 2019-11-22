@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 03:02:22 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 05:39:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,19 @@ t_tok	*split_tokens(char *line)
 			if (!(line = sub_token(&tmp, line)))
 				return (0);
 			if (check_save(&toks, tmp))
+			{
+				ft_memdel((void **)&tmp);
 				return (0);
+			}
 			ft_memdel((void **)&tmp);
 		}
 	}
-
 	analy_toks(toks);
 	if (check_error(toks))
+	{
+		free_tokens(toks);
 		return (0);
+	}
 	return (toks);
 }
 
@@ -132,22 +137,6 @@ char	*sub_line(char **tmp, char *line, char c)
 	if (line[i])
 		return (line + i + 1);
 	return (line + i);
-}
-
-int		cmd_line(char *line, char **env)
-{
-	t_tok	*toks;
-	t_cmdl	*cmdl;
-
-	if (!(toks = split_tokens(line)))
-		return (1);
-	if (!(cmdl = save_to_excute(toks)))
-		return (1);
-	if (execute_cmdl(cmdl, env))
-		return (1);
-	free_cmdline(cmdl);
-	free_tokens(toks);
-	return (0);
 }
 
 int		split_lines(char *line, char **env)

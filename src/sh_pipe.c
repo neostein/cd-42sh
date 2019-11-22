@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 03:55:08 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 05:35:34 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,11 @@ int		execute_pipe(t_pipe *pipes, char **env)
 		if (pid == 0)
 			if (child_process(inp, pi[1], pipes, env))
 				return (1);
-		if (pid > 0)
-		{
-			wait(&pid);
-			if (inp)
-				close(inp);
-			inp = pi[0];
-			close(pi[1]);
-		}
+		wait(&pid);
+		if (inp)
+			close(inp);
+		inp = pi[0];
+		close(pi[1]);
 		pipes = pipes->next;
 	}
 	close(pi[0]);

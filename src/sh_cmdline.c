@@ -6,36 +6,11 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 22:49:23 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 03:13:41 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 05:49:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
-
-t_cmdl	*init_cmdl(void)
-{
-	t_cmdl	*cmdl;
-
-	if (!(cmdl = (t_cmdl *)malloc(sizeof(t_cmdl))))
-		return (0);
-	cmdl->rd = 0;
-	cmdl->lrd = 0;
-	cmdl->excu = 0;
-	cmdl->args = 0;
-	return (cmdl);
-}
-
-t_fd	*init_redirect(void)
-{
-	t_fd	*fd;
-
-	if (!(fd = (t_fd *)malloc(sizeof(t_fd))))
-		return (0);
-	fd->fir = 0;
-	fd->sec = 0;
-	fd->next = 0;
-	return (fd);
-}
 
 char	*add_to_file(char *file, char *s)
 {
@@ -152,17 +127,4 @@ int		add_redirections(t_cmdl *cmdl, t_tok *toks)
 		toks = toks->next;
 	}
 	return ((cmdl->lrd == 0) ? 0 : 1);
-}
-
-t_cmdl	*save_to_excute(t_tok *toks)
-{
-	t_cmdl	*cmdl;
-
-	if (!(cmdl = init_cmdl()))
-		return (0);
-	if ((cmdl->rd = add_redirections(cmdl, toks)) == -1)
-		return (0);
-	if (add_args(cmdl, toks))
-		return (0);
-	return (cmdl);
 }

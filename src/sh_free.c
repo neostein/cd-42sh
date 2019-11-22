@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:56:42 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 03:33:16 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 04:48:20 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_tab(char **tab)
 	{
 		while (tab[i])
 			ft_memdel((void **)&tab[i++]);
-		free(tab);
+		ft_memdel((void **)&tab);
 	}
 }
 
@@ -61,23 +61,19 @@ void	free_cmdline(t_cmdl *cmdl)
 		while (cmdl->lrd)
 		{
 			lrd = cmdl->lrd->next;
-			if (cmdl->lrd->fir != 0 && cmdl->lrd->fir != 1 && cmdl->lrd->fir != 2)
+			if (cmdl->lrd->fir != 0 && cmdl->lrd->fir
+					!= 1 && cmdl->lrd->fir != 2)
 				close(cmdl->lrd->fir);
-			if (cmdl->lrd->sec != 0 && cmdl->lrd->sec != 1 && cmdl->lrd->sec != 2)
+			if (cmdl->lrd->sec != 0 && cmdl->lrd->sec
+					!= 1 && cmdl->lrd->sec != 2)
 				close(cmdl->lrd->sec);
 			ft_memdel((void**)&(cmdl->lrd));
 			cmdl->lrd = lrd;
-
 		}
 	}
 	if (cmdl->excu)
 		ft_memdel((void**)&(cmdl->excu));
 	if (cmdl->args)
-	{
-		i = 0;
-		while (cmdl->args[i])
-			ft_memdel((void **)&(cmdl->args[i++]));
-		ft_memdel((void**)&(cmdl->args));
-	}
+		free_tab(cmdl->args);
 	ft_memdel((void**)&cmdl);
 }

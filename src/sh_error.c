@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 21:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/21 03:20:31 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 05:27:38 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int		ft_error_1(char *val, int id, int n)
 	}
 	if (id == 2)
 	{
-		f = ft_atoi(val);
-		if (fstat(f, &s) == -1)
+		if (fstat(f = ft_atoi(val), &s) == -1)
 			return (ft_perror(val, ": Bad file descriptor"));
 		if (n == 6 && write(f, 0, 0) == -1)
 			return (ft_perror(val, ": Permission denied"));

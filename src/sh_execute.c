@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 03:16:28 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 05:49:46 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,44 @@ int		execute_cmdl(t_cmdl *cmdl, char **env)
 	}
 	if (pid > 0)
 		wait(&pid);
+	return (0);
+}
+
+t_cmdl	*save_to_excute(t_tok *toks)
+{
+	t_cmdl	*cmdl;
+
+	if (!(cmdl = init_cmdl()))
+		return (0);
+	if ((cmdl->rd = add_redirections(cmdl, toks)) == -1)
+		return (0);
+	if (add_args(cmdl, toks))
+	{
+		free_cmdline(cmdl);
+		return (0);
+	}
+	return (cmdl);
+}
+
+int		cmd_line(char *line, char **env)
+{
+	t_tok	*toks;
+	t_cmdl	*cmdl;
+
+	if (!(toks = split_tokens(line)))
+		return (1);
+	if (!(cmdl = save_to_excute(toks)))
+	{
+		free_tokens(toks);
+		return (1);
+	}
+	if (execute_cmdl(cmdl, env))
+	{
+		free_cmdline(cmdl);
+		free_tokens(toks);
+		return (1);
+	}
+	free_cmdline(cmdl);
+	free_tokens(toks);
 	return (0);
 }

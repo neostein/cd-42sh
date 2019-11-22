@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 03:11:40 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/22 05:50:34 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
 typedef struct	s_tok
 {
@@ -37,9 +37,9 @@ typedef struct	s_line
 
 typedef struct	s_fd
 {
-	int				fir;
-	int				sec;
-	struct	s_fd	*next;
+	int			fir;
+	int			sec;
+	struct s_fd	*next;
 }				t_fd;
 
 typedef struct	s_cmdl
@@ -63,6 +63,7 @@ int				analy_toks(t_tok *toks);
 int				check_error(t_tok *toks);
 t_tok			*split_tokens(char *line);
 t_cmdl			*save_to_excute(t_tok *toks);
+int				cmd_line(char *line, char **env);
 
 int				check_space(char c);
 int				check_spechar(char c);
@@ -77,8 +78,12 @@ void			free_cmdline(t_cmdl *cmdl);
 int				save_tokens(t_tok **tok, char *token, int id);
 
 int				add_args(t_cmdl *cmdl, t_tok *toks);
+int				add_redirections(t_cmdl *cmdl, t_tok *toks);
 
 int				execute_cmdl(t_cmdl *cmdl, char **env);
+
+t_cmdl			*init_cmdl(void);
+t_fd			*init_redirect(void);
 
 int				ft_perror(char *s, char *str);
 
