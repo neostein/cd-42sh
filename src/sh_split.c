@@ -5,103 +5,171 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 01:11:57 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/16 02:20:27 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/22 03:02:22 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "my_21sh.h"
-#include <stdio.h>
+#include "my_shell.h"
 
-int		check_spechar(char c)
-{
-	if (c == '<' || c == '>' || c == '&')
-		return (1);
-	return (0);
-}
-
-char	*del_quotes(char *str)
+int		check_save(t_tok **toks, char *line)
 {
 	int		i;
-	char	b;
-	char	buf[1337];
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		if (*str == 34 || *str == 39)
-		{
-			b = *str++;
-			while (*str && *str != b)
-				buf[i++] = *str++;
-			str++;
-		}
-		buf[i++] = *str++;
-	}
-	buf[i] = '\0';
-	return (ft_strdup(buf));
-}
-
-t_tok	*split_token(char *line)
-{
-	int		i;
-	int		b;
+	int		q;
 	int		be;
-	int		check;
+	int		sp;
 	char	*tmp;
-	t_tok	*lst;
 
 	i = 0;
-	lst = 0;
-	check = 0;
+	sp = 0;
 	while (line[i])
 	{
-		while (line[i] && line[i] == ' ')
-			i++;
-		b = i;
-		be = 0;
-		while (line[i] && line[i] != ' ')
+		be = i;
+		while (line[i])
 		{
 			if (line[i] == 34 || line[i] == 39)
 			{
-				be = i++;
-				while (line[i] && line[i] != line[be])
+				q = i++;
+				while (line[i] && line[i] != line[q])
 					i++;
 			}
-			if (check_spechar(line[i]) && check)
+			if (!sp && check_spechar(line[i]))
 			{
-				while (line[i] && check_spechar(line[i]))
-					i++;
-				be = 1337;
-				check = 0;
+				sp = 1;
 				break ;
 			}
-			else if (check_spechar(line[i]) && !check)
+			if (sp && check_spechar(line[i]))
 			{
-				be = 1337;
-				check = 1;
+				sp = 0;
+				while (check_spechar(line[i]))
+					i++;
 				break ;
 			}
 			i++;
 		}
-		if (i - b > 0)
+		if (i - be > 0)
 		{
-			if (!(tmp = del_quotes(ft_strsub(line, b, i - b))))
+			if (!(tmp = ft_strsub(line, be, i - be)))
 				return (0);
-			add_to_list(&lst, tmp, be);
+			if (save_tokens(toks, tmp, sp))
+				return (1);
 			ft_memdel((void **)&tmp);
 		}
 	}
-	/*
-	t_tok 	*temp;
-	temp = lst;	
-	while (temp)
+	return (0);
+}
+
+char	*sub_token(char **tmp, char *line)
+{
+	int	i;
+	int	q;
+
+	i = 0;
+	while (line[i] && !check_space(line[i]))
 	{
-		printf("%d -- %s\n",temp->val, temp->token);
-		temp = temp->next;
+		if (line[i] == 34 || line[i] == 39)
+		{
+			q = i++;
+			while (line[i] && line[i] != line[q])
+				i++;
+		}
+		i++;
 	}
-	*/
-	return (lst);
+	if (!(*tmp = ft_strsub(line, 0, i)))
+		return (0);
+	while (line[i] && check_space(line[i]))
+		i++;
+	return (line + i);
+}
+
+t_tok	*split_tokens(char *line)
+{
+	int		i;
+	int		q;
+	char	*tmp;
+	t_tok	*toks;
+	t_cmdl	*cmdl;
+
+	toks = 0;
+	while (*line)
+	{
+		while (*line && check_space(*line))
+			line++;
+		if (*line)
+		{
+			if (!(line = sub_token(&tmp, line)))
+				return (0);
+			if (check_save(&toks, tmp))
+				return (0);
+			ft_memdel((void **)&tmp);
+		}
+	}
+
+	analy_toks(toks);
+	if (check_error(toks))
+		return (0);
+	return (toks);
+}
+
+char	*sub_line(char **tmp, char *line, char c)
+{
+	int	i;
+	int	q;
+
+	i = 0;
+	while (line[i] && line[i] != c)
+	{
+		if (line[i] == 34 || line[i] == 39)
+		{
+			q = i++;
+			while (line[i] && line[i] != line[q])
+				i++;
+		}
+		i++;
+	}
+	if (!(*tmp = ft_strsub(line, 0, i)))
+		return (0);
+	if (line[i])
+		return (line + i + 1);
+	return (line + i);
+}
+
+int		cmd_line(char *line, char **env)
+{
+	t_tok	*toks;
+	t_cmdl	*cmdl;
+
+	if (!(toks = split_tokens(line)))
+		return (1);
+	if (!(cmdl = save_to_excute(toks)))
+		return (1);
+	if (execute_cmdl(cmdl, env))
+		return (1);
+	free_cmdline(cmdl);
+	free_tokens(toks);
+	return (0);
+}
+
+int		split_lines(char *line, char **env)
+{
+	int		i;
+	int		q;
+	char	*tmp;
+
+	while (*line)
+	{
+		while (*line && check_space(*line))
+			line++;
+		if (*line)
+		{
+			if (!(line = sub_line(&tmp, line, ';')))
+				return (1);
+			if (check_pipe(tmp))
+				split_pipe(tmp, env);
+			else
+				cmd_line(tmp, env);
+			ft_memdel((void **)&tmp);
+		}
+	}
+	return (0);
 }

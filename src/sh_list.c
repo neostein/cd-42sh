@@ -5,58 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 01:28:02 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/09 04:31:57 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/20 06:33:22 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/21 04:01:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "my_21sh.h"
+#include "my_shell.h"
 
-static t_tok	*add_elm(char *str, int to)
+t_tok	*init_token(char *tmp, int id)
 {
-	t_tok	*elm;
+	t_tok	*token;
 
-	if (!(elm = (t_tok *)malloc(sizeof(t_tok))))
+	if (!(token = (t_tok *)malloc(sizeof(t_tok))))
 		return (0);
-	if (!(elm->token = ft_strdup(str)))
+	token->id = id;
+	if (!(token->value = ft_strdup(tmp)))
 		return (0);
-	if (to == 1337)
-		elm->val = 1;
-	else
-		elm->val = 0;
-	elm->next = 0;
-	return (elm);
+	token->next = 0;
+	return (token);
 }
 
-int				add_to_list(t_tok **lst, char *str, int	to)
+int		save_tokens(t_tok **tok, char *token, int id)
 {
 	t_tok	*tmp;
 
-	if (*lst)
+	if (*tok)
 	{
-		tmp = *lst;
+		tmp = *tok;
 		while (tmp->next)
 			tmp = tmp->next;
-		if (!(tmp->next = add_elm(str, to)))
-			return (0);
+		if (!(tmp->next = init_token(token, id)))
+			return (1);
 	}
-	else
-	{
-		if (!((*lst) = add_elm(str, to)))
-			return (0);
-	}
-	return (1);
-}
-
-void			free_token(t_tok *lst)
-{
-	t_tok	*tmp;
-
-	while (lst)
-	{
-		tmp = lst->next;
-		ft_memdel((void **)&(lst->token));
-		ft_memdel((void **)&lst);
-		lst = tmp;
-	}
+	else if (!((*tok) = init_token(token, id)))
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: hastid <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/16 05:00:16 by hastid           ###   ########.fr        #
+#    Updated: 2019/11/22 00:58:12 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,15 @@ FLAG = -Wall -Wextra -Werror
 
 SRC = src/main.c \
 	  src/sh_list.c \
+	  src/sh_free.c \
+	  src/sh_pipe.c \
+	  src/sh_check.c \
 	  src/sh_split.c \
+	  src/sh_token.c \
+	  src/sh_error.c \
+	  src/sh_cmdline.c \
+	  src/sh_execute.c \
+	  src/sh_argument.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -24,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C libft
-	@gcc $(FLAG) -ltermcap libft/libft.a $(OBJ) -o $(NAME)
+	@gcc $(FLAG) -ltermcap -lreadline libft/libft.a $(OBJ) -o $(NAME)
 
 %.o: %.c
 	@gcc $(FLAC) -o $@ -c $<

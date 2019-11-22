@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sh_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 02:51:45 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/22 03:16:28 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
-#include <fcntl.h>
 
-int		main(int ac, char **av, char **env)
+int		execute_cmdl(t_cmdl *cmdl, char **env)
 {
-	char	*line;
+	int		pid;
+	t_fd	*lrd;
 
-	while (1337)
+	if ((pid = fork()) == -1)
+		return (ft_perror(0, "fork failed"));
+	if (pid == 0)
 	{
-		line = readline("21sh >$ ");
-	//	printf("%d", open(av[1], O_WRONLY));
-		add_history(line);
-		if (!ft_strcmp(line, "exit"))
+		if (cmdl->rd)
 		{
-			ft_memdel((void **)&line);
-			break ;
+			lrd = cmdl->lrd;
+			while (lrd)
+			{
+				if (lrd->sec == -1)
+					close(lrd->fir);
+				else
+					dup2(lrd->sec, lrd->fir);
+				lrd = lrd->next;
+			}
 		}
-		split_lines(line, env);
-		ft_memdel((void **)&line);
+		if (execve(cmdl->excu, cmdl->args, env) == -1)
+			return (ft_perror(0, "exceve failed"));
 	}
-	printf("%d\n", open(av[1], O_RDONLY));
+	if (pid > 0)
+		wait(&pid);
 	return (0);
 }
