@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 15:06:48 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 16:51:14 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		check_built(char *str)
 int		execute_built(t_cmdl *cmdl, t_env **env)
 {
 	if (!ft_strcmp(cmdl->excu, "cd"))
-		return (1);
+		built_cd(cmdl->args, env);
 	if (!ft_strcmp(cmdl->excu, "env"))
 		ft_putenv(*env);
 	if (!ft_strcmp(cmdl->excu, "echo"))

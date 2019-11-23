@@ -6,7 +6,7 @@
 #    By: hastid <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/23 04:20:29 by hastid           ###   ########.fr        #
+#    Updated: 2019/11/23 16:46:50 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC = src/main.c \
 	  src/sh_builtin.c \
 	  src/sh_execute.c \
 	  src/sh_argument.c \
+	  src/sh_buil_cd.c \
 
 OBJ = $(SRC:.c=.o)
 

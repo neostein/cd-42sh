@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 15:50:09 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 16:49:26 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <dirent.h>
 
 typedef struct	s_tok
 {
@@ -104,6 +105,10 @@ t_env			*creat_env(char **env);
 char			**list_to_tab(t_env *env);
 
 int				execute_built(t_cmdl *cmdl, t_env **env);
+int				built_cd(char **args, t_env **env);
+char			*ft_getenv(t_env *env, char *name);
+
+int				isdir(char *path);
 
 int				ft_perror(char *s, char *str);
 
