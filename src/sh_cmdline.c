@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 22:49:23 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:49:50 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 17:44:59 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,24 @@ int		heredirect(char *fin)
 	return (pi[0]);
 }
 
-t_fd	*add_redirect(char *fd, int rd, char *file)
+t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
 {
 	t_fd	*lrd;
 
 	if (!(lrd = init_redirect()))
 		return (0);
 	if (rd == 6 || rd == 9)
-		lrd->sec = !ft_strcmp(file, "-") ? -1 : ft_atoi(file);
+	{
+		if (n_id == 1)
+		{
+			if (rd == 6)
+				lrd->sec = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			else
+				lrd->sec = open(file, O_RDONLY);
+		}
+		else
+			lrd->sec = !ft_strcmp(file, "-") ? -1 : ft_atoi(file);
+	}
 	else if (rd == 5 || rd == 11)
 		lrd->sec = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else if (rd == 8 || rd == 12)
@@ -86,7 +96,7 @@ t_fd	*add_redirect(char *fd, int rd, char *file)
 	return (lrd);
 }
 
-int		add_to_list(t_cmdl *cmdl, char *fd, int id, char *value)
+int		add_to_list(t_cmdl *cmdl, char *fd, int id, char *value, int n_id)
 {
 	t_fd	*lrd;
 
@@ -95,10 +105,10 @@ int		add_to_list(t_cmdl *cmdl, char *fd, int id, char *value)
 		lrd = cmdl->lrd;
 		while (lrd->next)
 			lrd = lrd->next;
-		if (!(lrd->next = add_redirect(fd, id, value)))
+		if (!(lrd->next = add_redirect(fd, id, value, n_id)))
 			return (1);
 	}
-	else if (!(cmdl->lrd = add_redirect(fd, id, value)))
+	else if (!(cmdl->lrd = add_redirect(fd, id, value, n_id)))
 		return (1);
 	return (0);
 }
@@ -117,10 +127,10 @@ int		add_redirections(t_cmdl *cmdl, t_tok *toks)
 		{
 			if (toks->id == 11 || toks->id == 12)
 				fd = (toks->id == 11) ? "1" : "0";
-			if (add_to_list(cmdl, fd, toks->id, toks->next->value))
+			if (add_to_list(cmdl, fd, toks->id, toks->next->value, toks->next->id))
 				return (0);
 			if (toks->id == 11 || toks->id == 12)
-				if (add_to_list(cmdl, "2", toks->id, toks->next->value))
+				if (add_to_list(cmdl, "2", toks->id, toks->next->value, toks->next->id))
 					return (0);
 			fd = 0;
 		}

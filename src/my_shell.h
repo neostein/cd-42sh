@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 16:49:26 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 17:56:44 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int				check_space(char c);
 int				check_spechar(char c);
 int				check_pipe(char *str);
 int				check_token(char *token);
-int				check_number(char *token);
+int				check_number(char *token, int check);
 
 void			free_tab(char **tab);
 void			free_pipes(t_pipe *pip);

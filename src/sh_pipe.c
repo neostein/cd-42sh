@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 15:57:18 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 17:11:22 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ int		child_process(int inp, int out, t_pipe *pipes, char **env)
 		lrd = pipes->cmdl->lrd;
 		while (lrd)
 		{
+			if (lrd->fir == 1)
+				lrd->fir = out;
+			if (lrd->sec == 1)
+				lrd->sec = out;
+			if (lrd->fir == 0)
+				lrd->fir = inp;
+			if (lrd->sec == 0)
+				lrd->sec = inp;
 			if (lrd->sec == -1)
 				close(lrd->fir);
 			else

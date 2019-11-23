@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:47:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:24:13 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 17:58:58 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,16 @@ int		check_token(char *token)
 	return (0);
 }
 
-int		check_number(char *token)
+int		check_number(char *token, int check)
 {
 	int	i;
 
 	i = 0;
 	while (token[i])
 	{
-		if (token[i] > '9' || token[i] < '0')
+		if (check && token[i] == '-' && token[i + 1] == '\0')
+			return (0);
+		else if (token[i] > '9' || token[i] < '0')
 			return (1);
 		i++;
 	}

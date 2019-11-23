@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 21:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:27:38 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 18:17:36 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,22 @@ int		ft_error_0(char *val)
 	return (0);
 }
 
-int		ft_error_1(char *val, int id, int n)
+int		ft_error_1(char *val, int id, int n, char *rd)
 {
 	int			f;
 	struct stat	s;
+	int			i;
 
 	if (id != 2)
 	{
 		if (val[0] == '\0')
-		{
-			if (n == 6)
-				return (ft_perror("1", ": Bad file descriptor"));
-			if (n == 9)
-				return (ft_perror("0", ": Bad file descriptor"));
-		}
-		if (n == 9)
+			return (ft_perror(rd, ": Bad file descriptor"));
+		if (n == 9 || rd == 0 || ft_strcmp("1", rd))
+			return (ft_perror(val, ": ambiguous redirect"));
+		i = 0;
+		while (val[i + 1])
+			i++;
+		if (val[i] == '-')
 			return (ft_perror(val, ": ambiguous redirect"));
 	}
 	if (id == 2)
@@ -79,23 +80,29 @@ int		ft_error_2(char *val, int id, int n)
 
 int		check_error(t_tok *toks)
 {
-	int	id;
+	int		id;
+	char	*tmp;
 
+	tmp = 0;
 	while (toks)
 	{
 		id = 0;
 		if (toks->id == 14)
+		{
 			if (ft_error_0(toks->value))
 				return (1);
+			tmp = toks->value;
+		}
 		if (toks->id > 4 && toks->id < 13)
 		{
 			id = toks->id;
 			if ((id == 6 || id == 9))
-				if (ft_error_1(toks->next->value, toks->next->id, id))
+				if (ft_error_1(toks->next->value, toks->next->id, id, tmp))
 					return (1);
 			if (id == 5 || id == 7 || id == 8 || id == 11 || id == 12)
 				if (ft_error_2(toks->next->value, toks->next->id, id))
 					return (1);
+			tmp = 0;
 		}
 		toks = toks->next;
 	}

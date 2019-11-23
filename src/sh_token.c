@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 01:17:26 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 17:54:26 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int		edit_tokenid(char *token, int id)
 {
 	if (check_token(token))
 		return (4);
-	if (!check_number(token) && id == 1)
+	if (!check_number(token, 0) && id == 1)
 		return (14);
 	if (id == 1)
 		return (0);
-	if (!check_number(token) && id == 13)
+	if (!check_number(token, 1) && id == 13)
 		return (2);
 	if (!ft_strcmp("-", token) && id == 13)
 		return (3);

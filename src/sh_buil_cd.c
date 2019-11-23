@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 16:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 16:51:49 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 17:36:47 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,29 @@ int	built_cd(char **args, t_env **env)
 
 	if (args[1])
 	{
-		if (isdir(args[1]))
+		if (!ft_strcmp("-", args[1]))
+		{
+			if ((pwd = ft_getenv(*env, "OLDPWD")))
+			{
+				tmp = getcwd(0, 0);
+				add_elem(env, "PWD", pwd);
+				add_elem(env, "OLDPWD", tmp);
+				ft_memdel((void **)&tmp);
+				chdir(pwd);
+							
+			}
+			else
+				ft_perror("env", ": Oldpwd not exists");
+		}
+		else if (isdir(args[1]))
 		{
 			tmp = getcwd(0, 0);
 			add_elem(env, "OLDPWD", tmp);
-			ft_memdel((void **)&tmp);
-			add_elem(env, "PWD", args[1]);
 			chdir(args[1]);
+			ft_memdel((void **)&tmp);
+			tmp = getcwd(0, 0);
+			add_elem(env, "PWD", tmp);
+			ft_memdel((void **)&tmp);
 		}
 		else if (!access(args[1], F_OK))
 			ft_perror(args[1], ": Not a directory");
@@ -41,6 +57,6 @@ int	built_cd(char **args, t_env **env)
 		chdir(pwd);
 	}
 	else
-		ft_perror(0, ":Home not exists");
+		ft_perror("env", ": Home not exists");
 	return (0);
 }
