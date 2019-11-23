@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/21 02:03:19 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 01:17:26 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,12 @@ int		analy_toks(t_tok *toks)
 	while (toks)
 	{
 		if ((toks->id = edit_tokenid(toks->value, toks->id)) == 4)
-			toks->next->id = 13;
+		{
+			if (toks->next)
+				toks->next->id = 13;
+			else
+				return (1);
+		}
 		toks = toks->next;
 	}
 	toks = head;

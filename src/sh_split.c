@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:39:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 15:32:59 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ t_tok	*split_tokens(char *line)
 			ft_memdel((void **)&tmp);
 		}
 	}
-	analy_toks(toks);
-	if (check_error(toks))
+	if (analy_toks(toks) || check_error(toks))
 	{
 		free_tokens(toks);
 		return (0);
@@ -139,7 +138,7 @@ char	*sub_line(char **tmp, char *line, char c)
 	return (line + i);
 }
 
-int		split_lines(char *line, char **env)
+int		split_lines(char *line, t_env **env)
 {
 	int		i;
 	int		q;

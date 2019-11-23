@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/22 05:33:05 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/23 15:13:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 int		main(int ac, char **av, char **env)
 {
 	char	*line;
+	t_env	*my_env;
 
+	my_env = creat_env(env);
 	while (1337)
 	{
 		line = readline("21sh >$ ");
@@ -27,7 +29,7 @@ int		main(int ac, char **av, char **env)
 			ft_memdel((void **)&line);
 			break ;
 		}
-		split_lines(line, env);
+		split_lines(line, &my_env);
 		ft_memdel((void **)&line);
 	}
 	return (0);
