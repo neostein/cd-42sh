@@ -6,12 +6,11 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 15:31:49 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/24 08:56:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
- #include <dirent.h>
 
 int		args_len(t_tok *toks)
 {

@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 16:29:11 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 06:55:24 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/24 17:25:53 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	esc_key(t_cmd *l)
 	hist = save_hist(NULL);
 	while (i < 15 && hist->hist[i])
 	{
-		printf("%s\n", hist->hist[i]);
+		ft_putendl(hist->hist[i]);
 		i++;
 	}
 	free(l->cur_p);

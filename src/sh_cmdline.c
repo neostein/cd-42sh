@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 22:49:23 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 06:52:43 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/24 17:21:31 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*add_to_file(char *file, char *s)
 	if (!file || file[0] == '\0')
 	{
 		if (!s || s[0] == '\0')
-			return (strdup("\n"));
+			return (ft_strdup("\n"));
 		return (ft_strjoin(s, "\n"));
 	}
 	if (!s || s[0] == '\0')
@@ -43,7 +43,7 @@ int		heredirect(char *fin)
 	s2 = read_line(">");
 	if (pipe(pi) == -1)
 		return (ft_perror(0, "fork failed"));
-	while (fin && (!s2 || strcmp(fin, s2)))
+	while (fin && (!s2 || ft_strcmp(fin, s2)))
 	{
 		if (!(tmp = add_to_file(file, s2)))
 			return (1);
