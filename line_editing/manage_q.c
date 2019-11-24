@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   manage_q.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 07:00:28 by llachgar         ###   ########.fr       */
+/*   Created: 2019/11/02 17:05:11 by llachgar          #+#    #+#             */
+/*   Updated: 2019/11/19 16:50:42 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "my_shell.h"
-#include <fcntl.h>
+#include "line_editing.h"
 
-int		main(int ac, char **av, char **env)
+int			q_closed(char *str)
 {
-	char	*line;
-	t_env	*my_env;
+	int	i;
+	int	q;
+	int	dq;
 
-	my_env = creat_env(env);
-	init_history();
-	while (1337)
-	{
-		line = line_editing("21sh >$ ");
-		ft_putchar('\n');
-		add_to_hist(ft_strdup(line));
-		if (!ft_strcmp(line, "exit"))
+	i = -1;
+	q = 0;
+	dq = 0;
+	while (str[++i])
+		if (DB_Q(str[i], dq) && !(i != 0 && str[i - 1] == '\\' && (q % 2) == 0))
 		{
-			ft_memdel((void **)&line);
-			break ;
+			q++;
 		}
-		split_lines(line, &my_env);
-		ft_memdel((void **)&line);
-	}
-	return (0);
+		else if (S_Q(str[i], q) && !(i != 0 && str[i - 1] == '\\'))
+		{
+			dq++;
+		}
+	return ((dq % 2 == 0) && (q % 2 == 0));
 }

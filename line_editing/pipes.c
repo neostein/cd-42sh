@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 07:00:28 by llachgar         ###   ########.fr       */
+/*   Created: 2019/11/16 15:36:27 by llachgar          #+#    #+#             */
+/*   Updated: 2019/11/19 16:51:44 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "my_shell.h"
-#include <fcntl.h>
+#include "line_editing.h"
 
-int		main(int ac, char **av, char **env)
+int	pipes_end(char *cmd)
 {
-	char	*line;
-	t_env	*my_env;
+	char	*res;
+	int		i;
 
-	my_env = creat_env(env);
-	init_history();
-	while (1337)
-	{
-		line = line_editing("21sh >$ ");
-		ft_putchar('\n');
-		add_to_hist(ft_strdup(line));
-		if (!ft_strcmp(line, "exit"))
-		{
-			ft_memdel((void **)&line);
-			break ;
-		}
-		split_lines(line, &my_env);
-		ft_memdel((void **)&line);
-	}
+	res = ft_strrchr(cmd, '|');
+	if (!res)
+		return (1);
+	i = 0;
+	while (res[++i])
+		if (res[i] != ' ')
+			return (1);
 	return (0);
 }

@@ -5,50 +5,42 @@
 #                                                     +:+ +:+         +:+      #
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/24 06:56:05 by llachgar         ###   ########.fr        #
+#    Created: 2019/11/16 14:53:50 by llachgar          #+#    #+#              #
+#    Updated: 2019/11/24 06:57:02 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 21sh
+NAME = line_editing.a
 
 FLAG = -Wall -Wextra -Werror
 
-SRC = src/main.c \
-	  src/sh_list.c \
-	  src/sh_free.c \
-	  src/sh_pipe.c \
-	  src/sh_check.c \
-	  src/sh_split.c \
-	  src/sh_token.c \
-	  src/sh_error.c \
-	  src/sh_envlist.c \
-	  src/sh_cmdline.c \
-	  src/sh_builtin.c \
-	  src/sh_execute.c \
-	  src/sh_argument.c \
-	  src/sh_buil_cd.c \
+SRC = history.c \
+	  keys.c \
+	  manage_q.c \
+	  read_line.c \
+	  select_manage.c \
+	  tools.c \
+	  pipes.c \
+	  history_keys.c \
+	  save.c \
+	  keys2.c \
+	  init.c \
+	  line_editing.c
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@make -C libft
-	@make -C line_editing
-	@gcc $(FLAG) -ltermcap -lreadline libft/libft.a line_editing/line_editing.a $(OBJ) -o $(NAME)
+	@ar rc $(NAME)  $(OBJ)
 
 %.o: %.c
-	@gcc $(FLAC) -o $@ -c $<
+	@gcc $(FLAC)  -o $@ -c $<
 
 clean:
-	@make clean -C libft
-	@make clean -C line_editing
 	@rm -rf $(OBJ)
 
 fclean: clean
-	@make fclean -C libft
-	@make fclean -C line_editing
 	@rm -f $(NAME)
 
 re: fclean all
