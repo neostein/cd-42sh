@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 06:44:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 06:46:55 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/24 19:26:52 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char        *line_editing(char *promt)
 	cmd = read_line(promt);
 	while (ft_strlen(cmd) && (!q_closed(cmd) || !pipes_end(cmd)))
 	{
-		ft_putchar('\n');
 		tmp = read_line("> ");
 		cmd = ft_strjoin_f(cmd, tmp, 1, 1);
 	}
