@@ -6,12 +6,11 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 19:27:54 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/24 20:00:09 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
-#include <fcntl.h>
 
 int		main(int ac, char **av, char **env)
 {
