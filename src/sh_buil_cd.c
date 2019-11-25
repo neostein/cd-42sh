@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 16:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 17:36:47 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/24 10:53:01 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	built_cd(char **args, t_env **env)
 				add_elem(env, "OLDPWD", tmp);
 				ft_memdel((void **)&tmp);
 				chdir(pwd);
-							
 			}
 			else
 				ft_perror("env", ": Oldpwd not exists");

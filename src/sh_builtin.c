@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 16:51:14 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/24 10:54:16 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		built_echo(char **args)
 int		ft_unsetenv(t_env **env, char **args)
 {
 	int		i;
-	
+
 	i = 1;
 	if (args[i])
 	{
@@ -128,6 +128,6 @@ int		built_cmd(t_cmdl *cmdl, t_env **env)
 		close(err);
 	}
 	else
-		return(1);
+		return (1);
 	return (0);
 }

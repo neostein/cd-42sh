@@ -6,11 +6,12 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 17:11:22 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/25 21:50:45 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
+#include <sys/wait.h>
 
 t_pipe	*add_pipe(t_cmdl *cmdl)
 {
@@ -47,43 +48,6 @@ int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 			return (1);
 	}
 	free_tokens(toks);
-	return (0);
-}
-
-int		child_process(int inp, int out, t_pipe *pipes, char **env)
-{
-	t_fd	*lrd;
-
-	if (dup2(inp, 0) == -1)
-		return (ft_perror(0, "duplicate input failed"));
-	close(inp);
-	if (pipes->next)
-		if (dup2(out, 1) == -1)
-			return (ft_perror(0, "duplicate output failed"));
-	close(out);
-	if (pipes->cmdl->rd)
-	{
-		lrd = pipes->cmdl->lrd;
-		while (lrd)
-		{
-			if (lrd->fir == 1)
-				lrd->fir = out;
-			if (lrd->sec == 1)
-				lrd->sec = out;
-			if (lrd->fir == 0)
-				lrd->fir = inp;
-			if (lrd->sec == 0)
-				lrd->sec = inp;
-			if (lrd->sec == -1)
-				close(lrd->fir);
-			else
-				dup2(lrd->sec, lrd->fir);
-			lrd = lrd->next;
-		}
-	}
-	execve(pipes->cmdl->excu, pipes->cmdl->args, env);
-//	if (execute(pipes->cmdl, env))
-//		return (1);
 	return (0);
 }
 
@@ -126,17 +90,48 @@ int		execut_built_pipe(int inp, int outp, t_pipe *pipes, t_env **env)
 	return (0);
 }
 
+int		child_process(int inp, int out, t_pipe *pipes, char **env, int p0)
+{
+	t_fd	*lrd;
+
+	if (!inp)
+		close(p0);
+	if (dup2(inp, 0) == -1)
+		return (ft_perror(0, "duplicate input failed"));
+	close(inp);
+	if (pipes->next)
+		if (dup2(out, 1) == -1)
+			return (ft_perror(0, "duplicate output failed"));
+	close(out);
+	if (pipes->cmdl->rd)
+	{
+		lrd = pipes->cmdl->lrd;
+		while (lrd)
+		{
+			if (lrd->sec == -3)
+				close(lrd->fir);
+			else
+				dup2(lrd->sec, lrd->fir);
+			lrd = lrd->next;
+		}
+	}
+	execve(pipes->cmdl->excu, pipes->cmdl->args, env);
+	return (0);
+}
+
 int		execute_pipe(t_pipe *pipes, t_env **env)
 {
 	int		pid;
 	int		inp;
+	int		len;
 	int		pi[2];
 	char	**my_env;
 
 	inp = 0;
+	len = 0;
 	while (pipes)
 	{
-		if (pipe(pi) == -1)
+		if (pipes->next && pipe(pi) == -1)
 			return (ft_perror(0, "pipe failed"));
 		if (check_built(pipes->cmdl->excu))
 			execut_built_pipe(inp, pi[1], pipes, env);
@@ -146,17 +141,18 @@ int		execute_pipe(t_pipe *pipes, t_env **env)
 			if ((pid = fork()) == -1)
 				return (ft_perror(0, "fork failed"));
 			if (pid == 0)
-				if (child_process(inp, pi[1], pipes, my_env))
+				if (child_process(inp, pi[1], pipes, my_env, pi[0]))
 					return (1);
-			wait(&pid);
 		}
 		if (inp)
 			close(inp);
 		inp = pi[0];
 		close(pi[1]);
+		len++;
 		pipes = pipes->next;
 	}
-	close(pi[0]);
+	while (len--)
+		wait(&pid);
 	return (0);
 }
 

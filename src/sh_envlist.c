@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 06:31:08 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 15:12:24 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/24 10:56:34 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		del_elem(t_env **env, char *name)
 {
 	t_env	*tmp;
 	t_env	*prev;
+
 	if (*env && !ft_strcmp(name, (*env)->name))
 		return (del_head(env));
 	tmp = *env;

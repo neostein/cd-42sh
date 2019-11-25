@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hastid <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/24 08:51:24 by hastid            #+#    #+#              #
-#    Updated: 2019/11/24 08:51:37 by hastid           ###   ########.fr        #
+#    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
+#    Updated: 2019/11/25 22:39:15 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC = src/main.c \
 	  src/sh_builtin.c \
 	  src/sh_execute.c \
 	  src/sh_argument.c \
+	  src/sh_cmdledit.c \
 	  src/sh_buil_cd.c \
 
 OBJ = $(SRC:.c=.o)
@@ -35,20 +36,17 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C libft
-	@make -C line_editing
-	@gcc $(FLAG)  libft/libft.a line_editing/line_editing.a -ltermcap $(OBJ) -o $(NAME)
+	@gcc $(FLAG)  libft/libft.a -ltermcap $(OBJ) -o $(NAME)
 
 %.o: %.c
 	@gcc $(FLAC) -o $@ -c $<
 
 clean:
 	@make clean -C libft
-	@make clean -C line_editing
 	@rm -rf $(OBJ)
 
 fclean: clean
 	@make fclean -C libft
-	@make fclean -C line_editing
 	@rm -f $(NAME)
 
 re: fclean all

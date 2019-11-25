@@ -6,11 +6,24 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 08:56:17 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/24 10:50:30 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
+
+int		isdir(char *path)
+{
+	DIR *dir;
+
+	dir = opendir(path);
+	if (dir != NULL)
+	{
+		closedir(dir);
+		return (1);
+	}
+	return (0);
+}
 
 int		args_len(t_tok *toks)
 {
@@ -24,19 +37,6 @@ int		args_len(t_tok *toks)
 		toks = toks->next;
 	}
 	return (i);
-}
-
-int	isdir(char *path)
-{
-	DIR *dir;
-
-	dir = opendir(path);
-	if (dir != NULL)
-	{
-		closedir(dir);
-		return (1);
-	}
-	return (0);
 }
 
 char	*ft_getenv(t_env *env, char *name)

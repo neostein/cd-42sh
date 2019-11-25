@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 15:57:25 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/24 11:14:16 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		execute_cmdl(t_cmdl *cmdl, char **env)
 			lrd = cmdl->lrd;
 			while (lrd)
 			{
-				if (lrd->sec == -1)
+				if (lrd->sec == -3)
 					close(lrd->fir);
 				else
 					dup2(lrd->sec, lrd->fir);
@@ -100,7 +100,7 @@ t_cmdl	*save_to_excute(t_tok *toks, t_env *env)
 	return (cmdl);
 }
 
-int		cmd_line(char *line,  t_env **env)
+int		cmd_line(char *line, t_env **env)
 {
 	t_tok	*toks;
 	t_cmdl	*cmdl;

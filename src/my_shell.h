@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_shell.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 06:50:56 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/25 22:40:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MY_SHELL_H
 
 # include "../libft/libft.h"
-# include "../line_editing/line_editing.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
