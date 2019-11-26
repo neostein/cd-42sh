@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 18:33:26 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 06:55:24 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 00:34:39 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_cmd		*init_cmd(char *prompt)
 	l->s_sp = 0;
 	l->res = 1337;
 	l->h_p = -1;
+	l->ctl_d = 0;
 	return (l);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 06:55:24 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 00:31:56 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define ALT_D_K 1113266971
 # define ALT_X_K 8948194
 # define CTL_F 6
+# define CTL_D 4
 # define CTL_B 2
 # define COLS (tgetnum("co"))
 # define ROWS (tgetnum("li"))
@@ -91,6 +92,7 @@ typedef struct		s_cmd
 	int				s_sp;
 	int				res;
 	int				h_p;
+	int				ctl_d;
 	struct winsize	w;
 	struct s_point	*init_p;
 	struct s_point	*cur_p;
@@ -142,6 +144,7 @@ void				return_k(t_cmd *l);
 void				bottom_k(t_cmd *l);
 void				ctl_right(t_cmd *l);
 void				alt_x_k(t_cmd *l);
+void				ctl_d(t_cmd *l);
 void				init_term(void);
 t_cmd				*init_cmd(char *prompt);
 char				*read_line(char *prompt);

@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 14:53:50 by llachgar          #+#    #+#              #
-#    Updated: 2019/11/24 06:57:02 by llachgar         ###   ########.fr        #
+#    Updated: 2019/11/26 00:37:33 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC = history.c \
 	  save.c \
 	  keys2.c \
 	  init.c \
-	  line_editing.c
+	  line_editing.c \
+	  signals.c
 
 OBJ = $(SRC:.c=.o)
 

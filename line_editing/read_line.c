@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 19:32:52 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 00:35:56 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,14 @@ void		print_cmd(t_cmd *l)
 void		match_key(t_cmd *l)
 {
 	int				i;
-	static t_key	keys[16] = {
+	static t_key	keys[17] = {
 		{RIGHT_K, &right_key},
 		{LEFT_K, &left_key},
 		{BACK_K, &delete},
 		{END_K, &end_k},
 		{HOME_K, &home_k},
 		{INTER_K, &return_k},
+		{CTL_D, &ctl_d},
 		{CTL_B, &ctl_left},
 		{CTL_F, &ctl_right},
 		{UP_K, &up_k},
@@ -88,7 +89,7 @@ void		match_key(t_cmd *l)
 	};
 
 	i = -1;
-	while (++i < 16)
+	while (++i < 17)
 		if (l->key == keys[i].key)
 			keys[i].f(l);
 }
@@ -113,7 +114,7 @@ char		*read_line(char *prompt)
 		l->is_s = 0;
 	}
 	default_term_mode();
-	result = ft_strdup(l->chars);
+	result = l->ctl_d ? NULL : ft_strdup(l->chars);
 	bzero(l->chars, BUFF_SIZE);
 	free(l->cur_p);
 	free(l->init_p);

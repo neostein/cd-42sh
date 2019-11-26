@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_cmdledit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 09:01:03 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 10:55:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/25 22:52:10 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*join_line(char *tmp, int i, t_env *env, int check)
 	return (tmp);
 }
 
-char	*edit_line(char *tmp, t_env *env)
+char	*parse_line(char *tmp, t_env *env)
 {
 	int		i;
 	int		be;

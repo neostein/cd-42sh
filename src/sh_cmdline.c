@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_cmdline.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 22:49:23 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 17:15:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/25 22:49:34 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		heredirect(char *fin)
 	char	*file;
 
 	file = 0;
-	s2 = readline(">");
+	s2 = read_line(">");
 	if (pipe(pi) == -1)
 	{
 		ft_perror(0, "fork failed");
@@ -53,7 +53,7 @@ int		heredirect(char *fin)
 		ft_memdel((void **)&file);
 		file = tmp;
 		ft_memdel((void **)&s2);
-		s2 = readline(">");
+		s2 = read_line(">");
 	}
 	ft_memdel((void **)&s2);
 	if (file)

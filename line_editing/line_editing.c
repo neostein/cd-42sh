@@ -6,13 +6,13 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 06:44:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 19:26:52 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 02:08:31 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_editing.h"
 
-static char    *ft_strjoin_f(char *s1, char *s2, int a, int b)
+static char			*ft_strjoin_f(char *s1, char *s2, int a, int b)
 {
 	char	*str;
 	int		len;
@@ -31,17 +31,16 @@ static char    *ft_strjoin_f(char *s1, char *s2, int a, int b)
 	return (str);
 }
 
-char        *line_editing(char *promt)
+char				*line_editing(char *promt)
 {
 	char *cmd;
 	char *tmp;
 
 	cmd = read_line(promt);
-	while (ft_strlen(cmd) && (!q_closed(cmd) || !pipes_end(cmd)))
+	while (cmd && ft_strlen(cmd) && (!q_closed(cmd) || !pipes_end(cmd)))
 	{
 		tmp = read_line("> ");
 		cmd = ft_strjoin_f(cmd, tmp, 1, 1);
 	}
-    // here goes the haire dogs;) just like the test 
 	return (cmd);
 }

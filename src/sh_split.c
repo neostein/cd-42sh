@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 10:51:42 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/25 22:51:50 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int		split_lines(char *line, t_env **env)
 		{
 			if (!(line = sub_line(&tmp, line, ';')))
 				return (1);
-			if ((temp = edit_line(tmp, *env)))
+			if ((temp = parse_line(tmp, *env)))
 			{
 				if (check_pipe(temp))
 					split_pipe(temp, env);
