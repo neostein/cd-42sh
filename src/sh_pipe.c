@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/25 21:50:45 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 14:15:35 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,11 @@ int		execute_pipe(t_pipe *pipes, t_env **env)
 	len = 0;
 	while (pipes)
 	{
-		if (pipes->next && pipe(pi) == -1)
+		if (ft_strcmp(pipes->cmdl->excu, "exit") && pipes->next && pipe(pi) == -1)
 			return (ft_perror(0, "pipe failed"));
-		if (check_built(pipes->cmdl->excu))
+		if (check_built(pipes->cmdl->excu) && ft_strcmp(pipes->cmdl->excu, "exit"))
 			execut_built_pipe(inp, pi[1], pipes, env);
-		else
+		else if (ft_strcmp(pipes->cmdl->excu, "exit"))
 		{
 			my_env = list_to_tab(*env);
 			if ((pid = fork()) == -1)

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 10:54:16 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 13:55:32 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int		check_built(char *str)
 	if (!ft_strcmp(str, "env"))
 		return (1);
 	if (!ft_strcmp(str, "echo"))
+		return (1);
+	if (!ft_strcmp(str, "exit"))
 		return (1);
 	if (!ft_strcmp(str, "setenv"))
 		return (1);

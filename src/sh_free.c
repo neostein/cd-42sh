@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:56:42 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 05:50:30 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 14:08:06 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,18 @@ void	free_cmdline(t_cmdl *cmdl)
 	if (cmdl->args)
 		free_tab(cmdl->args);
 	ft_memdel((void**)&cmdl);
+}
+
+void	free_environ(t_env *lst)
+{
+	t_env	*tmp;
+
+	while (lst)
+	{
+		tmp = lst->next;
+		ft_memdel((void **)&(lst->name));
+		ft_memdel((void **)&(lst->value));
+		ft_memdel((void **)&lst);
+		lst = tmp;
+	}
 }

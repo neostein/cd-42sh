@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/25 22:51:50 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 14:04:28 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ int		split_lines(char *line, t_env **env)
 				if (check_pipe(temp))
 					split_pipe(temp, env);
 				else
-					cmd_line(temp, env);
+					if (cmd_line(temp, env) == -1)
+						return (-1);
 				ft_memdel((void **)&temp);
 			}
 		}
