@@ -6,19 +6,27 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 18:33:26 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/26 00:34:39 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 05:51:32 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_editing.h"
 
-t_cmd		*init_cmd(char *prompt)
+static t_cmd	*malloc_cmd(void)
 {
-	t_cmd *l;
+	t_cmd	*l;
 
 	l = (t_cmd *)malloc(sizeof(t_cmd));
 	l->init_p = (t_point *)malloc(sizeof(t_point));
 	l->cur_p = (t_point *)malloc(sizeof(t_point));
+	return (l);
+}
+
+t_cmd			*init_cmd(char *prompt)
+{
+	t_cmd *l;
+
+	l = malloc_cmd();
 	if (l == NULL || l->init_p == NULL || l->cur_p == NULL)
 		return (NULL);
 	l->prompt = prompt;
@@ -38,10 +46,11 @@ t_cmd		*init_cmd(char *prompt)
 	l->res = 1337;
 	l->h_p = -1;
 	l->ctl_d = 0;
+	l->ctl_c = 0;
 	return (l);
 }
 
-void		init_term(void)
+void			init_term(void)
 {
 	char			*termtype;
 	int				success;

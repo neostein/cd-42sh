@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/25 22:48:39 by llachgar         ###   ########.fr        #
+#    Updated: 2019/11/26 05:14:49 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C libft
 	@make -C line_editing
-	@gcc $(FLAG)  libft/libft.a line_editing/line_editing.a -ltermcap $(OBJ) -o $(NAME)
+	@gcc $(FLAG)  libft/libft.a line_editing/line_editing.a -ltermcap  $(OBJ) -o $(NAME)
 
 %.o: %.c
 	@gcc $(FLAC) -o $@ -c $<

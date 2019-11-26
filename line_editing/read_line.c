@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/26 00:35:56 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 05:43:39 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char		*read_line(char *prompt)
 	init_term();
 	if ((l = init_cmd(prompt)) == NULL)
 		return (0);
-	keep_l(l);
+	keep_l(l, 0);
 	while (l->res)
 	{
 		read_key(l);
@@ -114,11 +114,11 @@ char		*read_line(char *prompt)
 		l->is_s = 0;
 	}
 	default_term_mode();
-	result = l->ctl_d ? NULL : ft_strdup(l->chars);
-	bzero(l->chars, BUFF_SIZE);
-	free(l->cur_p);
-	free(l->init_p);
-	free(l);
+	if (l->ctl_d)
+		result = NULL;
+	else
+		result = ft_strdup(l->ctl_c ? " " : l->chars);
+	free_out(l);
 	ft_putchar('\n');
 	return (result);
 }

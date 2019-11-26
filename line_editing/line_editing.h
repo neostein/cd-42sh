@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/26 00:31:56 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/26 05:46:52 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct		s_cmd
 	int				res;
 	int				h_p;
 	int				ctl_d;
+	int				ctl_c;
 	struct winsize	w;
 	struct s_point	*init_p;
 	struct s_point	*cur_p;
@@ -160,5 +161,6 @@ int					change_spaces(char *str);
 int					pipes_end(char *cmd);
 char				*line_editing(char *promt);
 t_hist				*save_hist(t_hist *hist);
-t_cmd				*keep_l(t_cmd *l);
+t_cmd				*keep_l(t_cmd *l, int cmd);
+void				free_out(t_cmd *l);
 #endif
