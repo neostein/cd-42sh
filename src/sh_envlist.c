@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 06:31:08 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/24 10:56:34 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 15:43:38 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_env	*creat_env(char **env)
 			co++;
 		name = ft_strsub(tmp, 0, co);
 		add_to_env(&my_env, name, tmp + co + 1);
+		ft_memdel((void **)&name);
 		i++;
 	}
 	return (my_env);

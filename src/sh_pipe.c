@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 14:15:35 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 16:11:07 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,26 @@ int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 	t_cmdl	*cmdl;
 	t_pipe	*temp;
 
-	if (!(toks = split_tokens(line)))
-		return (1);
-	if (!(cmdl = save_to_excute(toks, env)))
-		return (1);
-	if (!(*pipes))
+	if ((toks = split_tokens(line)) && (cmdl = save_to_excute(toks, env)))
 	{
-		if (!(*pipes = add_pipe(cmdl)))
-			return (1);
+		if (!(*pipes))
+		{
+			if (!(*pipes = add_pipe(cmdl)))
+				return (1);
+		}
+		else
+		{
+			temp = *pipes;
+			while (temp->next)
+				temp = temp->next;
+			if (!(temp->next = add_pipe(cmdl)))
+				return (1);
+		}
 	}
 	else
 	{
-		temp = *pipes;
-		while (temp->next)
-			temp = temp->next;
-		if (!(temp->next = add_pipe(cmdl)))
-			return (1);
+		free_tokens(toks);
+		return (1);
 	}
 	free_tokens(toks);
 	return (0);
@@ -143,6 +147,7 @@ int		execute_pipe(t_pipe *pipes, t_env **env)
 			if (pid == 0)
 				if (child_process(inp, pi[1], pipes, my_env, pi[0]))
 					return (1);
+			free_tab(my_env);
 		}
 		if (inp)
 			close(inp);
@@ -169,14 +174,20 @@ int		split_pipe(char *line, t_env **env)
 		if (*line)
 		{
 			if (!(line = sub_line(&tmp, line, '|')))
+			{
+				ft_memdel((void **)&tmp);
 				return (1);
+			}
 			if (add_pipes(&pipes, tmp, *env))
+			{
+				ft_memdel((void **)&tmp);
+				free_pipes(pipes);
 				return (1);
+			}
 			ft_memdel((void **)&tmp);
 		}
 	}
-	if (execute_pipe(pipes, env))
-		return (1);
+	execute_pipe(pipes, env);
 	free_pipes(pipes);
 	return (0);
 }

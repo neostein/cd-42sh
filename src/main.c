@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 14:09:53 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 15:46:47 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		main(int ac, char **av, char **env)
 	{
 		if (!(line = line_editing("21sh >$ ")))
 			break ;
-		add_to_hist(ft_strdup(line));
+		add_to_hist(line);
 		if (split_lines(line, &my_env) == -1)
 			break;
 		ft_memdel((void **)&line);
