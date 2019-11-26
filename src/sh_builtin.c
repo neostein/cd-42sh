@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 13:55:32 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:10:18 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,36 @@ int		execute_built(t_cmdl *cmdl, t_env **env)
 	return (0);
 }
 
+int		save_file(t_file **file, int in, int out, int err)
+{
+	if (!((*file) = (t_file *)malloc(sizeof(t_file))))
+		return (1);
+	(*file)->in = dup(in);
+	(*file)->out = dup(out);
+	(*file)->err = dup(err);
+	return (0);
+}
+
+void	free_file(t_file *file)
+{
+	if (file)
+	{
+		close(file->in);
+		close(file->out);
+		close(file->err);
+		ft_memdel((void **)&file);
+	}
+}
+
 int		built_cmd(t_cmdl *cmdl, t_env **env)
 {
-	int		in;
-	int		out;
-	int		err;
 	t_fd	*lrd;
+	t_file	*fil;	
 
 	if (check_built(cmdl->excu))
 	{
-		in = dup(0);
-		out = dup(1);
-		err = dup(2);
+		if (save_file(&fil, 0, 1, 2))
+			exit(1);
 		if (cmdl->rd)
 		{
 			lrd = cmdl->lrd;
@@ -122,12 +140,10 @@ int		built_cmd(t_cmdl *cmdl, t_env **env)
 			}
 		}
 		execute_built(cmdl, env);
-		dup2(in, 0);
-		dup2(out, 1);
-		dup2(err, 2);
-		close(in);
-		close(out);
-		close(err);
+		dup2(fil->in, 0);
+		dup2(fil->out, 1);
+		dup2(fil->err, 2);
+		free_file(fil);
 	}
 	else
 		return (1);

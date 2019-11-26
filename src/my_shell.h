@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 14:08:45 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 16:55:19 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef struct	s_env
 	char			*value;
 	struct s_env	*next;
 }				t_env;
+
+typedef struct	s_file
+{
+	int	in;
+	int	out;
+	int	err;
+}				t_file;
 
 int				split_pipe(char *tmp, t_env **env);
 int				split_lines(char *line, t_env **env);

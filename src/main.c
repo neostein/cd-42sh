@@ -3,24 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 01:21:51 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 15:46:47 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/26 16:46:47 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
-#include <readline/readline.h>
 
-void kill_seg(int seg)
+void	kill_seg(int seg)
 {
-	t_cmd			*l;
-	char			buf[2];
+	t_cmd	*l;
+	char	buf[2];
 
 	(void)seg;
 	l = NULL;
-	l = keep_l(l , 1);
+	l = keep_l(l, 1);
 	if (l != NULL)
 	{
 		l->res = 0;
@@ -29,24 +28,24 @@ void kill_seg(int seg)
 		buf[1] = 0;
 		ioctl(0, TIOCSTI, buf);
 	}
-	ft_putchar('\n');
+	//ft_putchar('\n');
 }
+
 int		main(int ac, char **av, char **env)
 {
 	char	*line;
 	t_env	*my_env;
-
-	signal(SIGINT, kill_seg);
-
+	
+	signal(SIGINT, kill_seg);	
 	my_env = creat_env(env);
-	init_history();
+	init_history();	
 	while (1337)
 	{
 		if (!(line = line_editing("21sh >$ ")))
 			break ;
 		add_to_hist(line);
 		if (split_lines(line, &my_env) == -1)
-			break;
+			break ;
 		ft_memdel((void **)&line);
 	}
 	ft_memdel((void **)&line);

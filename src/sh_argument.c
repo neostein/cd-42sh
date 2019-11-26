@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 16:08:13 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 16:31:05 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,13 @@ char	*ft_getenv(t_env *env, char *name)
 	return (0);
 }
 
-char	*check_path(char *str, t_env *env)
+char	*check_path(char *str, char **path)
 {
 	int		i;
 	char	*tp;
 	char	*tmp;
-	char	**path;
 
 	i = 0;
-	if (check_built(str))
-		return (ft_strdup(str));
-	if (!access(str, F_OK) && !access(str, X_OK) && !isdir(str))
-		return (ft_strdup(str));
-	path = ft_strsplit(ft_getenv(env, "PATH"), ':');
 	while (path && path[i])
 	{
 		tp = ft_strjoin(path[i], "/");
@@ -70,7 +64,6 @@ char	*check_path(char *str, t_env *env)
 			return (0);
 		if (!access(tmp, F_OK))
 		{
-			free_tab(path);
 			ft_memdel((void **)&tp);
 			return (tmp);
 		}
@@ -78,9 +71,26 @@ char	*check_path(char *str, t_env *env)
 		ft_memdel((void **)&tmp);
 		i++;
 	}
-	free_tab(path);
-	ft_perror(str, ": command not found: ");
 	return (0);
+}
+
+char	*excutable(char *str, t_env *env)
+{
+	char	*tmp;
+	char	**path;
+
+	if (check_built(str))
+		return (ft_strdup(str));
+	if (!access(str, F_OK) && !access(str, X_OK) && !isdir(str))
+		return (ft_strdup(str));
+	tmp = 0;
+	path = ft_strsplit(ft_getenv(env, "PATH"), ':');
+	if (path)
+		tmp = check_path(str, path);
+	free_tab(path);
+	if (!tmp)
+		ft_perror(str, ": command not found");
+	return (tmp);
 }
 
 int		add_args(t_cmdl *cmdl, t_tok *toks, t_env *env)
@@ -89,7 +99,7 @@ int		add_args(t_cmdl *cmdl, t_tok *toks, t_env *env)
 
 	while (toks && toks->id != 0)
 		toks = toks->next;
-	if (!toks || !(cmdl->excu = check_path(toks->value, env)))
+	if (!toks || !(cmdl->excu = excutable(toks->value, env)))
 		return (1);
 	if (!(cmdl->args = (char **)malloc(sizeof(char *) * (args_len(toks) + 1))))
 		return (1);
