@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 16:20:12 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 18:20:06 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		heredirect(char *fin)
 		ft_perror(0, "fork failed");
 		return (-1);
 	}
-	while (fin && (!s2 || ft_strcmp(fin, s2)))
+	while (fin && s2 && ft_strcmp(fin, s2))
 	{
 		if (!(tmp = add_to_file(file, s2)))
 			return (1);
