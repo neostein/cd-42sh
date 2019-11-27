@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 16:46:47 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/26 23:30:22 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	kill_seg(int seg)
 		buf[1] = 0;
 		ioctl(0, TIOCSTI, buf);
 	}
-	//ft_putchar('\n');
+	ft_putchar('\n');
 }
 
 int		main(int ac, char **av, char **env)
@@ -43,7 +43,7 @@ int		main(int ac, char **av, char **env)
 	{
 		if (!(line = line_editing("21sh >$ ")))
 			break ;
-		add_to_hist(line);
+		add_to_hist(ft_strdup(line));
 		if (split_lines(line, &my_env) == -1)
 			break ;
 		ft_memdel((void **)&line);
