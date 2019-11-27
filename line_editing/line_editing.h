@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/26 23:07:51 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/27 15:45:29 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include "../libft/libft.h"
+# include "../src/my_shell.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <termcap.h>

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 16:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 16:49:28 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:44:04 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ int	built_cd(char **args, t_env **env)
 			if ((dir = ft_getenv(*env, "OLDPWD")))
 				change_dir(dir, env);
 			else
-				ft_perror("env", ": Oldpwd not exists");
+				ft_perror("env", ": Oldpwd not exists", 1);
 		}
 		else if (isdir(args[1]))
 			change_dir(args[1], env);
 		else if (!access(args[1], F_OK))
-			ft_perror(args[1], ": Not a directory");
+			ft_perror(args[1], ": Not a directory", 1);
 		else
-			ft_perror(args[1], ": No such file or directory");
+			ft_perror(args[1], ": No such file or directory", 1);
 	}
 	else if ((dir = ft_getenv(*env, "HOME")))
 		change_dir(dir, env);
 	else
-		ft_perror("env", ": Home not exists");
+		ft_perror("env", ": Home not exists", 1);
 	return (0);
 }

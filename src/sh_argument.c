@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 16:31:05 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:42:37 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*excutable(char *str, t_env *env)
 		tmp = check_path(str, path);
 	free_tab(path);
 	if (!tmp)
-		ft_perror(str, ": command not found");
+		ft_perror(str, ": command not found", 1);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 17:10:18 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:41:55 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ft_unsetenv(t_env **env, char **args)
 			del_elem(env, args[i++]);
 	}
 	else
-		ft_perror(0, "Too few arguments.");
+		ft_perror(0, "Too few arguments.", 1);
 	return (0);
 }
 
@@ -111,6 +111,9 @@ void	free_file(t_file *file)
 {
 	if (file)
 	{
+		dup2(file->in, 0);
+		dup2(file->out, 1);
+		dup2(file->err, 2);
 		close(file->in);
 		close(file->out);
 		close(file->err);
@@ -121,7 +124,7 @@ void	free_file(t_file *file)
 int		built_cmd(t_cmdl *cmdl, t_env **env)
 {
 	t_fd	*lrd;
-	t_file	*fil;	
+	t_file	*fil;
 
 	if (check_built(cmdl->excu))
 	{
@@ -140,9 +143,6 @@ int		built_cmd(t_cmdl *cmdl, t_env **env)
 			}
 		}
 		execute_built(cmdl, env);
-		dup2(fil->in, 0);
-		dup2(fil->out, 1);
-		dup2(fil->err, 2);
 		free_file(fil);
 	}
 	else

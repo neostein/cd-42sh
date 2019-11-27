@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 23:30:22 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/27 15:40:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int		main(int ac, char **av, char **env)
 {
 	char	*line;
 	t_env	*my_env;
-	
-	signal(SIGINT, kill_seg);	
+
+	signal(SIGINT, kill_seg);
 	my_env = creat_env(env);
-	init_history();	
+	init_history();
 	while (1337)
 	{
 		if (!(line = line_editing("21sh >$ ")))

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 18:20:06 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:55:44 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@ char	*add_to_file(char *file, char *s)
 		return (ft_strjoin(s, "\n"));
 	}
 	if (!s || s[0] == '\0')
-		return (ft_strjoin(file, "\n"));
+	{
+		tmp1 = ft_strjoin(file, "\n");
+		ft_memdel((void **)&file);
+		return (tmp1);
+	}
 	if (!(tmp1 = ft_strjoin(s, "\n")))
 		return (0);
 	tmp2 = ft_strjoin(file, tmp1);
+	ft_memdel((void **)&file);
 	ft_memdel((void **)&tmp1);
 	return (tmp2);
 }
@@ -42,15 +47,11 @@ int		heredirect(char *fin)
 	file = 0;
 	s2 = read_line(">");
 	if (pipe(pi) == -1)
-	{
-		ft_perror(0, "fork failed");
-		return (-1);
-	}
+		return (ft_perror(0, "fork failed", -1));
 	while (fin && s2 && ft_strcmp(fin, s2))
 	{
 		if (!(tmp = add_to_file(file, s2)))
 			return (1);
-		ft_memdel((void **)&file);
 		file = tmp;
 		ft_memdel((void **)&s2);
 		s2 = read_line(">");
@@ -63,25 +64,30 @@ int		heredirect(char *fin)
 	return (pi[0]);
 }
 
+int		ret_fildis(int rd, char *file, int n_id)
+{
+	if ((rd == 6 || rd == 9) && n_id != 1)
+		return (!ft_strcmp(file, "-") ? -3 : ft_atoi(file));
+	else if (rd == 5 || (rd == 6 && n_id == 1) || rd == 11)
+		return (open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644));
+	else if (rd == 8 || (rd == 9 && n_id == 1) || rd == 12)
+		return (open(file, O_RDONLY));
+	else if (rd == 7)
+		return (open(file, O_WRONLY | O_APPEND | O_CREAT, 0644));
+	else if (rd == 10)
+		return (heredirect(file));
+	return (-1);
+}
+
 t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
 {
 	t_fd	*lrd;
 
 	if (!(lrd = init_redirect()))
 		return (0);
-	if ((rd == 6 || rd == 9) && n_id != 1)
-		lrd->sec = !ft_strcmp(file, "-") ? -3 : ft_atoi(file);
-	else if (rd == 5 || (rd == 6 && n_id == 1) || rd == 11)
-		lrd->sec = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	else if (rd == 8 || (rd == 9 && n_id == 1) || rd == 12)
-		lrd->sec = open(file, O_RDONLY);
-	else if (rd == 7)
-		lrd->sec = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else if (rd == 10)
-		lrd->sec = heredirect(file);
-	if (lrd->sec == -1)
+	if ((lrd->sec = ret_fildis(rd, file, n_id)) == -1)
 	{
-		ft_perror(0, "open failed");
+		ft_perror(0, "open failed", 0);
 		return (0);
 	}
 	if (fd)
@@ -93,7 +99,7 @@ t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
 	return (lrd);
 }
 
-int		add_to_list(t_cmdl *cmdl, char *fd, int id, char *value, int n_id)
+int		add_to_list(t_cmdl *cmdl, char *fd, int id, t_tok toks)
 {
 	t_fd	*lrd;
 
@@ -102,10 +108,10 @@ int		add_to_list(t_cmdl *cmdl, char *fd, int id, char *value, int n_id)
 		lrd = cmdl->lrd;
 		while (lrd->next)
 			lrd = lrd->next;
-		if (!(lrd->next = add_redirect(fd, id, value, n_id)))
+		if (!(lrd->next = add_redirect(fd, id, toks.value, toks.id)))
 			return (1);
 	}
-	else if (!(cmdl->lrd = add_redirect(fd, id, value, n_id)))
+	else if (!(cmdl->lrd = add_redirect(fd, id, toks.value, toks.id)))
 		return (1);
 	return (0);
 }
@@ -124,12 +130,10 @@ int		add_redirections(t_cmdl *cmdl, t_tok *toks)
 		{
 			if (toks->id == 11 || toks->id == 12)
 				fd = (toks->id == 11) ? "1" : "0";
-			if (add_to_list(cmdl, fd, toks->id, toks->next->value,
-						toks->next->id))
+			if (add_to_list(cmdl, fd, toks->id, *(toks->next)))
 				return (0);
 			if (toks->id == 11 || toks->id == 12)
-				if (add_to_list(cmdl, "2", toks->id, toks->next->value,
-							toks->next->id))
+				if (add_to_list(cmdl, "2", toks->id, *(toks->next)))
 					return (0);
 			fd = 0;
 		}

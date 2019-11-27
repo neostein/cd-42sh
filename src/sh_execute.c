@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 14:03:50 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:42:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		execute_cmdl(t_cmdl *cmdl, char **env)
 	t_fd	*lrd;
 
 	if ((pid = fork()) == -1)
-		return (ft_perror(0, "fork failed"));
+		return (ft_perror(0, "fork failed", 1));
 	if (pid == 0)
 	{
 		if (cmdl->rd)
@@ -35,7 +35,7 @@ int		execute_cmdl(t_cmdl *cmdl, char **env)
 			}
 		}
 		if (execve(cmdl->excu, cmdl->args, env) == -1)
-			return (ft_perror(0, "exceve failed"));
+			return (ft_perror(0, "exceve failed", 1));
 	}
 	if (pid > 0)
 		wait(&pid);

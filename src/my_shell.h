@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 16:55:19 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:40:09 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char			*ft_getenv(t_env *env, char *name);
 
 int				isdir(char *path);
 
-int				ft_perror(char *s, char *str);
+int				ft_perror(char *s, char *str, int ret);
 char			*parse_line(char *tmp, t_env *env);
 
 #endif
