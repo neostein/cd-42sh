@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/26 05:14:49 by llachgar         ###   ########.fr        #
+#    Updated: 2019/11/27 19:45:01 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC = src/main.c \
 	  src/sh_cmdline.c \
 	  src/sh_builtin.c \
 	  src/sh_execute.c \
+	  src/sh_filedis.c \
 	  src/sh_argument.c \
 	  src/sh_cmdledit.c \
 	  src/sh_buil_cd.c \

@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 14:40:09 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 19:44:33 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,12 @@ int				check_number(char *token, int check);
 void			free_tab(char **tab);
 void			free_pipes(t_pipe *pip);
 void			free_tokens(t_tok *lst);
+void			free_file(t_file *file);
 void			free_environ(t_env *lst);
 void			free_cmdline(t_cmdl *cmdl);
 int				save_tokens(t_tok **tok, char *token, int id);
 
+int				save_file(t_file **file, int in, int out, int err);
 int				add_args(t_cmdl *cmdl, t_tok *toks, t_env *env);
 int				add_redirections(t_cmdl *cmdl, t_tok *toks);
 

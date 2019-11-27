@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 14:41:55 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 19:46:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,30 +95,6 @@ int		execute_built(t_cmdl *cmdl, t_env **env)
 	if (!ft_strcmp(cmdl->excu, "unsetenv"))
 		ft_unsetenv(env, cmdl->args);
 	return (0);
-}
-
-int		save_file(t_file **file, int in, int out, int err)
-{
-	if (!((*file) = (t_file *)malloc(sizeof(t_file))))
-		return (1);
-	(*file)->in = dup(in);
-	(*file)->out = dup(out);
-	(*file)->err = dup(err);
-	return (0);
-}
-
-void	free_file(t_file *file)
-{
-	if (file)
-	{
-		dup2(file->in, 0);
-		dup2(file->out, 1);
-		dup2(file->err, 2);
-		close(file->in);
-		close(file->out);
-		close(file->err);
-		ft_memdel((void **)&file);
-	}
 }
 
 int		built_cmd(t_cmdl *cmdl, t_env **env)

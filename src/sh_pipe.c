@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 19:11:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 20:35:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_pipe	*add_pipe(t_cmdl *cmdl)
 	return (pi);
 }
 
-int		add_pipes(t_pipe **pipes, char *line, t_env *env)
+t_cmdl	*add_elem_cmdline(char *line, t_env *env)
 {
 	t_tok	*toks;
 	t_cmdl	*cmdl;
-	t_pipe	*temp;
 
+	cmdl = 0;
 	if ((toks = split_tokens(line)))
 	{
 		if (analy_toks(toks) || check_error(toks))
@@ -37,46 +37,50 @@ int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 			free_tokens(toks);
 			return (0);
 		}
-		if ((cmdl = save_to_excute(toks, env)))
+		cmdl = save_to_excute(toks, env);
+		free_tokens(toks);
+	}
+	return (cmdl);
+}
+
+int		add_pipes(t_pipe **pipes, char *line, t_env *env)
+{
+	t_cmdl	*cmdl;
+	t_pipe	*temp;
+
+	if ((cmdl = add_elem_cmdline(line, env)))
+	{
+		if (!(*pipes))
 		{
-			if (!(*pipes))
-			{
-				if (!(*pipes = add_pipe(cmdl)))
-					return (1);
-			}
-			else
-			{
-				temp = *pipes;
-				while (temp->next)
-					temp = temp->next;
-				if (!(temp->next = add_pipe(cmdl)))
-					return (1);
-			}
+			if (!(*pipes = add_pipe(cmdl)))
+				return (1);
 		}
 		else
-			return (1);
+		{
+			temp = *pipes;
+			while (temp->next)
+				temp = temp->next;
+			if (!(temp->next = add_pipe(cmdl)))
+				return (1);
+		}
 	}
-	free_tokens(toks);
+	else
+		return (1);
 	return (0);
 }
 
-int		execut_built_pipe(int inp, int outp, t_pipe *pipes, t_env **env)
+int		execut_built_pipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
 {
-	int		in;
-	int		out;
-	int		err;
 	t_fd	*lrd;
+	t_file	*fil;
 
-	in = dup(0);
-	out = dup(1);
-	err = dup(2);
-	if (dup2(inp, 0) == -1)
-		return (ft_perror(0, "duplicate input failed", 1));
+	if (save_file(&fil, 0, 1, 2))
+		exit(1);
+	dup2(inp, 0);
 	close(inp);
 	if (pipes->next)
-		if (dup2(outp, 1) == -1)
-			return (ft_perror(0, "duplicate output failed", 1));
-	close(outp);
+		dup2(pi[1], 1);
+	close(pi[1]);
 	if (pipes->cmdl->rd)
 	{
 		lrd = pipes->cmdl->lrd;
@@ -90,28 +94,23 @@ int		execut_built_pipe(int inp, int outp, t_pipe *pipes, t_env **env)
 		}
 	}
 	execute_built(pipes->cmdl, env);
-	dup2(in, 0);
-	dup2(out, 1);
-	dup2(err, 2);
-	close(in);
-	close(out);
-	close(err);
+	free_file(fil);
 	return (0);
 }
 
-int		child_process(int inp, int out, t_pipe *pipes, char **env, int p0)
+int		child_process(int inp, int pi[2], t_pipe *pipes, char **env)
 {
 	t_fd	*lrd;
 
 	if (!inp)
-		close(p0);
+		close(pi[0]);
 	if (dup2(inp, 0) == -1)
 		return (ft_perror(0, "duplicate input failed", 1));
 	close(inp);
 	if (pipes->next)
-		if (dup2(out, 1) == -1)
+		if (dup2(pi[1], 1) == -1)
 			return (ft_perror(0, "duplicate output failed", 1));
-	close(out);
+	close(pi[1]);
 	if (pipes->cmdl->rd)
 	{
 		lrd = pipes->cmdl->lrd;
@@ -124,45 +123,56 @@ int		child_process(int inp, int out, t_pipe *pipes, char **env, int p0)
 			lrd = lrd->next;
 		}
 	}
-	execve(pipes->cmdl->excu, pipes->cmdl->args, env);
+	if (execve(pipes->cmdl->excu, pipes->cmdl->args, env))
+		return (ft_perror(0, "execve output failed", 1));
+	return (0);
+}
+
+int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
+{
+	int		pid;
+	char	**my_env;
+
+	my_env = list_to_tab(env);
+	if ((pid = fork()) == -1)
+		return (ft_perror(0, "fork failed", 1));
+	if (pid == 0)
+		if (child_process(inp, pi, pipes, my_env))
+			exit(1);
+	free_tab(my_env);
 	return (0);
 }
 
 int		execute_pipe(t_pipe *pipes, t_env **env)
 {
-	int		pid;
 	int		inp;
 	int		len;
 	int		pi[2];
-	char	**my_env;
 
 	inp = 0;
 	len = 0;
 	while (pipes)
 	{
-		if (ft_strcmp(pipes->cmdl->excu, "exit") && pipes->next && pipe(pi) == -1)
-			return (ft_perror(0, "pipe failed", 1));
-		if (check_built(pipes->cmdl->excu) && ft_strcmp(pipes->cmdl->excu, "exit"))
-			execut_built_pipe(inp, pi[1], pipes, env);
-		else if (ft_strcmp(pipes->cmdl->excu, "exit"))
+		if (ft_strcmp(pipes->cmdl->excu, "exit"))
 		{
-			my_env = list_to_tab(*env);
-			if ((pid = fork()) == -1)
-				return (ft_perror(0, "fork failed", 1));
-			if (pid == 0)
-				if (child_process(inp, pi[1], pipes, my_env, pi[0]))
-					return (1);
-			free_tab(my_env);
+			if (pipes->next)
+				pipe(pi);
+			if (check_built(pipes->cmdl->excu))
+				execut_built_pipe(inp, pi, pipes, env);
+			else
+			{
+				fork_pipe(inp, pi, *env, pipes);
+				len++;
+			}
+			if (inp)
+				close(inp);
+			inp = pi[0];
+			close(pi[1]);
 		}
-		if (inp)
-			close(inp);
-		inp = pi[0];
-		close(pi[1]);
-		len++;
 		pipes = pipes->next;
 	}
 	while (len--)
-		wait(&pid);
+		wait(0);
 	return (0);
 }
 
