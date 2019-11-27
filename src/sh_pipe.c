@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 20:35:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 22:05:14 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ int		execut_built_pipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
 	t_file	*fil;
 
 	if (save_file(&fil, 0, 1, 2))
-		exit(1);
-	dup2(inp, 0);
+		return (1);
+	if (dup2(inp, 0) == -1)
+		return (ft_perror(0, "duplicate input failed", 1));
 	close(inp);
 	if (pipes->next)
-		dup2(pi[1], 1);
+		if (dup2(pi[1], 1) == -1)
+			return (ft_perror(0, "duplicate input failed", 1));
 	close(pi[1]);
 	if (pipes->cmdl->rd)
 	{
@@ -88,8 +90,8 @@ int		execut_built_pipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
 		{
 			if (lrd->sec == -1)
 				close(lrd->fir);
-			else
-				dup2(lrd->sec, lrd->fir);
+			else if (dup2(lrd->sec, lrd->fir) == -1)
+				return (ft_perror(0, "duplicate input failed", 1));
 			lrd = lrd->next;
 		}
 	}
@@ -118,12 +120,12 @@ int		child_process(int inp, int pi[2], t_pipe *pipes, char **env)
 		{
 			if (lrd->sec == -3)
 				close(lrd->fir);
-			else
-				dup2(lrd->sec, lrd->fir);
+			else if (dup2(lrd->sec, lrd->fir) == -1)
+				return (ft_perror(0, "duplicate output failed", 1));
 			lrd = lrd->next;
 		}
 	}
-	if (execve(pipes->cmdl->excu, pipes->cmdl->args, env))
+	if (execve(pipes->cmdl->excu, pipes->cmdl->args, env) == -1)
 		return (ft_perror(0, "execve output failed", 1));
 	return (0);
 }
@@ -156,18 +158,17 @@ int		execute_pipe(t_pipe *pipes, t_env **env)
 		if (ft_strcmp(pipes->cmdl->excu, "exit"))
 		{
 			if (pipes->next)
-				pipe(pi);
+				if (pipe(pi) == -1)
+					return (ft_perror(0, "pipe failed", 1));
 			if (check_built(pipes->cmdl->excu))
 				execut_built_pipe(inp, pi, pipes, env);
-			else
-			{
-				fork_pipe(inp, pi, *env, pipes);
-				len++;
-			}
+			else if (fork_pipe(inp, pi, *env, pipes))
+				return (1);
 			if (inp)
 				close(inp);
 			inp = pi[0];
 			close(pi[1]);
+			len++;
 		}
 		pipes = pipes->next;
 	}

@@ -6,13 +6,13 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 20:44:07 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 21:31:49 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-void	kill_seg(int seg)
+void			kill_seg(int seg)
 {
 	t_cmd	*l;
 	char	buf[2];
@@ -80,7 +80,7 @@ static int		check_errline(char *str)
 	return (0);
 }
 
-int		main(int ac, char **av, char **env)
+int				main(int ac, char **av, char **env)
 {
 	char	*line;
 	t_env	*my_env;
