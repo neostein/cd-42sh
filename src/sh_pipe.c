@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 16:10:55 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 19:11:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 	t_pipe	*temp;
 
 	if ((toks = split_tokens(line)))
+	{
+		if (analy_toks(toks) || check_error(toks))
+		{
+			free_tokens(toks);
+			return (0);
+		}
 		if ((cmdl = save_to_excute(toks, env)))
 		{
 			if (!(*pipes))
@@ -47,6 +53,9 @@ int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 					return (1);
 			}
 		}
+		else
+			return (1);
+	}
 	free_tokens(toks);
 	return (0);
 }
@@ -169,18 +178,17 @@ int		split_pipe(char *line, t_env **env)
 			line++;
 		if (*line)
 		{
-			if (!(line = sub_line(&tmp, line, '|')))
+			line = sub_line(&tmp, line, '|');
+			if (tmp)
 			{
+				if (add_pipes(&pipes, tmp, *env))
+				{
+					ft_memdel((void **)&tmp);
+					free_pipes(pipes);
+					return (1);
+				}
 				ft_memdel((void **)&tmp);
-				return (1);
 			}
-			if (add_pipes(&pipes, tmp, *env))
-			{
-				ft_memdel((void **)&tmp);
-				free_pipes(pipes);
-				return (1);
-			}
-			ft_memdel((void **)&tmp);
 		}
 	}
 	execute_pipe(pipes, env);

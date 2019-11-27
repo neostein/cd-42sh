@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 16:09:13 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 19:05:32 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,8 @@ char	*sub_token(char **tmp, char *line)
 
 t_tok	*split_tokens(char *line)
 {
-	int		i;
-	int		q;
 	char	*tmp;
 	t_tok	*toks;
-	t_cmdl	*cmdl;
 
 	toks = 0;
 	while (*line)
@@ -97,20 +94,17 @@ t_tok	*split_tokens(char *line)
 			line++;
 		if (*line)
 		{
-			if (!(line = sub_token(&tmp, line)))
-				return (0);
-			if (check_save(&toks, tmp))
+			line = sub_token(&tmp, line);
+			if (tmp)
 			{
+				if (check_save(&toks, tmp))
+				{
+					ft_memdel((void **)&tmp);
+					return (0);
+				}
 				ft_memdel((void **)&tmp);
-				return (0);
 			}
-			ft_memdel((void **)&tmp);
 		}
-	}
-	if (analy_toks(toks) || check_error(toks))
-	{
-		free_tokens(toks);
-		return (0);
 	}
 	return (toks);
 }
@@ -131,8 +125,7 @@ char	*sub_line(char **tmp, char *line, char c)
 		}
 		i++;
 	}
-	if (!(*tmp = ft_strsub(line, 0, i)))
-		return (0);
+	*tmp = ft_strsub(line, 0, i);
 	if (line[i])
 		return (line + i + 1);
 	return (line + i);
@@ -141,7 +134,6 @@ char	*sub_line(char **tmp, char *line, char c)
 int		split_lines(char *line, t_env **env)
 {
 	int		i;
-	int		q;
 	char	*tmp;
 	char	*temp;
 
@@ -151,19 +143,15 @@ int		split_lines(char *line, t_env **env)
 			line++;
 		if (*line)
 		{
-			if (!(line = sub_line(&tmp, line, ';')))
-				return (1);
-			if ((temp = parse_line(tmp, *env)))
+			line = sub_line(&tmp, line, ';');
+			if (tmp && (temp = parse_line(tmp, *env)))
 			{
 				if (check_pipe(temp))
 					split_pipe(temp, env);
-				else
+				else if (cmd_line(temp, env) == -1)
 				{
-					if (cmd_line(temp, env) == -1)
-					{
-						ft_memdel((void **)&temp);
-						return (-1);
-					}
+					ft_memdel((void **)&temp);
+					return (-1);
 				}
 				ft_memdel((void **)&temp);
 			}

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 14:42:17 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 19:05:13 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ int		cmd_line(char *line, t_env **env)
 
 	if (!(toks = split_tokens(line)))
 		return (1);
+	if (analy_toks(toks) || check_error(toks))
+	{
+		free_tokens(toks);
+		return (1);
+	}
 	if (!(cmdl = save_to_excute(toks, *env)))
 	{
 		free_tokens(toks);
@@ -118,12 +123,7 @@ int		cmd_line(char *line, t_env **env)
 		free_tokens(toks);
 		return (-1);
 	}
-	if (execute(cmdl, env))
-	{
-		free_cmdline(cmdl);
-		free_tokens(toks);
-		return (1);
-	}
+	execute(cmdl, env);
 	free_tokens(toks);
 	free_cmdline(cmdl);
 	return (0);

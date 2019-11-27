@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 06:44:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/27 16:24:59 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:09:27 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char			*line_editing(char *promt)
 	char *tmp;
 
 	cmd = read_line(promt);
-	if (check_errline(cmd))
+	if (cmd && check_errline(cmd))
 	{
 		ft_memdel((void **)&cmd);
 		return (ft_strdup("\0"));

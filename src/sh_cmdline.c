@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 14:55:44 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:59:56 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,13 @@ int		add_redirections(t_cmdl *cmdl, t_tok *toks)
 			fd = toks->value;
 		if (toks->id > 4 && toks->id < 13)
 		{
-			if (toks->id == 11 || toks->id == 12)
-				fd = (toks->id == 11) ? "1" : "0";
+			if (toks->id == 11 || toks->id == 12 || toks->id == 6
+					|| toks->id == 9)
+				fd = (toks->id == 11 || toks->id == 6) ? "1" : "0";
 			if (add_to_list(cmdl, fd, toks->id, *(toks->next)))
 				return (0);
-			if (toks->id == 11 || toks->id == 12)
+			if (toks->id == 11 || toks->id == 12 || toks->id == 6
+					|| toks->id == 9)
 				if (add_to_list(cmdl, "2", toks->id, *(toks->next)))
 					return (0);
 			fd = 0;
