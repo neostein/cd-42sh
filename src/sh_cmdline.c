@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 22:02:42 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:45:57 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-char	*add_to_file(char *file, char *s)
+static char	*add_to_file(char *file, char *s)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -37,7 +37,7 @@ char	*add_to_file(char *file, char *s)
 	return (tmp2);
 }
 
-int		heredirect(char *fin)
+static int	heredirect(char *fin)
 {
 	int		pi[2];
 	char	*s2;
@@ -64,7 +64,7 @@ int		heredirect(char *fin)
 	return (pi[0]);
 }
 
-int		ret_fildis(int rd, char *file, int n_id)
+static int	ret_fildis(int rd, char *file, int n_id)
 {
 	if ((rd == 6 || rd == 9) && n_id != 1)
 		return (!ft_strcmp(file, "-") ? -3 : ft_atoi(file));
@@ -79,7 +79,7 @@ int		ret_fildis(int rd, char *file, int n_id)
 	return (-1);
 }
 
-t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
+static t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
 {
 	t_fd	*lrd;
 
@@ -99,7 +99,7 @@ t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
 	return (lrd);
 }
 
-int		add_to_list(t_cmdl *cmdl, char *fd, int id, t_tok toks)
+static int	add_to_list(t_cmdl *cmdl, char *fd, int id, t_tok toks)
 {
 	t_fd	*lrd;
 
@@ -116,7 +116,7 @@ int		add_to_list(t_cmdl *cmdl, char *fd, int id, t_tok toks)
 	return (0);
 }
 
-int		add_redirections(t_cmdl *cmdl, t_tok *toks)
+int			add_redirections(t_cmdl *cmdl, t_tok *toks)
 {
 	char	*fd;
 	t_fd	*lrd;

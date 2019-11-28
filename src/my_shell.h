@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 19:44:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:44:11 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct	s_file
 	int	err;
 }				t_file;
 
+char			*aff_prompt(char *str);
 int				split_pipe(char *tmp, t_env **env);
 int				split_lines(char *line, t_env **env);
 char			*sub_line(char **tmp, char *line, char c);
@@ -97,15 +98,11 @@ int				save_file(t_file **file, int in, int out, int err);
 int				add_args(t_cmdl *cmdl, t_tok *toks, t_env *env);
 int				add_redirections(t_cmdl *cmdl, t_tok *toks);
 
-int				execute_cmdl(t_cmdl *cmdl, char **env);
-
 t_cmdl			*init_cmdl(void);
 t_fd			*init_redirect(void);
 
 int				check_built(char *str);
 int				built_cmd(t_cmdl *cmdl, t_env **env);
-int				built_echo(char **args);
-int				execute(t_cmdl *cmdl, t_env **env);
 
 void			ft_putenv(t_env *env);
 int				add_elem(t_env **env, char *name, char *value);
@@ -121,5 +118,6 @@ int				isdir(char *path);
 
 int				ft_perror(char *s, char *str, int ret);
 char			*parse_line(char *tmp, t_env *env);
+char			*excutable(char *str, t_env *env);
 
 #endif

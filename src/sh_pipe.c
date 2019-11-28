@@ -6,14 +6,14 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 14:52:19 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:47:10 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 #include <sys/wait.h>
 
-t_pipe	*add_pipe(t_cmdl *cmdl)
+static t_pipe	*add_pipe(t_cmdl *cmdl)
 {
 	t_pipe	*pi;
 
@@ -24,7 +24,7 @@ t_pipe	*add_pipe(t_cmdl *cmdl)
 	return (pi);
 }
 
-t_cmdl	*add_elem_cmdline(char *line, t_env *env)
+static t_cmdl	*add_elem_cmdline(char *line, t_env *env)
 {
 	t_tok	*toks;
 	t_cmdl	*cmdl;
@@ -43,7 +43,7 @@ t_cmdl	*add_elem_cmdline(char *line, t_env *env)
 	return (cmdl);
 }
 
-int		add_pipes(t_pipe **pipes, char *line, t_env *env)
+static int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 {
 	t_cmdl	*cmdl;
 	t_pipe	*temp;
@@ -69,7 +69,7 @@ int		add_pipes(t_pipe **pipes, char *line, t_env *env)
 	return (0);
 }
 
-int		execut_built_pipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
+static int		execut_bpipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
 {
 	t_fd	*lrd;
 	t_file	*fil;
@@ -100,7 +100,7 @@ int		execut_built_pipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
 	return (0);
 }
 
-int		child_process(int inp, int pi[2], t_pipe *pipes, char **env)
+static int		child_process(int inp, int pi[2], t_pipe *pipes, char **env)
 {
 	t_fd	*lrd;
 
@@ -132,7 +132,7 @@ int		child_process(int inp, int pi[2], t_pipe *pipes, char **env)
 	return (0);
 }
 
-int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
+static int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
 {
 	int		pid;
 	char	**my_env;
@@ -147,7 +147,7 @@ int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
 	return (0);
 }
 
-int		execute_pipe(t_pipe *pipes, t_env **env)
+static int		execute_pipe(t_pipe *pipes, t_env **env)
 {
 	int		inp;
 	int		len;
@@ -157,20 +157,23 @@ int		execute_pipe(t_pipe *pipes, t_env **env)
 	len = 0;
 	while (pipes)
 	{
-		if (ft_strcmp(pipes->cmdl->excu, "exit"))
+		if (ft_strcmp(pipes->cmdl->args[0], "exit"))
 		{
 			if (pipes->next)
 				if (pipe(pi) == -1)
 					return (ft_perror(0, "pipe failed", 1));
-			if (check_built(pipes->cmdl->excu))
-				execut_built_pipe(inp, pi, pipes, env);
-			else if (fork_pipe(inp, pi, *env, pipes))
-				return (1);
+			if ((pipes->cmdl->excu = excutable(pipes->cmdl->args[0], *env)))
+			{
+				if (check_built(pipes->cmdl->excu))
+					execut_bpipe(inp, pi, pipes, env);
+				else if (fork_pipe(inp, pi, *env, pipes))
+					return (1);
+				len++;
+			}
 			if (inp)
 				close(inp);
 			inp = pi[0];
 			close(pi[1]);
-			len++;
 		}
 		pipes = pipes->next;
 	}
@@ -179,7 +182,7 @@ int		execute_pipe(t_pipe *pipes, t_env **env)
 	return (0);
 }
 
-int		split_pipe(char *line, t_env **env)
+int				split_pipe(char *line, t_env **env)
 {
 	char	*tmp;
 	t_pipe	*pipes;

@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/27 19:45:01 by hastid           ###   ########.fr        #
+#    Updated: 2019/11/28 18:07:40 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,10 @@ SRC = src/main.c \
 	  src/sh_builtin.c \
 	  src/sh_execute.c \
 	  src/sh_filedis.c \
+	  src/sh_buil_cd.c \
 	  src/sh_argument.c \
 	  src/sh_cmdledit.c \
-	  src/sh_buil_cd.c \
+	  src/sh_checkline.c \
 
 OBJ = $(SRC:.c=.o)
 

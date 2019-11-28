@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 14:47:00 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:43:30 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-char	*del_quotes(char *str)
+static char	*del_quotes(char *str)
 {
 	int		i;
 	char	b;
@@ -37,7 +37,7 @@ char	*del_quotes(char *str)
 	return (ft_strdup(buf));
 }
 
-int		edit_tokenid(char *token, int id)
+static int	edit_tokenid(char *token, int id)
 {
 	if (check_token(token))
 		return (4);
@@ -54,7 +54,7 @@ int		edit_tokenid(char *token, int id)
 	return (id);
 }
 
-int		edit_redirct(char *rd)
+static int	edit_redirct(char *rd)
 {
 	if (!ft_strcmp(rd, ">"))
 		return (5);
@@ -75,7 +75,7 @@ int		edit_redirct(char *rd)
 	return (1);
 }
 
-int		analy_toks(t_tok *toks)
+int			analy_toks(t_tok *toks)
 {
 	char	*tmp;
 	t_tok	*head;

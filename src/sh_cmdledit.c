@@ -6,20 +6,20 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 09:01:03 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 16:42:18 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:34:09 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-int		check_valarg(char c)
+static int	check_valarg(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
 	return (0);
 }
 
-char	*edit_tilda(char *str, t_env *env)
+static char	*edit_tilda(char *str, t_env *env)
 {
 	int		i;
 	char	*tp;
@@ -44,7 +44,7 @@ char	*edit_tilda(char *str, t_env *env)
 	return (ret);
 }
 
-char	*edit_dollar(char *str, t_env *env)
+static char	*edit_dollar(char *str, t_env *env)
 {
 	int		i;
 	char	*tp;
@@ -72,7 +72,7 @@ char	*edit_dollar(char *str, t_env *env)
 	return (name);
 }
 
-char	*join_line(char *tmp, int i, t_env *env, int check)
+static char	*join_line(char *tmp, int i, t_env *env, int check)
 {
 	char	*tp1;
 	char	*tp2;
@@ -95,7 +95,7 @@ char	*join_line(char *tmp, int i, t_env *env, int check)
 	return (tmp);
 }
 
-char	*parse_line(char *tmp, t_env *env)
+char		*parse_line(char *tmp, t_env *env)
 {
 	int		i;
 	int		be;

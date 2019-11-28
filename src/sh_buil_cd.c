@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 16:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 14:44:04 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:26:40 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-int	change_dir(char *dir, t_env **env)
+static int	change_dir(char *dir, t_env **env)
 {
 	char	*pwd;
 
@@ -26,7 +26,7 @@ int	change_dir(char *dir, t_env **env)
 	return (0);
 }
 
-int	built_cd(char **args, t_env **env)
+int			built_cd(char **args, t_env **env)
 {
 	char	*dir;
 

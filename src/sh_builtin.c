@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 19:46:17 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:32:13 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-int		built_echo(char **args)
+static int	built_echo(char **args)
 {
 	int i;
 	int check;
@@ -41,7 +41,7 @@ int		built_echo(char **args)
 	return (0);
 }
 
-int		ft_unsetenv(t_env **env, char **args)
+static int	ft_unsetenv(t_env **env, char **args)
 {
 	int		i;
 
@@ -56,7 +56,7 @@ int		ft_unsetenv(t_env **env, char **args)
 	return (0);
 }
 
-int		ft_setenv(t_env **env, char **args)
+static int	ft_setenv(t_env **env, char **args)
 {
 	if (args[1])
 		add_elem(env, args[1], args[2]);
@@ -65,7 +65,7 @@ int		ft_setenv(t_env **env, char **args)
 	return (0);
 }
 
-int		check_built(char *str)
+int			check_built(char *str)
 {
 	if (!ft_strcmp(str, "cd"))
 		return (1);
@@ -82,7 +82,7 @@ int		check_built(char *str)
 	return (0);
 }
 
-int		execute_built(t_cmdl *cmdl, t_env **env)
+int			execute_built(t_cmdl *cmdl, t_env **env)
 {
 	if (!ft_strcmp(cmdl->excu, "cd"))
 		built_cd(cmdl->args, env);
@@ -97,7 +97,7 @@ int		execute_built(t_cmdl *cmdl, t_env **env)
 	return (0);
 }
 
-int		built_cmd(t_cmdl *cmdl, t_env **env)
+int			built_cmd(t_cmdl *cmdl, t_env **env)
 {
 	t_fd	*lrd;
 	t_file	*fil;
@@ -113,8 +113,8 @@ int		built_cmd(t_cmdl *cmdl, t_env **env)
 			{
 				if (lrd->sec == -1)
 					close(lrd->fir);
-				else
-					dup2(lrd->sec, lrd->fir);
+				else if (dup2(lrd->sec, lrd->fir) == -1)
+					return (ft_perror(0, "duplicate failed.", 0));
 				lrd = lrd->next;
 			}
 		}

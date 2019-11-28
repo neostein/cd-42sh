@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 06:31:08 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 15:43:38 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:37:44 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-t_env	*elem_env(char *name, char *value)
+static t_env	*elem_env(char *name, char *value)
 {
 	t_env	*elem;
 
@@ -29,7 +29,7 @@ t_env	*elem_env(char *name, char *value)
 	return (elem);
 }
 
-int		add_to_env(t_env **env, char *name, char *value)
+static int		add_to_env(t_env **env, char *name, char *value)
 {
 	t_env	*tmp;
 
@@ -46,31 +46,19 @@ int		add_to_env(t_env **env, char *name, char *value)
 	return (0);
 }
 
-t_env	*creat_env(char **env)
+static int		del_head(t_env **env)
 {
-	int		i;
-	int		co;
-	char	*tmp;
-	char	*name;
-	t_env	*my_env;
+	t_env	*tmp;
 
-	i = 0;
-	my_env = 0;
-	while (env && env[i])
-	{
-		tmp = env[i];
-		co = 0;
-		while (tmp[co] != '=')
-			co++;
-		name = ft_strsub(tmp, 0, co);
-		add_to_env(&my_env, name, tmp + co + 1);
-		ft_memdel((void **)&name);
-		i++;
-	}
-	return (my_env);
+	tmp = *env;
+	*env = (*env)->next;
+	ft_memdel((void **)&tmp->name);
+	ft_memdel((void **)&tmp->value);
+	ft_memdel((void **)&tmp);
+	return (0);
 }
 
-int		add_elem(t_env **env, char *name, char *value)
+int				add_elem(t_env **env, char *name, char *value)
 {
 	t_env	*tmp;
 
@@ -95,19 +83,7 @@ int		add_elem(t_env **env, char *name, char *value)
 	return (0);
 }
 
-int		del_head(t_env **env)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	*env = (*env)->next;
-	ft_memdel((void **)&tmp->name);
-	ft_memdel((void **)&tmp->value);
-	ft_memdel((void **)&tmp);
-	return (0);
-}
-
-int		del_elem(t_env **env, char *name)
+int				del_elem(t_env **env, char *name)
 {
 	t_env	*tmp;
 	t_env	*prev;
@@ -130,7 +106,31 @@ int		del_elem(t_env **env, char *name)
 	return (0);
 }
 
-void	ft_putenv(t_env *env)
+t_env			*creat_env(char **env)
+{
+	int		i;
+	int		co;
+	char	*tmp;
+	char	*name;
+	t_env	*my_env;
+
+	i = 0;
+	my_env = 0;
+	while (env && env[i])
+	{
+		tmp = env[i];
+		co = 0;
+		while (tmp[co] != '=')
+			co++;
+		name = ft_strsub(tmp, 0, co);
+		add_to_env(&my_env, name, tmp + co + 1);
+		ft_memdel((void **)&name);
+		i++;
+	}
+	return (my_env);
+}
+
+void			ft_putenv(t_env *env)
 {
 	while (env)
 	{

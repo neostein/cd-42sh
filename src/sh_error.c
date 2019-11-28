@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 21:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 15:36:51 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:38:32 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-int		ft_perror(char *s, char *str, int ret)
+int			ft_perror(char *s, char *str, int ret)
 {
 	ft_putstr("21sh: ");
 	if (s)
@@ -21,7 +21,7 @@ int		ft_perror(char *s, char *str, int ret)
 	return (ret);
 }
 
-int		ft_error_0(char *val)
+static int	ft_error_0(char *val)
 {
 	int	fd;
 
@@ -35,7 +35,7 @@ int		ft_error_0(char *val)
 	return (0);
 }
 
-int		ft_error_1(t_tok tok, int n, char *rd)
+static int	ft_error_1(t_tok tok, int n, char *rd)
 {
 	int			i;
 	struct stat	s;
@@ -64,7 +64,7 @@ int		ft_error_1(t_tok tok, int n, char *rd)
 	return (0);
 }
 
-int		ft_error_2(t_tok tok, int n)
+static int	ft_error_2(t_tok tok, int n)
 {
 	if (tok.value[0] == '\0')
 		return (ft_perror(tok.value, ": No such file or directory", 1));
@@ -79,7 +79,7 @@ int		ft_error_2(t_tok tok, int n)
 	return (0);
 }
 
-int		check_error(t_tok *toks)
+int			check_error(t_tok *toks)
 {
 	char	*tmp;
 

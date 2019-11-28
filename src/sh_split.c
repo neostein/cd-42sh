@@ -6,13 +6,13 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:30:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 19:05:32 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:42:51 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-int		check_save(t_tok **toks, char *line)
+static int	check_save(t_tok **toks, char *line)
 {
 	int		i;
 	int		q;
@@ -59,7 +59,7 @@ int		check_save(t_tok **toks, char *line)
 	return (0);
 }
 
-char	*sub_token(char **tmp, char *line)
+static char	*sub_token(char **tmp, char *line)
 {
 	int	i;
 	int	q;
@@ -82,7 +82,7 @@ char	*sub_token(char **tmp, char *line)
 	return (line + i);
 }
 
-t_tok	*split_tokens(char *line)
+t_tok		*split_tokens(char *line)
 {
 	char	*tmp;
 	t_tok	*toks;
@@ -109,7 +109,7 @@ t_tok	*split_tokens(char *line)
 	return (toks);
 }
 
-char	*sub_line(char **tmp, char *line, char c)
+char		*sub_line(char **tmp, char *line, char c)
 {
 	int	i;
 	int	q;
@@ -131,7 +131,7 @@ char	*sub_line(char **tmp, char *line, char c)
 	return (line + i);
 }
 
-int		split_lines(char *line, t_env **env)
+int			split_lines(char *line, t_env **env)
 {
 	int		i;
 	char	*tmp;

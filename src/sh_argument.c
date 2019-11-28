@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 17:01:56 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 18:45:23 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-int		isdir(char *path)
+int			isdir(char *path)
 {
 	DIR *dir;
 
@@ -25,7 +25,7 @@ int		isdir(char *path)
 	return (0);
 }
 
-int		args_len(t_tok *toks)
+static int	args_len(t_tok *toks)
 {
 	int	i;
 
@@ -39,18 +39,7 @@ int		args_len(t_tok *toks)
 	return (i);
 }
 
-char	*ft_getenv(t_env *env, char *name)
-{
-	while (env)
-	{
-		if (!ft_strcmp(name, env->name))
-			return (env->value);
-		env = env->next;
-	}
-	return (0);
-}
-
-char	*check_path(char *str, char **path)
+static char	*check_path(char *str, char **path)
 {
 	int		i;
 	char	*tp;
@@ -74,7 +63,18 @@ char	*check_path(char *str, char **path)
 	return (0);
 }
 
-char	*excutable(char *str, t_env *env)
+char		*ft_getenv(t_env *env, char *name)
+{
+	while (env)
+	{
+		if (!ft_strcmp(name, env->name))
+			return (env->value);
+		env = env->next;
+	}
+	return (0);
+}
+
+char		*excutable(char *str, t_env *env)
 {
 	char	*tmp;
 	char	**path;
@@ -96,27 +96,29 @@ char	*excutable(char *str, t_env *env)
 	return (tmp);
 }
 
-int		add_args(t_cmdl *cmdl, t_tok *toks, t_env *env)
+int			add_args(t_cmdl *cmdl, t_tok *toks, t_env *env)
 {
 	int		i;
 
 	while (toks && toks->id != 0)
 		toks = toks->next;
-	if (!toks || !(cmdl->excu = excutable(toks->value, env)))
-		return (1);
-	if (!(cmdl->args = (char **)malloc(sizeof(char *) * (args_len(toks) + 1))))
-		return (1);
-	i = 0;
-	while (toks)
+	if (toks)
 	{
-		if (toks->id == 0)
+		if (!(cmdl->args = (char **)malloc(sizeof(char *) *
+						(args_len(toks) + 1))))
+			return (1);
+		i = 0;
+		while (toks)
 		{
-			if (!(cmdl->args[i] = ft_strdup(toks->value)))
-				return (1);
-			i++;
+			if (toks->id == 0)
+			{
+				if (!(cmdl->args[i] = ft_strdup(toks->value)))
+					return (1);
+				i++;
+			}
+			toks = toks->next;
 		}
-		toks = toks->next;
+		cmdl->args[i] = 0;
 	}
-	cmdl->args[i] = 0;
 	return (0);
 }
