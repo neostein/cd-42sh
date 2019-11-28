@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 21:24:34 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 14:47:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*del_quotes(char *str)
 				buf[i++] = *str++;
 			str++;
 		}
-		buf[i++] = *str++;
+		else
+			buf[i++] = *str++;
 	}
 	buf[i] = '\0';
 	return (ft_strdup(buf));

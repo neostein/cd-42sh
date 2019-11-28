@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 22:05:14 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 14:52:19 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ int		child_process(int inp, int pi[2], t_pipe *pipes, char **env)
 
 	if (!inp)
 		close(pi[0]);
-	if (dup2(inp, 0) == -1)
-		return (ft_perror(0, "duplicate input failed", 1));
-	close(inp);
+	if (inp)
+		if (dup2(inp, 0) == -1)
+			return (ft_perror(0, "duplicate input failed", 1));
+	if (inp)
+		close(inp);
 	if (pipes->next)
 		if (dup2(pi[1], 1) == -1)
 			return (ft_perror(0, "duplicate output failed", 1));
