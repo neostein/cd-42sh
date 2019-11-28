@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 14:42:37 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 17:01:56 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,18 @@ char	*excutable(char *str, t_env *env)
 	char	*tmp;
 	char	**path;
 
-	if (check_built(str))
-		return (ft_strdup(str));
-	if (!access(str, F_OK) && !access(str, X_OK) && !isdir(str))
-		return (ft_strdup(str));
 	tmp = 0;
-	path = ft_strsplit(ft_getenv(env, "PATH"), ':');
-	if (path)
-		tmp = check_path(str, path);
-	free_tab(path);
+	if (str[0])
+	{
+		if (check_built(str))
+			return (ft_strdup(str));
+		if (!access(str, F_OK) && !access(str, X_OK) && !isdir(str))
+			return (ft_strdup(str));
+		path = ft_strsplit(ft_getenv(env, "PATH"), ':');
+		if (path)
+			tmp = check_path(str, path);
+		free_tab(path);
+	}
 	if (!tmp)
 		ft_perror(str, ": command not found", 1);
 	return (tmp);

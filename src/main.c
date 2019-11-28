@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 16:29:41 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 16:51:35 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static int		check_errline(char *str)
 		{
 			ret  = check_quotes(str + i, str[i]);
 			if (!ret)
-				return (1);
+				return (2);
 			i += ret + 1;
 		}
 		else if (str[i] == '|')
@@ -161,13 +161,17 @@ static char		*aff_prompt(char *str)
 	if (cmdl)
 	{
 		ret = check_errline(cmdl);
-		while (ret == 1)
+		while (ret == 1 || ret == 2)
 		{
-			temp = read_line(">");
-			cmdl = ft_strjoin_f(cmdl, temp, 1, 1) ;
-			ret = check_errline(cmdl);
+			if ((temp = read_line(">")))
+			{
+				if (ret == 2)
+					cmdl = ft_strjoin_f(cmdl, "\n", 1, 0);
+				cmdl = ft_strjoin_f(cmdl, temp, 1, 1) ;
+				ret = check_errline(cmdl);
+			}
 		}
-
+		add_to_hist(ft_strdup(cmdl));
 		if (ret == -1)
 			return (ft_strdup("\0"));
 	}

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/27 19:05:13 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/28 16:49:06 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int		execute_cmdl(t_cmdl *cmdl, char **env)
 			}
 		}
 		if (execve(cmdl->excu, cmdl->args, env) == -1)
-			return (ft_perror(0, "exceve failed", 1));
+		{
+			ft_perror(0, "exceve failed", 1);
+			exit(1);
+		}
 	}
-	if (pid > 0)
-		wait(&pid);
+	wait(0);
 	return (0);
 }
 
