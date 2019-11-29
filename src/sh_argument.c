@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 20:50:11 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/29 01:16:30 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ static int	args_len(t_tok *toks)
 	return (i);
 }
 
+static char	*check_file(char *tmp)
+{
+	if (isdir(tmp))
+		ft_perror(tmp, ": is a directory", 0);
+	else if (!access(tmp, X_OK))
+		return (tmp);
+	else
+		ft_perror(tmp, ": Permission denied", 0);
+	return (0);
+}
+
 static char	*check_path(char *str, char **path)
 {
 	int		i;
@@ -55,14 +66,9 @@ static char	*check_path(char *str, char **path)
 		ft_memdel((void **)&tp);
 		if (!access(tmp, F_OK))
 		{
-			if (isdir(tmp))
-				ft_perror(tmp, ": is a directory", 0);
-			else if (!access(tmp, X_OK))
+			if (check_file(tmp))
 				return (tmp);
-			else
-				ft_perror(tmp, ": Permission denied", 0);
 			ft_memdel((void **)&tmp);
-			return (0);
 		}
 		ft_memdel((void **)&tp);
 		ft_memdel((void **)&tmp);
@@ -93,15 +99,7 @@ char		*excutable(char *str, t_env *env)
 		if (check_built(str))
 			return (ft_strdup(str));
 		if (!access(str, F_OK))
-		{
-			if (isdir(str))
-				ft_perror(str, ": is a directory", 0);
-			else if (!access(str, X_OK))
-				return (ft_strdup(str));
-			else
-				ft_perror(str, ": Permission denied", 0);
-			return (0);
-		}
+			return (check_file(str));
 		path = ft_strsplit(ft_getenv(env, "PATH"), ':');
 		if (path)
 			tmp = check_path(str, path);
