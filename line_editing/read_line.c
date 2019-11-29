@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/27 05:25:30 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/30 00:30:52 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,25 @@ void		print_cmd(t_cmd *l)
 	t_point	p;
 	int		i;
 
-	i = l->b_p - 1;
-	p.r = l->init_p->r - 1;
-	p.c = ft_strlen(l->prompt);
+	i = -1;
+	l->cur_p->r = l->init_p->r - 1;
+	l->cur_p->c = ft_strlen(l->prompt);
 	ft_putstr_fd(tgoto(CM, 0, l->init_p->r - 1), 0);
 	ft_putstr_fd(CD, 0);
 	ft_putstr_fd(l->prompt, 0);
 	while (++i < l->len)
 	{
+		if (i == l->cur)
+			swap_p(&p, l->cur_p, 1);
 		if (i == (l->cur - l->s_sp) && l->is_s)
 			ft_putstr_fd(SO, 0);
 		if (i == l->cur && l->is_s)
 			ft_putstr_fd(SE, 0);
 		ft_putchar_fd(l->chars[i], 0);
-		plus(&p, l, 1);
+		plus(l->cur_p, l, 1, i);
 	}
+	if (l->cur != l->len)
+		swap_p(&p, l->cur_p, 0);
 	ft_putstr_fd(tgoto(CM, l->cur_p->c, l->cur_p->r), 0);
 	ft_putstr_fd(SE, 0);
 }
@@ -113,12 +117,12 @@ char		*read_line(char *prompt)
 			l->s_sp = 0;
 		l->is_s = 0;
 	}
+	go_to_the_end(l);
 	default_term_mode();
 	if (l->ctl_d)
 		result = NULL;
 	else
 		result = ft_strdup(l->ctl_c ? " " : l->chars);
 	free_out(l);
-	ft_putchar('\n');
 	return (result);
 }

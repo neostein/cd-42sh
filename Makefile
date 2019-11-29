@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/11/28 18:07:40 by hastid           ###   ########.fr        #
+#    Updated: 2019/11/29 18:14:18 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,12 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) libft_c lineediting
+	@gcc $(FLAG)  libft/libft.a line_editing/line_editing.a -ltermcap $(OBJ) -o $(NAME)
+libft_c:
 	@make -C libft
+lineediting:
 	@make -C line_editing
-	@gcc $(FLAG)  libft/libft.a line_editing/line_editing.a -ltermcap  $(OBJ) -o $(NAME)
 
 %.o: %.c
 	@gcc $(FLAC) -o $@ -c $<

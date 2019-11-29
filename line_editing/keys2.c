@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 17:30:16 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/26 02:15:11 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/30 00:05:03 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,11 @@
 
 void	end_k(t_cmd *l)
 {
-	int	i;
-
-	i = l->b_p - 1;
-	home_k(l);
-	while (++i < l->len)
-		plus(l->cur_p, l, 0);
 	l->cur = l->len;
 }
 
 void	home_k(t_cmd *l)
 {
-	l->cur_p->c = l->init_p->c - 1;
-	l->cur_p->r = l->init_p->r - 1;
 	l->cur = l->b_p;
 }
 
@@ -51,10 +43,8 @@ void	ctl_left(t_cmd *l)
 		}
 		else
 			s = 1;
-		mines(l->cur_p, l);
 		if (c && s)
 		{
-			plus(l->cur_p, l, 0);
 			l->cur++;
 			return ;
 		}
@@ -80,7 +70,6 @@ void	ctl_right(t_cmd *l)
 			c = 1;
 		if (c && s)
 			return ;
-		plus(l->cur_p, l, 0);
 		l->cur++;
 	}
 }

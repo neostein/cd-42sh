@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 18:33:26 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/26 05:51:32 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/11/30 00:35:18 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ static t_cmd	*malloc_cmd(void)
 	l->init_p = (t_point *)malloc(sizeof(t_point));
 	l->cur_p = (t_point *)malloc(sizeof(t_point));
 	return (l);
+}
+
+void			swap_p(t_point *p1, t_point *p2, int a)
+{
+	if (a)
+	{
+		p1->c = p2->c;
+		p1->r = p2->r;
+	}
+	else
+	{
+		p2->c = p1->c;
+		p2->r = p1->r;
+	}
 }
 
 t_cmd			*init_cmd(char *prompt)

@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 14:53:50 by llachgar          #+#    #+#              #
-#    Updated: 2019/11/26 05:44:00 by llachgar         ###   ########.fr        #
+#    Updated: 2019/11/27 21:51:53 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,11 @@ SRC = history.c \
 
 OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rc $(NAME)  $(OBJ)
+
+all: $(NAME)
 
 %.o: %.c
 	@gcc $(FLAC)  -o $@ -c $<

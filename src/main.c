@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:10:40 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/29 23:55:18 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int				main(int ac, char **av, char **env)
 			ft_memdel((void **)&line);
 		}
 	}
+	free_history();
 	ft_memdel((void **)&line);
 	free_environ(my_env);
 	return (0);

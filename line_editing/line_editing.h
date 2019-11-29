@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/27 15:45:29 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/30 00:31:41 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void				ctl_d(t_cmd *l);
 void				init_term(void);
 t_cmd				*init_cmd(char *prompt);
 char				*read_line(char *prompt);
-void				plus(t_point *p, t_cmd *l, int b);
+void				plus(t_point *p, t_cmd *l, int b, int i);
 void				mines(t_point *p, t_cmd *l);
 void				get_cur_pos(t_point *t);
 void				init_history();
@@ -164,4 +164,8 @@ char				*line_editing(char *promt);
 t_hist				*save_hist(t_hist *hist);
 t_cmd				*keep_l(t_cmd *l, int cmd);
 void				free_out(t_cmd *l);
+void				print_cmd(t_cmd *l);
+void				go_to_the_end(t_cmd *l);
+void				free_history(void);
+void				swap_p(t_point	*p1, t_point	*p2, int a);
 #endif
