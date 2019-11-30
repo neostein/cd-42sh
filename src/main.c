@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/26 16:19:41 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/29 23:55:18 by llachgar         ###   ########.fr       */
+/*   Created: 2019/11/30 23:07:15 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/30 23:49:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int				main(int ac, char **av, char **env)
 		}
 	}
 	free_history();
-	ft_memdel((void **)&line);
+	if (line)
+		ft_memdel((void **)&line);
 	free_environ(my_env);
 	return (0);
 }

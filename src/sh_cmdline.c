@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:45:57 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/30 23:54:16 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ static int	add_to_list(t_cmdl *cmdl, char *fd, int id, t_tok toks)
 int			add_redirections(t_cmdl *cmdl, t_tok *toks)
 {
 	char	*fd;
-	t_fd	*lrd;
 
 	fd = 0;
 	while (toks)

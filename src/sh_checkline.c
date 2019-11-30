@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:08:14 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/30 23:46:44 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ static int		after_pipe(char *str)
 	{
 		while (check_space(str[i]))
 			i++;
-		if (str[i] && !check_valtok(str[i]))
-			return (ft_perror(0, " syntax error near unexpected token", -1));
-		else if (str[i])
+		if (str[i])
 			return (0);
 	}
 	return (1);
@@ -80,35 +78,29 @@ static int		after_pipe(char *str)
 
 static int		check_errline(char *str)
 {
-	int	i;
 	int	ret;
 
-	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (check_spechar(str[i]))
+		if (check_spechar(*str))
 		{
-			ret = check_redirect(str + i);
-			if (ret == 0)
+			if ((ret = check_redirect(str)) == 0)
 				return (-1);
-			i += ret;
+			str += ret;
 		}
-		else if (str[i] == 34 || str[i] == 39)
+		else if (*str == 34 || *str == 39)
 		{
-			ret = check_quotes(str + i, str[i]);
-			if (!ret)
+			if ((ret = check_quotes(str, *str)) == 0)
 				return (2);
-			i += ret + 1;
+			str += ret + 1;
 		}
-		else if (str[i] == '|')
+		else if (*str == '|')
 		{
-			i++;
-			ret = after_pipe(str + i);
-			if (ret)
+			if ((ret = after_pipe(++str)))
 				return (ret);
 		}
 		else
-			i++;
+			str++;
 	}
 	return (0);
 }

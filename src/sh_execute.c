@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:20:18 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/30 23:56:30 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char		**list_to_tab(t_env *env)
 	return (en);
 }
 
-t_cmdl		*save_to_excute(t_tok *toks, t_env *env)
+t_cmdl		*save_to_excute(t_tok *toks)
 {
 	t_cmdl	*cmdl;
 
@@ -92,7 +92,7 @@ t_cmdl		*save_to_excute(t_tok *toks, t_env *env)
 		return (0);
 	if ((cmdl->rd = add_redirections(cmdl, toks)) == -1)
 		return (0);
-	if (add_args(cmdl, toks, env))
+	if (add_args(cmdl, toks))
 	{
 		free_cmdline(cmdl);
 		return (0);
@@ -108,7 +108,7 @@ int			cmd_line(char *line, t_env **env)
 	if (!(toks = split_tokens(line)))
 		return (1);
 	if (analy_toks(toks) || check_error(toks) ||
-			!(cmdl = save_to_excute(toks, *env)))
+			!(cmdl = save_to_excute(toks)))
 	{
 		free_tokens(toks);
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_shell.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 05:31:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:44:11 by hastid           ###   ########.fr       */
+/*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
+/*   Updated: 2019/11/30 23:55:19 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char			*sub_line(char **tmp, char *line, char c);
 int				analy_toks(t_tok *toks);
 int				check_error(t_tok *toks);
 t_tok			*split_tokens(char *line);
-t_cmdl			*save_to_excute(t_tok *toks, t_env *env);
+t_cmdl			*save_to_excute(t_tok *toks);
 int				cmd_line(char *line, t_env **env);
 
 int				check_space(char c);
@@ -95,7 +95,7 @@ void			free_cmdline(t_cmdl *cmdl);
 int				save_tokens(t_tok **tok, char *token, int id);
 
 int				save_file(t_file **file, int in, int out, int err);
-int				add_args(t_cmdl *cmdl, t_tok *toks, t_env *env);
+int				add_args(t_cmdl *cmdl, t_tok *toks);
 int				add_redirections(t_cmdl *cmdl, t_tok *toks);
 
 t_cmdl			*init_cmdl(void);

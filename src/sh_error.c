@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 21:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:38:32 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 00:30:03 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int			ft_perror(char *s, char *str, int ret)
 {
-	ft_putstr("21sh: ");
+	ft_putstr_fd("21sh: ", 2);
 	if (s)
-		ft_putstr(s);
-	ft_putendl(str);
+		ft_putstr_fd(s, 2);
+	ft_putendl_fd(str, 2);
 	return (ret);
 }
 

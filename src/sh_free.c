@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:56:42 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/26 14:08:06 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/30 23:53:19 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	free_tokens(t_tok *lst)
 
 void	free_cmdline(t_cmdl *cmdl)
 {
-	int		i;
 	t_fd	*lrd;
 
 	if (cmdl->rd)

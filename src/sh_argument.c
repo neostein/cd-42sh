@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/29 01:16:30 by hastid           ###   ########.fr       */
+/*   Updated: 2019/11/30 23:50:33 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char		*excutable(char *str, t_env *env)
 	return (tmp);
 }
 
-int			add_args(t_cmdl *cmdl, t_tok *toks, t_env *env)
+int			add_args(t_cmdl *cmdl, t_tok *toks)
 {
 	int		i;
 
@@ -133,6 +133,7 @@ int			add_args(t_cmdl *cmdl, t_tok *toks, t_env *env)
 			toks = toks->next;
 		}
 		cmdl->args[i] = 0;
+		return (0);
 	}
-	return (0);
+	return (1);
 }
