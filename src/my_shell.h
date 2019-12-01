@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:09:30 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 05:28:06 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int				split_lines(char *line, t_env **env);
 char			*sub_line(char **tmp, char *line, char c);
 int				analy_toks(t_tok *toks);
 int				check_error(t_tok *toks);
+int				check_save(t_tok **toks, char *line);
 t_tok			*split_tokens(char *line);
+char			*sub_token(char **tmp, char *line);
 t_cmdl			*save_to_excute(t_tok *toks);
 int				cmd_line(char *line, t_env **env);
 
