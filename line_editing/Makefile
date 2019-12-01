@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 14:53:50 by llachgar          #+#    #+#              #
-#    Updated: 2019/12/01 01:17:04 by hastid           ###   ########.fr        #
+#    Updated: 2019/12/01 06:55:20 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC = history.c \
 	  keys2.c \
 	  init.c \
 	  signals.c \
-	  ft_free.c
+	  ft_free.c \
+	  bonus.c
 
 OBJ = $(SRC:.c=.o)
 

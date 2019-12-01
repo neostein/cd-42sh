@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 06:08:57 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 07:09:52 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 # define CTL_F 6
 # define CTL_D 4
 # define CTL_B 2
+# define CTL_L 12
 # define COLS (tgetnum("co"))
 # define ROWS (tgetnum("li"))
 # define SO (tgetstr("so", NULL))
@@ -147,6 +148,7 @@ void				bottom_k(t_cmd *l);
 void				ctl_right(t_cmd *l);
 void				alt_x_k(t_cmd *l);
 void				ctl_d(t_cmd *l);
+void				ctl_l(t_cmd *l);
 void				init_term(void);
 t_cmd				*init_cmd(char *prompt);
 char				*read_line(char *prompt);
@@ -165,4 +167,5 @@ void				print_cmd(t_cmd *l);
 void				go_to_the_end(t_cmd *l);
 void				free_history(void);
 void				swap_p(t_point	*p1, t_point	*p2, int a);
+void				excute_key(t_key	keys[18], t_cmd *l);
 #endif
