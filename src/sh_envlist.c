@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 06:31:08 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:37:44 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 04:01:15 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,19 @@ static t_env	*elem_env(char *name, char *value)
 	return (elem);
 }
 
-static int		add_to_env(t_env **env, char *name, char *value)
+static int		del_head(t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	*env = (*env)->next;
+	ft_memdel((void **)&tmp->name);
+	ft_memdel((void **)&tmp->value);
+	ft_memdel((void **)&tmp);
+	return (0);
+}
+
+int				add_to_env(t_env **env, char *name, char *value)
 {
 	t_env	*tmp;
 
@@ -43,18 +55,6 @@ static int		add_to_env(t_env **env, char *name, char *value)
 	}
 	else if (!(*env = elem_env(name, value)))
 		return (1);
-	return (0);
-}
-
-static int		del_head(t_env **env)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	*env = (*env)->next;
-	ft_memdel((void **)&tmp->name);
-	ft_memdel((void **)&tmp->value);
-	ft_memdel((void **)&tmp);
 	return (0);
 }
 
@@ -104,39 +104,4 @@ int				del_elem(t_env **env, char *name)
 		ft_memdel((void **)&tmp);
 	}
 	return (0);
-}
-
-t_env			*creat_env(char **env)
-{
-	int		i;
-	int		co;
-	char	*tmp;
-	char	*name;
-	t_env	*my_env;
-
-	i = 0;
-	my_env = 0;
-	while (env && env[i])
-	{
-		tmp = env[i];
-		co = 0;
-		while (tmp[co] != '=')
-			co++;
-		name = ft_strsub(tmp, 0, co);
-		add_to_env(&my_env, name, tmp + co + 1);
-		ft_memdel((void **)&name);
-		i++;
-	}
-	return (my_env);
-}
-
-void			ft_putenv(t_env *env)
-{
-	while (env)
-	{
-		ft_putstr(env->name);
-		ft_putchar('=');
-		ft_putendl(env->value);
-		env = env->next;
-	}
 }

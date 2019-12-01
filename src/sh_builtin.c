@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/28 18:32:13 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 03:42:24 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,6 @@ static int	built_echo(char **args)
 		if (check)
 			ft_putchar('\n');
 	}
-	return (0);
-}
-
-static int	ft_unsetenv(t_env **env, char **args)
-{
-	int		i;
-
-	i = 1;
-	if (args[i])
-	{
-		while (args[i])
-			del_elem(env, args[i++]);
-	}
-	else
-		ft_perror(0, "Too few arguments.", 1);
-	return (0);
-}
-
-static int	ft_setenv(t_env **env, char **args)
-{
-	if (args[1])
-		add_elem(env, args[1], args[2]);
-	else
-		ft_putenv(*env);
 	return (0);
 }
 

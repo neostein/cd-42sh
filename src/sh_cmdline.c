@@ -6,36 +6,11 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:54:16 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 04:12:12 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
-
-static char	*add_to_file(char *file, char *s)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	if (!file || file[0] == '\0')
-	{
-		if (!s || s[0] == '\0')
-			return (ft_strdup("\n"));
-		return (ft_strjoin(s, "\n"));
-	}
-	if (!s || s[0] == '\0')
-	{
-		tmp1 = ft_strjoin(file, "\n");
-		ft_memdel((void **)&file);
-		return (tmp1);
-	}
-	if (!(tmp1 = ft_strjoin(s, "\n")))
-		return (0);
-	tmp2 = ft_strjoin(file, tmp1);
-	ft_memdel((void **)&file);
-	ft_memdel((void **)&tmp1);
-	return (tmp2);
-}
 
 static int	heredirect(char *fin)
 {

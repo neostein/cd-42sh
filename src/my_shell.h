@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:55:19 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 04:09:30 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int				check_space(char c);
 int				check_spechar(char c);
 int				check_pipe(char *str);
 int				check_token(char *token);
+int				check_errline(char *str);
 int				check_number(char *token, int check);
 
 void			free_tab(char **tab);
@@ -94,6 +95,7 @@ void			free_environ(t_env *lst);
 void			free_cmdline(t_cmdl *cmdl);
 int				save_tokens(t_tok **tok, char *token, int id);
 
+char			*add_to_file(char *file, char *s);
 int				save_file(t_file **file, int in, int out, int err);
 int				add_args(t_cmdl *cmdl, t_tok *toks);
 int				add_redirections(t_cmdl *cmdl, t_tok *toks);
@@ -105,7 +107,10 @@ int				check_built(char *str);
 int				built_cmd(t_cmdl *cmdl, t_env **env);
 
 void			ft_putenv(t_env *env);
+int				ft_setenv(t_env **env, char **args);
+int				ft_unsetenv(t_env **env, char **args);
 int				add_elem(t_env **env, char *name, char *value);
+int				add_to_env(t_env **env, char *name, char *value);
 int				del_elem(t_env **env, char *name);
 t_env			*creat_env(char **env);
 char			**list_to_tab(t_env *env);
@@ -119,5 +124,6 @@ int				isdir(char *path);
 int				ft_perror(char *s, char *str, int ret);
 char			*parse_line(char *tmp, t_env *env);
 char			*excutable(char *str, t_env *env);
+int				execute_p(int inp, int pi[2], t_env **env, t_pipe *pipes);
 
 #endif

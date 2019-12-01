@@ -6,24 +6,11 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 02:40:20 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 04:14:46 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
-
-int			isdir(char *path)
-{
-	DIR *dir;
-
-	dir = opendir(path);
-	if (dir != 0)
-	{
-		closedir(dir);
-		return (1);
-	}
-	return (0);
-}
 
 static int	args_len(t_tok *toks)
 {
@@ -44,7 +31,7 @@ static char	*check_file(char *tmp)
 	if (isdir(tmp))
 		ft_perror(tmp, ": is a directory", 0);
 	else if (!access(tmp, X_OK))
-		return (tmp);
+		return (ft_strdup(tmp));
 	else
 		ft_perror(tmp, ": Permission denied", 0);
 	return (0);
@@ -66,24 +53,15 @@ static char	*check_path(char *str, char **path)
 		ft_memdel((void **)&tp);
 		if (!access(tmp, F_OK))
 		{
-			if (check_file(tmp))
-				return (tmp);
-			ft_memdel((void **)&tmp);
+			if ((tp = check_file(tmp)))
+				ft_memdel((void **)&tmp);
+			else
+				return (0);
+			return (tp);
 		}
 		ft_memdel((void **)&tp);
 		ft_memdel((void **)&tmp);
 		i++;
-	}
-	return (0);
-}
-
-char		*ft_getenv(t_env *env, char *name)
-{
-	while (env)
-	{
-		if (!ft_strcmp(name, env->name))
-			return (env->value);
-		env = env->next;
 	}
 	return (0);
 }
