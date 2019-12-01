@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 06:48:48 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 06:59:26 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:56:36 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ctl_l(t_cmd *l)
 {
-	ft_putstr_fd(CL, 0);
+	ft_putstr_fd(CL, 1);
 	get_cur_pos(l->init_p);
 }

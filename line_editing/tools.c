@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:23:41 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 06:08:35 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:57:14 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void		plus(t_point *p, t_cmd *l, t_point *p1, int i)
 		{
 			l->init_p->r--;
 			p1->r--;
-			ft_putstr_fd(DO, 0);
+			ft_putstr_fd(DO, 1);
 		}
 		else
 			p->r++;
-		ft_putstr_fd(tgoto(CM, p->c, p->r), 0);
+		ft_putstr_fd(tgoto(CM, p->c, p->r), 1);
 	}
 	else
 		p->c++;
