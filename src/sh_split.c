@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:53:44 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 02:54:11 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static char	*sub_token(char **tmp, char *line)
 	int	q;
 
 	i = 0;
+	*tmp = 0;
 	while (line[i] && !check_space(line[i]))
 	{
 		if (line[i] == 34 || line[i] == 39)
@@ -75,8 +76,8 @@ static char	*sub_token(char **tmp, char *line)
 		}
 		i++;
 	}
-	if (!(*tmp = ft_strsub(line, 0, i)))
-		return (0);
+	if (i)
+		*tmp = ft_strsub(line, 0, i);
 	while (line[i] && check_space(line[i]))
 		i++;
 	return (line + i);

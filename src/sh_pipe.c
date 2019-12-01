@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 00:58:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 03:02:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ static int		add_pipes(t_pipe **pipes, char *line)
 			if (!(temp->next = add_pipe(cmdl)))
 				return (1);
 		}
+		ft_memdel((void **)&line);
+		return (0);
 	}
-	else
-		return (1);
-	return (0);
+	ft_memdel((void **)&line);
+	return (1);
 }
 
 static int		execut_b(t_cmdl *cmdl, t_env **env)
@@ -219,15 +220,11 @@ int				split_pipe(char *line, t_env **env)
 		{
 			line = sub_line(&tmp, line, '|');
 			if (tmp)
-			{
 				if (add_pipes(&pipes, tmp))
 				{
-					ft_memdel((void **)&tmp);
 					free_pipes(pipes);
 					return (1);
 				}
-				ft_memdel((void **)&tmp);
-			}
 		}
 	}
 	execute_pipe(pipes, env);
