@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 04:26:49 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 06:08:02 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		print_cmd(t_cmd *l)
 			ft_putstr_fd(SE, 0);
 		if (l->chars[i] != '\n')
 			ft_putchar_fd(l->chars[i], 0);
-		plus(l->cur_p, l, 1, i);
+		plus(l->cur_p, l, &p, i);
 	}
 	if (l->cur != l->len)
 		swap_p(&p, l->cur_p, 0);
