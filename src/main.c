@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:15 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:49:17 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 01:45:12 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void			kill_seg(int seg)
 		buf[1] = 0;
 		ioctl(0, TIOCSTI, buf);
 	}
-	ft_putchar('\n');
+	else
+		ft_putchar('\n');
 }
 
 int				main(int ac, char **av, char **env)
@@ -36,6 +37,8 @@ int				main(int ac, char **av, char **env)
 	char	*line;
 	t_env	*my_env;
 
+	(void)ac;
+	(void)av;
 	signal(SIGINT, kill_seg);
 	my_env = creat_env(env);
 	init_history();
@@ -44,11 +47,10 @@ int				main(int ac, char **av, char **env)
 		if (!(line = aff_prompt("21sh >$ ")))
 			break ;
 		if (line && *line)
-		{
 			if (split_lines(line, &my_env) == -1)
 				break ;
+		if (line)
 			ft_memdel((void **)&line);
-		}
 	}
 	free_history();
 	if (line)

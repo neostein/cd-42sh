@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 00:31:20 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 00:58:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,9 @@ static int		execute(int inp, int pi[2], t_env **env, t_pipe *pipes)
 		else if (fork_pipe(inp, pi, *env, pipes))
 			return (1);
 	}
+	if (inp)
+		close(inp);
+	close(pi[1]);
 	return (0);
 }
 
@@ -192,13 +195,11 @@ static int		execute_pipe(t_pipe *pipes, t_env **env)
 			if (execute(inp, pi, env, pipes))
 				return (1);
 			len++;
-			if (inp)
-				close(inp);
 			inp = pi[0];
-			close(pi[1]);
 		}
 		pipes = pipes->next;
 	}
+	close(pi[0]);
 	while (len--)
 		wait(0);
 	return (0);

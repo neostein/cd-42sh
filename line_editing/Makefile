@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 14:53:50 by llachgar          #+#    #+#              #
-#    Updated: 2019/11/27 21:51:53 by llachgar         ###   ########.fr        #
+#    Updated: 2019/12/01 01:17:04 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,16 +16,13 @@ FLAG = -Wall -Wextra -Werror
 
 SRC = history.c \
 	  keys.c \
-	  manage_q.c \
 	  read_line.c \
 	  select_manage.c \
 	  tools.c \
-	  pipes.c \
 	  history_keys.c \
 	  save.c \
 	  keys2.c \
 	  init.c \
-	  line_editing.c \
 	  signals.c \
 	  ft_free.c
 

@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/30 00:04:07 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:58:14 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	free_history(void)
 
 	hist = save_hist(NULL);
 	i = -1;
+	if (!hist)
+		return ;
 	while (hist->hist[++i])
 		free(hist->hist[i]);
 	if (hist->tmp)

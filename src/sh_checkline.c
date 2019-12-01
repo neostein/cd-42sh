@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:46:44 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 02:01:48 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,17 @@ static char		*ft_strjoin_f(char *s1, char *s2, int a, int b)
 	return (str);
 }
 
+int				check_spacestr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		if (!check_space(str[i++]))
+			return (0);
+	return (1);
+}
+
 char			*aff_prompt(char *str)
 {
 	int		ret;
@@ -144,7 +155,8 @@ char			*aff_prompt(char *str)
 				ret = check_errline(cmdl);
 			}
 		}
-		add_to_hist(ft_strdup(cmdl));
+		if (!check_spacestr(cmdl))
+			add_to_hist(ft_strdup(cmdl));
 		if (ret == -1)
 			return (ft_strdup("\0"));
 	}

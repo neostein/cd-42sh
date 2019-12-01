@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/30 00:31:41 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:18:29 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,10 @@ void				get_cur_pos(t_point *t);
 void				init_history();
 void				add_to_hist(char *cmd);
 void				default_term_mode(void);
-int					q_closed(char *str);
+
 int					f_l(int a, int b, int first);
 int					change_spaces(char *str);
-int					pipes_end(char *cmd);
-char				*line_editing(char *promt);
+
 t_hist				*save_hist(t_hist *hist);
 t_cmd				*keep_l(t_cmd *l, int cmd);
 void				free_out(t_cmd *l);

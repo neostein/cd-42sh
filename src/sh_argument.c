@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:50:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 02:40:20 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,21 @@ char		*excutable(char *str, t_env *env)
 	tmp = 0;
 	if (str[0])
 	{
+		if (!ft_strchr(str, '/'))
+		{
+			path = ft_strsplit(ft_getenv(env, "PATH"), ':');
+			if (path)
+			{
+				tmp = check_path(str, path);
+				free_tab(path);
+				if (tmp)
+					return (tmp);
+			}
+		}
 		if (check_built(str))
 			return (ft_strdup(str));
 		if (!access(str, F_OK))
 			return (check_file(str));
-		path = ft_strsplit(ft_getenv(env, "PATH"), ':');
-		if (path)
-			tmp = check_path(str, path);
-		free_tab(path);
 	}
 	if (!tmp)
 		ft_perror(str, ": command not found", 1);
