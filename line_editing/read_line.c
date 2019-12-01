@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 01:41:16 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/01 04:26:49 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void		print_cmd(t_cmd *l)
 			ft_putstr_fd(SO, 0);
 		if (i == l->cur && l->is_s)
 			ft_putstr_fd(SE, 0);
-		ft_putchar_fd(l->chars[i], 0);
+		if (l->chars[i] != '\n')
+			ft_putchar_fd(l->chars[i], 0);
 		plus(l->cur_p, l, 1, i);
 	}
 	if (l->cur != l->len)
@@ -101,7 +102,6 @@ void		match_key(t_cmd *l)
 char		*read_line(char *prompt)
 {
 	t_cmd			*l;
-	struct winsize	w;
 	char			*result;
 
 	init_term();

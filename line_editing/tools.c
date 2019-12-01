@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:23:41 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/30 00:36:56 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 04:18:32 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void		plus(t_point *p, t_cmd *l, int b, int i)
 		if (p->r == (l->w.ws_row - 1))
 		{
 			l->init_p->r--;
-			b ? l->cur_p->r-- : 1 == 1;
 			ft_putstr_fd(DO, 0);
 		}
 		else
