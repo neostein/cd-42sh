@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 06:31:08 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:01:15 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 02:54:27 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static t_env	*elem_env(char *name, char *value)
 		if (!(elem->value = ft_strdup(value)))
 			return (0);
 	if (!value)
-		elem->value = ft_strdup("\0");
+		if (!(elem->value = ft_strdup("\0")))
+			return (0);
 	elem->next = 0;
 	return (elem);
 }
@@ -71,12 +72,15 @@ int				add_elem(t_env **env, char *name, char *value)
 		{
 			ft_memdel((void **)&tmp->value);
 			if (value)
-				tmp->value = ft_strdup(value);
-			else
-				tmp->value = ft_strdup("\0");
+			{
+				if (!(tmp->value = ft_strdup(value)))
+					return (1);
+			}
+			else if (!(tmp->value = ft_strdup("\0")))
+				return (1);
 		}
-		else
-			add_to_env(env, name, value);
+		else if (add_to_env(env, name, value))
+			return (1);
 	}
 	else
 		ft_putenv(tmp);

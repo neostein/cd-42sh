@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:39:43 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:15:11 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 02:52:05 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int		ft_unsetenv(t_env **env, char **args)
 int		ft_setenv(t_env **env, char **args)
 {
 	if (args[1])
-		add_elem(env, args[1], args[2]);
+	{
+		if (add_elem(env, args[1], args[2]))
+			return (1);
+	}
 	else
 		ft_putenv(*env);
 	return (0);
@@ -74,8 +77,10 @@ t_env	*creat_env(char **env)
 		co = 0;
 		while (tmp[co] != '=')
 			co++;
-		name = ft_strsub(tmp, 0, co);
-		add_to_env(&my_env, name, tmp + co + 1);
+		if (!(name = ft_strsub(tmp, 0, co)))
+			return (0);
+		if (add_to_env(&my_env, name, tmp + co + 1))
+			return (0);
 		ft_memdel((void **)&name);
 		i++;
 	}
