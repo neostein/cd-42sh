@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 03:36:37 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/02 04:08:07 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 # define CTL_D 4
 # define CTL_B 2
 # define CTL_L 12
+# define ALT_A 42435
 # define COLS (tgetnum("co"))
 # define ROWS (tgetnum("li"))
 # define SO (tgetstr("so", NULL))
@@ -84,6 +85,12 @@
 # define DB_Q(a, b) (a == '\'' && (b % 2) == 0)
 # define S_Q(a, b) (a == '\"' && (b % 2) == 0)
 # define S_S(a) ((a == ' ' || a == '\t'))
+# define GREEN "\e[0;92m"
+# define BLUE "\e[0;34m"
+# define YELLO "\e[0;93m"
+# define RED "\e[0;91m"
+# define WHITE "\e[0;97m"
+# define RESET "\e[39m"
 
 typedef struct		s_cmd
 {
@@ -120,6 +127,7 @@ typedef	struct		s_hist
 {
 	char			*hist[15];
 	char			*tmp;
+	int				col;
 }					t_hist;
 
 typedef	struct		s_tab
@@ -171,4 +179,5 @@ void				swap_p(t_point	*p1, t_point	*p2, int a);
 void				excute_key(t_key	keys[18], t_cmd *l);
 void				win_ch(int seg);
 void				show_prompt(t_cmd *l);
+void				alt_a(t_cmd *l);
 #endif

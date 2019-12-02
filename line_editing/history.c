@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 01:58:14 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 04:04:55 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_history(void)
 
 	hist = (t_hist *)malloc(sizeof(t_hist));
 	hist->tmp = NULL;
+	hist->col = 0;
 	i = 0;
 	while (i < 15)
 	{

@@ -6,11 +6,25 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 06:48:48 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 03:37:12 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/02 04:14:08 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_editing.h"
+
+void	alt_a(t_cmd *l)
+{
+	t_hist	*hist;
+
+	(void)l;
+	hist = save_hist(NULL);
+	if (!hist)
+		return ;
+	if (hist->col >= 5)
+		hist->col = 0;
+	else
+		hist->col++;
+}
 
 void	ctl_l(t_cmd *l)
 {
@@ -20,8 +34,19 @@ void	ctl_l(t_cmd *l)
 
 void	show_prompt(t_cmd *l)
 {
-	ft_putstr("\e[0;32m");
+	t_hist			*hist;
+	static char		*colors[6] = {
+		GREEN,
+		YELLO,
+		BLUE,
+		RED,
+		WHITE,
+		RESET
+	};
+
+	hist = save_hist(NULL);
+	ft_putstr(colors[hist->col]);
 	ft_putstr_fd(l->prompt, 1);
 	ft_putstr_fd("|->$ ", 1);
-	ft_putstr("\e[39m");
+	ft_putstr(colors[5]);
 }
