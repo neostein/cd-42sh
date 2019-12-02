@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 01:30:08 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/02 03:36:37 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <termcap.h>
 # include <unistd.h>
+# include <limits.h>
 # include <termios.h>
 # include <signal.h>
 # include <sys/ioctl.h>
@@ -102,7 +103,7 @@ typedef struct		s_cmd
 	struct s_hist	*hist;
 	char			chars[BUFF_SIZE];
 	char			cpy[BUFF_SIZE];
-	char			*prompt;
+	char			prompt[PATH_MAX];
 }					t_cmd;
 typedef struct		s_key
 {
@@ -169,4 +170,5 @@ void				free_history(void);
 void				swap_p(t_point	*p1, t_point	*p2, int a);
 void				excute_key(t_key	keys[18], t_cmd *l);
 void				win_ch(int seg);
+void				show_prompt(t_cmd *l);
 #endif

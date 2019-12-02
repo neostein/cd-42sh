@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 18:33:26 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 22:51:15 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/02 03:36:04 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ void			swap_p(t_point *p1, t_point *p2, int a)
 	}
 }
 
-t_cmd			*init_cmd(char *prompt)
+t_cmd			*init_cmd(char *pr)
 {
 	t_cmd *l;
 
 	l = malloc_cmd();
 	if (l == NULL || l->init_p == NULL || l->cur_p == NULL)
 		return (NULL);
-	l->prompt = prompt;
-	ft_putstr_fd(l->prompt, 1);
+	if (getcwd(l->prompt, sizeof(l->prompt)) == NULL || !ft_strcmp(pr, ">"))
+		ft_strcpy(l->prompt, pr);
+	show_prompt(l);
 	get_cur_pos(l->init_p);
 	get_cur_pos(l->cur_p);
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &(l->w));
