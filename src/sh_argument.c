@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/02 01:56:00 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 02:25:07 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ static char	*check_path(char *str, char **path)
 		ft_memdel((void **)&tp);
 		if (!access(tmp, F_OK))
 		{
-			if ((tp = check_file(tmp)))
-				ft_memdel((void **)&tmp);
-			else
-				return (0);
+			tp = check_file(tmp);
+			ft_memdel((void **)&tmp);
 			return (tp);
 		}
 		ft_memdel((void **)&tmp);
@@ -73,6 +71,8 @@ char		*excutable(char *str, t_env *env)
 	tmp = 0;
 	if (str[0])
 	{
+		if (check_built(str))
+			return (ft_strdup(str));
 		if (!ft_strchr(str, '/'))
 		{
 			path = ft_strsplit(ft_getenv(env, "PATH"), ':');
@@ -84,8 +84,6 @@ char		*excutable(char *str, t_env *env)
 					return (tmp);
 			}
 		}
-		if (check_built(str))
-			return (ft_strdup(str));
 		if (!access(str, F_OK))
 			return (check_file(str));
 	}
