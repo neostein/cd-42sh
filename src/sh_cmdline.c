@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:12:12 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 02:49:27 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	heredirect(char *fin)
 	while (fin && s2 && ft_strcmp(fin, s2))
 	{
 		if (!(tmp = add_to_file(file, s2)))
-			return (1);
+			return (-1);
 		file = tmp;
 		ft_memdel((void **)&s2);
 		s2 = read_line(">");
@@ -34,7 +34,8 @@ static int	heredirect(char *fin)
 	ft_memdel((void **)&s2);
 	if (file)
 		write(pi[1], file, ft_strlen(file));
-	ft_memdel((void **)&file);
+	if (file)
+		ft_memdel((void **)&file);
 	close(pi[1]);
 	return (pi[0]);
 }

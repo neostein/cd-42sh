@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:53 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:07:56 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 03:26:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ static char	*edit_tilda(char *str, t_env *env)
 		i = 0;
 		while (str[i] && check_valarg(str[i]))
 			i++;
-		ret = ft_strsub(str, 0, i);
-		tp = ft_strjoin("/Users/", ret);
-		ft_memdel((void **)&ret);
-		ret = ft_strjoin(tp, str + i);
+		if ((ret = ft_strsub(str, 0, i)))
+			if ((tp = ft_strjoin("/Users/", ret)))
+			{
+				ft_memdel((void **)&ret);
+				ret = ft_strjoin(tp, str + i);
+				ft_memdel((void **)&tp);
+			}
 	}
 	else if ((tp = ft_getenv(env, "HOME")))
 		ret = ft_strjoin(tp, str);
@@ -56,16 +59,14 @@ static char	*edit_dollar(char *str, t_env *env)
 	name = 0;
 	while (str[i] && check_valarg(str[i]))
 		i++;
-	tp = ft_strsub(str, 0, i);
-	tmp = ft_strsub(str + i, 0, ft_strlen(str + i));
-	if (!(name = ft_getenv(env, tp)))
-	{
-		ft_perror(tp, ": not exists", 1);
+	if (!(tp = ft_strsub(str, 0, i)))
 		return (0);
-	}
-	if (name && tmp)
+	if (!(name = ft_getenv(env, tp)))
+		name = "\0";
+	tmp = ft_strsub(str + i, 0, ft_strlen(str + i));
+	if (tmp)
 		name = ft_strjoin(name, tmp);
-	else if (name)
+	else
 		name = ft_strdup(name);
 	ft_memdel((void **)&tp);
 	ft_memdel((void **)&tmp);
@@ -77,20 +78,24 @@ static char	*join_line(char *tmp, int i, t_env *env, int check)
 	char	*tp1;
 	char	*tp2;
 
-	tp1 = ft_strsub(tmp, 0, i);
-	if (tp1)
+	if (!tmp)
+		return (0);
+	if ((tp1 = ft_strsub(tmp, 0, i)))
 	{
 		if (!check)
 			tp2 = edit_tilda(tmp + i, env);
 		else
 			tp2 = edit_dollar(tmp + i, env);
-		if (tp2)
+		ft_memdel((void **)&tmp);
+		if (!tp2)
 		{
-			ft_memdel((void **)&tmp);
-			tmp = ft_strjoin(tp1, tp2);
-			ft_memdel((void **)&tp2);
+			ft_memdel((void **)&tp1);
+			return (0);
 		}
+		if (!(tmp = ft_strjoin(tp1, tp2)))
+			return (0);
 		ft_memdel((void **)&tp1);
+		ft_memdel((void **)&tp2);
 	}
 	return (tmp);
 }

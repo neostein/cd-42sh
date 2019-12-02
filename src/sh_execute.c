@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/30 23:56:30 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 03:15:36 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,13 @@ char		**list_to_tab(t_env *env)
 		i++;
 		tmp = tmp->next;
 	}
-	en = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!i || !(en = (char **)malloc(sizeof(char *) * (i + 1))))
+		return (0);
 	i = 0;
 	while (env)
 	{
-		temp = ft_strjoin(env->name, "=");
+		if (!(temp = ft_strjoin(env->name, "=")))
+			return (0);
 		en[i++] = ft_strjoin(temp, env->value);
 		ft_memdel((void **)&temp);
 		env = env->next;

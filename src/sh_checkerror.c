@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 04:02:45 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:05:57 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 03:08:41 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int		check_redirect(char *str)
 	ret = 0;
 	while (check_spechar(str[i]))
 		i++;
-	rd = ft_strsub(str, 0, i);
+	if (!(rd = ft_strsub(str, 0, i)))
+		return (0);
 	while (check_space(str[i]))
 		i++;
 	if (str[i] && check_valtok(str[i]))
