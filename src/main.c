@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:15 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 01:45:12 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 01:30:36 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int				main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	signal(SIGINT, kill_seg);
+	signal(SIGWINCH, win_ch);
 	my_env = creat_env(env);
 	init_history();
 	while (1337)

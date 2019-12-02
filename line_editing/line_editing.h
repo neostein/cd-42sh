@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/01 07:09:52 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/02 01:30:08 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,5 @@ void				go_to_the_end(t_cmd *l);
 void				free_history(void);
 void				swap_p(t_point	*p1, t_point	*p2, int a);
 void				excute_key(t_key	keys[18], t_cmd *l);
+void				win_ch(int seg);
 #endif
