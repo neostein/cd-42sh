@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:14:46 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/02 01:56:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static char	*check_path(char *str, char **path)
 				return (0);
 			return (tp);
 		}
-		ft_memdel((void **)&tp);
 		ft_memdel((void **)&tmp);
 		i++;
 	}
