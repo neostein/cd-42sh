@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 03:42:24 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/03 23:03:41 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	built_echo(char **args)
 		while (args[i])
 		{
 			ft_putstr(args[i]);
-			if (args[i][0] != '\0')
+			if (args[i + 1] && args[i] != '\0')
 				ft_putstr(" ");
 			i++;
 		}
