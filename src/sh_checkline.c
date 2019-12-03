@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 04:04:25 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/03 01:29:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,24 @@ char			*aff_prompt(char *str)
 	char	*temp;
 
 	cmdl = read_line(str);
-	if (cmdl)
+	if (!cmdl)
+		return (0);
+	ret = check_errline(cmdl);
+	while (ret == 1 || ret == 2)
 	{
-		ret = check_errline(cmdl);
-		while (ret == 1 || ret == 2)
+		if ((temp = read_line(">")))
 		{
-			if ((temp = read_line(">")))
-			{
-				if (ret == 2)
-					cmdl = ft_strjoin_f(cmdl, "\n", 1, 0);
-				cmdl = ft_strjoin_f(cmdl, temp, 1, 1);
-				ret = check_errline(cmdl);
-			}
+			if (ret == 2)
+				cmdl = ft_strjoin_f(cmdl, "\n", 1, 0);
+			cmdl = ft_strjoin_f(cmdl, temp, 1, 1);
+			ret = check_errline(cmdl);
 		}
-		if (!check_spacestr(cmdl))
-			add_to_hist(ft_strdup(cmdl));
-		if (ret == -1)
-			return (ft_strdup("\0"));
+		else
+			ret = ft_perror(0, "syntax error: unexpected end of file", -1);
 	}
+	if (!check_spacestr(cmdl))
+		add_to_hist(ft_strdup(cmdl));
+	if (ret == -1)
+		return (ft_strdup("\0"));
 	return (cmdl);
 }
