@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:56:42 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/04 00:13:15 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/04 03:39:08 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	free_cmdline(t_cmdl *cmdl)
 			if (cmdl->lrd->fir != 0 && cmdl->lrd->fir
 					!= 1 && cmdl->lrd->fir != 2)
 				close(cmdl->lrd->fir);
-			if (cmdl->lrd->sec != 0 && cmdl->lrd->sec!= 1
-					&& cmdl->lrd->sec != 2  && cmdl->lrd->sec != -3)
+			if (cmdl->lrd->sec != 0 && cmdl->lrd->sec != 1
+					&& cmdl->lrd->sec != 2 && cmdl->lrd->sec != -3)
 				close(cmdl->lrd->sec);
 			ft_memdel((void**)&(cmdl->lrd));
 			cmdl->lrd = lrd;

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 05:28:06 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/04 03:25:47 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,7 @@ int				ft_perror(char *s, char *str, int ret);
 char			*parse_line(char *tmp, t_env *env);
 char			*excutable(char *str, t_env *env);
 int				execute_p(int inp, int pi[2], t_env **env, t_pipe *pipes);
+
+int				edit_etoile(t_tok **toks, char *str, int id);
 
 #endif

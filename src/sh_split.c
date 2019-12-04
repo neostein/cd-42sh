@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 05:26:40 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/04 03:32:02 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_split(t_tok **toks, char *line)
 			i++;
 		if (!(temp = ft_strsub(line, 0, i)))
 			return (1);
-		if (save_tokens(toks, temp, 1))
+		if (edit_etoile(toks, temp, 1))
 			return (1);
 		ft_memdel((void **)&temp);
 	}
@@ -56,7 +56,7 @@ int			check_save(t_tok **toks, char *line)
 	{
 		if (!(temp = ft_strsub(line, 0, i)))
 			return (1);
-		if (save_tokens(toks, temp, check))
+		if (edit_etoile(toks, temp, check))
 			return (1);
 		ft_memdel((void **)&temp);
 	}
