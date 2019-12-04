@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 00:43:40 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/04 03:37:27 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/04 03:44:25 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int			edit_etoile(t_tok **toks, char *str, int id)
 {
 	if (check_etoil(str))
 	{
-		if (save_etoil(toks, str, id))
+		if (save_etoil(toks, str, 0))
 			return (1);
 	}
 	else if (save_tokens(toks, str, id))
