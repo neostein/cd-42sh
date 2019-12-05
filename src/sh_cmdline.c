@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/03 23:28:28 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/05 19:46:52 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ static t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
 	}
 	if (fd)
 		lrd->fir = ft_atoi(fd);
-	else if (rd == 5 || rd == 6 || rd == 7)
+	else if (rd == 5 || rd == 6 || rd == 7 || rd == 11)
 		lrd->fir = 1;
-	else if (rd == 8 || rd == 9 || rd == 10)
+	else if (rd == 8 || rd == 9 || rd == 10 || rd == 12)
 		lrd->fir = 0;
+	if (rd == 11 || rd == 12 || rd == 6 || rd == 9)
+		if (!(lrd->next = add_secredi(2, lrd->sec)))
+			return (0);
 	return (lrd);
 }
 
@@ -104,14 +107,10 @@ int			add_redirections(t_cmdl *cmdl, t_tok *toks)
 		if (toks->id > 4 && toks->id < 13)
 		{
 			if (toks->id == 11 || toks->id == 12 ||
-					((toks->id == 6 || toks->id == 9) && !fd))
-				fd = (toks->id == 11 || toks->id == 6) ? "1" : "0";
+					toks->id == 6 || toks->id == 9)
+				fd = 0;
 			if (add_to_list(cmdl, fd, toks->id, *(toks->next)))
 				return (-1);
-			if (toks->id == 11 || toks->id == 12 ||
-					((toks->id == 6 || toks->id == 9) && !fd))
-				if (add_to_list(cmdl, "2", toks->id, *(toks->next)))
-					return (-1);
 			fd = 0;
 		}
 		toks = toks->next;
