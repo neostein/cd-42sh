@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 04:08:45 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/06 04:16:39 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void		print_cmd(t_cmd *l)
 
 void		match_key(t_cmd *l)
 {
-	int				i;
 	static t_key	keys[19] = {
 		{RIGHT_K, &right_key},
 		{LEFT_K, &left_key},
@@ -106,6 +105,7 @@ char		*read_line(char *prompt)
 	init_term();
 	if ((l = init_cmd(prompt)) == NULL)
 		return (0);
+	l->chars[0] = 0;
 	keep_l(l, 0);
 	while (l->res)
 	{

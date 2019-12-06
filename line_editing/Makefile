@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 14:53:50 by llachgar          #+#    #+#              #
-#    Updated: 2019/12/01 06:55:20 by llachgar         ###   ########.fr        #
+#    Updated: 2019/12/06 04:14:41 by llachgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 %.o: %.c
-	@gcc $(FLAC)  -o $@ -c $<
+	@gcc  $(FLAC)  -o $@ -c $<
 
 clean:
 	@rm -rf $(OBJ)

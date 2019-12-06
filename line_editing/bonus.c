@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 06:48:48 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 04:14:08 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/06 04:09:40 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	alt_a(t_cmd *l)
 	t_hist	*hist;
 
 	(void)l;
-	hist = save_hist(NULL);
+	hist = NULL;
+	hist = save_hist(&hist);
 	if (!hist)
 		return ;
 	if (hist->col >= 5)
@@ -44,7 +45,8 @@ void	show_prompt(t_cmd *l)
 		RESET
 	};
 
-	hist = save_hist(NULL);
+	hist = NULL;
+	hist = save_hist(&hist);
 	ft_putstr(colors[hist->col]);
 	ft_putstr_fd(l->prompt, 1);
 	ft_putstr_fd("|->$ ", 1);

@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 04:04:55 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/06 03:59:18 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_history(void)
 		hist->hist[i] = NULL;
 		i++;
 	}
-	save_hist(hist);
+	save_hist(&hist);
 }
 
 void	add_and_sheft(t_hist *hist, char *cmd)
@@ -50,7 +50,8 @@ void	add_to_hist(char *cmd)
 		free(cmd);
 		return ;
 	}
-	hist = save_hist(NULL);
+	hist = NULL;
+	hist = save_hist(&hist);
 	add_and_sheft(hist, cmd);
 }
 
@@ -59,7 +60,8 @@ void	free_history(void)
 	t_hist	*hist;
 	int		i;
 
-	hist = save_hist(NULL);
+	hist = NULL;
+	hist = save_hist(&hist);
 	i = -1;
 	if (!hist)
 		return ;

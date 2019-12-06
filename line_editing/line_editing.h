@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/02 04:08:07 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/06 03:51:14 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void				add_to_hist(char *cmd);
 void				default_term_mode(void);
 int					f_l(int a, int b, int first);
 int					change_spaces(char *str);
-t_hist				*save_hist(t_hist *hist);
+t_hist				*save_hist(t_hist **hist);
 t_cmd				*keep_l(t_cmd *l, int cmd);
 void				free_out(t_cmd *l);
 void				print_cmd(t_cmd *l);
