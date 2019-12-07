@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/06 03:59:18 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/07 15:16:08 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	free_history(void)
 	i = -1;
 	if (!hist)
 		return ;
-	while (hist->hist[++i])
+	while (++i < 15 && hist->hist[i])
 		free(hist->hist[i]);
 	if (hist->tmp)
 		free(hist->tmp);
