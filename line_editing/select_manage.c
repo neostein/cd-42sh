@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 15:17:56 by llachgar          #+#    #+#             */
-/*   Updated: 2019/11/24 06:55:24 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/08 15:45:31 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,10 @@ void	alt_u_k(t_cmd *l)
 
 void	alt_x_k(t_cmd *l)
 {
-	int i;
-	int min;
-	int max;
-	int avg;
-
 	if (!l->s_sp)
 		return ;
 	alt_u_k(l);
-	min = l->cur - l->s_sp;
-	max = l->cur;
-	avg = max - min;
-	avg++;
-	i = min - 1;
-	while (++min < l->len)
-		l->chars[min] = l->chars[min + avg];
-	if (l->cur != i)
-		while (avg && l->cur != l->b_p)
-		{
-			mines(l->cur_p, l);
-			l->len--;
-			l->cur--;
-			avg--;
-		}
+	l->cur != l->len ? l->cur++ : l->s_sp--;
+	while (l->s_sp-- >= 0)
+		delete(l);
 }
