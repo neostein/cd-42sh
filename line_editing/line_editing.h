@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/06 03:51:14 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/10 22:05:16 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@
 # define RED "\e[0;91m"
 # define WHITE "\e[0;97m"
 # define RESET "\e[39m"
+# define HISTORY_FILE_PATH ".21sh_history"
+# define O_FILL (O_CREAT | O_WRONLY | O_TRUNC)
 
 typedef struct		s_cmd
 {
@@ -123,10 +125,17 @@ typedef struct		s_point
 	int				c;
 }					t_point;
 
+typedef struct		s_data
+{
+	char			*data;
+	struct s_data	*next;
+}					t_data;
+
 typedef	struct		s_hist
 {
-	char			*hist[15];
+	struct s_data	*hist_list;
 	char			*tmp;
+	int				count;
 	int				col;
 }					t_hist;
 
@@ -180,4 +189,5 @@ void				excute_key(t_key	keys[18], t_cmd *l);
 void				win_ch(int seg);
 void				show_prompt(t_cmd *l);
 void				alt_a(t_cmd *l);
+int					get_next_line(const int fd, char **line);
 #endif

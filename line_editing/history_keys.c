@@ -6,22 +6,38 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:43:00 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/06 04:00:13 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/10 21:58:18 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_editing.h"
 
+char	*get_element_by_index(int index, t_data *list)
+{
+	t_data	*tmp;
+	int		i;
+
+	tmp = list;
+	i = 0;
+	while (tmp)
+	{
+		if (i == index)
+			return (tmp->data);
+		tmp = tmp->next;
+		i++;
+	}
+	return (NULL);
+}
+
 void	top_k(t_cmd *l)
 {
 	t_hist	*h;
 	int		i;
+	char	*data;
 
 	h = NULL;
 	h = save_hist(&h);
-	if (h->hist[l->h_p + 1] == NULL)
-		return ;
-	if (l->h_p >= 14)
+	if (l->h_p >= h->count - 1)
 		return ;
 	l->h_p++;
 	if (l->h_p == 0)
@@ -30,9 +46,10 @@ void	top_k(t_cmd *l)
 			free(h->tmp);
 		h->tmp = ft_strdup(l->chars);
 	}
-	ft_strcpy(l->chars, h->hist[l->h_p]);
+	data = get_element_by_index(l->h_p, h->hist_list);
+	ft_strcpy(l->chars, data);
 	i = l->cur;
-	l->len = ft_strlen(h->hist[l->h_p]);
+	l->len = ft_strlen(data);
 	l->cur = l->len;
 }
 
@@ -40,6 +57,7 @@ void	bottom_k(t_cmd *l)
 {
 	t_hist	*h;
 	int		i;
+	char	*data;
 
 	h = NULL;
 	h = save_hist(&h);
@@ -56,8 +74,9 @@ void	bottom_k(t_cmd *l)
 	}
 	else
 	{
-		ft_strcpy(l->chars, h->hist[l->h_p]);
-		l->len = ft_strlen(h->hist[l->h_p]);
+		data = get_element_by_index(l->h_p, h->hist_list);
+		ft_strcpy(l->chars, data);
+		l->len = ft_strlen(data);
 	}
 	l->cur = l->len;
 }

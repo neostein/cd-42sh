@@ -6,67 +6,95 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/07 15:16:08 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/10 22:04:19 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_editing.h"
+
+void	fill_from_histfile(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(HISTORY_FILE_PATH, O_RDONLY);
+	if (fd < 0)
+		return ;
+	line = NULL;
+	while (get_next_line(fd, &line) > 0)
+		add_to_hist(line);
+	close(fd);
+}
 
 void	init_history(void)
 {
 	t_hist	*hist;
 	int		i;
 
-	hist = (t_hist *)malloc(sizeof(t_hist));
+	if ((hist = (t_hist *)malloc(sizeof(t_hist))) == NULL)
+		exit(0);//TODO: exit really what about terminal mode
 	hist->tmp = NULL;
 	hist->col = 0;
-	i = 0;
-	while (i < 15)
-	{
-		hist->hist[i] = NULL;
-		i++;
-	}
+	hist->count = 0;
+	hist->hist_list = NULL;
 	save_hist(&hist);
-}
-
-void	add_and_sheft(t_hist *hist, char *cmd)
-{
-	int i;
-
-	i = 15;
-	if (hist->hist[14] != NULL)
-		free(hist->hist[14]);
-	while (--i > 0)
-		hist->hist[i] = hist->hist[i - 1];
-	hist->hist[0] = cmd;
+	fill_from_histfile();
 }
 
 void	add_to_hist(char *cmd)
 {
 	t_hist *hist;
+	t_data *new;
+	t_data *tmp;
 
-	if (ft_strlen(cmd) == 0)
+	hist = NULL;
+	hist = save_hist(&hist);
+	if (ft_strlen(cmd) == 0 && !hist)
 	{
 		free(cmd);
 		return ;
 	}
+	if ((new = (t_data *)malloc(sizeof(t_data))) == NULL)
+		return ;
+	new->data = cmd;
+	tmp = hist->hist_list;
+	hist->hist_list = new;
+	new->next = tmp;
+	hist->count++;
+}
+
+void	fill_histfile(void)
+{
+	t_hist	*hist;
+	int		fd;
+
 	hist = NULL;
 	hist = save_hist(&hist);
-	add_and_sheft(hist, cmd);
+	if (!hist)
+		return ;
+	fd = open(HISTORY_FILE_PATH, O_FILL, S_IWUSR | S_IRUSR);
+	if (fd < 0)
+		return ;
+	write_backword(fd, hist->hist_list);
+	close(fd);
 }
 
 void	free_history(void)
 {
 	t_hist	*hist;
-	int		i;
+	t_data	*to_free;
 
 	hist = NULL;
 	hist = save_hist(&hist);
-	i = -1;
 	if (!hist)
 		return ;
-	while (++i < 15 && hist->hist[i])
-		free(hist->hist[i]);
+	fill_histfile();
+	while (hist->hist_list)
+	{
+		to_free = hist->hist_list;
+		hist->hist_list = hist->hist_list->next;
+		free(to_free);
+	}
 	if (hist->tmp)
 		free(hist->tmp);
 	free(hist);
