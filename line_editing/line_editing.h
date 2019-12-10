@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/10 22:05:16 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/10 22:10:33 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,4 +190,5 @@ void				win_ch(int seg);
 void				show_prompt(t_cmd *l);
 void				alt_a(t_cmd *l);
 int					get_next_line(const int fd, char **line);
+void				write_backword(int fd, t_data *list);
 #endif

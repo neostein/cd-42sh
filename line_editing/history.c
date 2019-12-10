@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/10 22:04:19 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/10 22:33:17 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_to_hist(char *cmd)
 
 	hist = NULL;
 	hist = save_hist(&hist);
-	if (ft_strlen(cmd) == 0 && !hist)
+	if (ft_strlen(cmd) == 0 || !hist)
 	{
 		free(cmd);
 		return ;
