@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 18:43:39 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/10 13:57:05 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/13 14:55:29 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int		get_the_line(char **s, char **line, int fd)
 {
 	int		len;
+	char	*tmp;
 
 	len = 0;
 	while (s[fd][len] != '\n' && s[fd][len] != '\0')
@@ -22,7 +23,9 @@ static int		get_the_line(char **s, char **line, int fd)
 	if (s[fd][len] == '\n')
 	{
 		*line = ft_strsub(s[fd], 0, len);
+		tmp = s[fd];
 		s[fd] = ft_strdup(s[fd] + len + 1);
+		free(tmp);
 	}
 	else if (s[fd][len] == '\0')
 	{
@@ -45,7 +48,7 @@ int				get_next_line(const int fd, char **line)
 		buf[r_res] = '\0';
 		if (s[fd] == NULL)
 			s[fd] = ft_strnew(1);
-		s[fd] = ft_strjoin(s[fd], buf);
+		s[fd] = ft_strjoin_f(s[fd], buf, 1, 0);
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}

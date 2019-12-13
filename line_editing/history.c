@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/13 14:25:54 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/13 14:43:32 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	free_history(void)
 	{
 		to_free = hist->hist_list;
 		hist->hist_list = hist->hist_list->next;
+		free(to_free->data);
 		free(to_free);
 	}
 	if (hist->tmp)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sh_checkline.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/03 01:29:17 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/13 14:59:43 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-static char		*ft_strjoin_f(char *s1, char *s2, int a, int b)
+char			*ft_strjoin_f(char *s1, char *s2, int a, int b)
 {
 	char	*str;
 	int		len;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_shell.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/05 19:47:35 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/13 14:45:45 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ char			*excutable(char *str, t_env *env);
 int				execute_p(int inp, int pi[2], t_env **env, t_pipe *pipes);
 
 int				edit_etoile(t_tok **toks, char *str, int id);
+char			*ft_strjoin_f(char *s1, char *s2, int a, int b);
 
 #endif
