@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/03 23:28:31 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/07 22:57:15 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int			analy_toks(t_tok *toks)
 	toks = head;
 	while (toks)
 	{
+		if (toks->id == 4)
+			toks->id = edit_redirct(toks->value);
 		if ((tmp = toks->value))
 		{
 			toks->value = del_quotes(tmp);
 			ft_memdel((void **)&tmp);
 		}
-		if (toks->id == 4)
-			toks->id = edit_redirct(toks->value);
 		toks = toks->next;
 	}
 	return (0);

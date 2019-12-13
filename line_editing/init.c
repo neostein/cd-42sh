@@ -45,8 +45,8 @@ t_cmd			*init_cmd(char *pr)
 		return (NULL);
 	if (getcwd(l->prompt, sizeof(l->prompt)) == NULL || !ft_strcmp(pr, ">"))
 		ft_strcpy(l->prompt, pr);
-	get_cur_pos(l->init_p);
 	get_cur_pos(l->cur_p);
+	get_cur_pos(l->init_p);
 	show_prompt(l);
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &(l->w));
 	l->len = 0;

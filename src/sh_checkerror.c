@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 04:02:45 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/02 03:08:41 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/07 22:24:04 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,17 @@ int				check_errline(char *str)
 
 	while (*str)
 	{
-		if (check_spechar(*str))
-		{
-			if ((ret = check_redirect(str)) == 0)
-				return (-1);
-			str += ret;
-		}
-		else if (*str == 34 || *str == 39)
+		if (*str == 34 || *str == 39)
 		{
 			if ((ret = check_quotes(str, *str)) == 0)
 				return (2);
 			str += ret + 1;
+		}
+		else if (check_spechar(*str))
+		{
+			if ((ret = check_redirect(str)) == 0)
+				return (-1);
+			str += ret;
 		}
 		else if (*str == '|')
 		{

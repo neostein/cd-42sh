@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_checkline.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 14:59:43 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/13 22:06:48 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,62 @@ int				check_spacestr(char *str)
 	return (1);
 }
 
-char			*aff_prompt(char *str)
+static int		check_allerr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (check_spechar(str[i]))
+		{
+			while (check_spechar(str[i]))
+				i++;
+			while (check_space(str[i]))
+				i++;
+			while (ft_isdigit(str[i]))
+				i++;
+			if (check_spechar(str[i]))
+				return (ft_perror(0, "syntax error near unexpected token", -1));
+		}
+		i++;
+	}
+	return (check_errline(str));
+}
+
+static int		check_aller(char *str)
+{
+	int	i;
+	int	check;
+
+	i = 0;
+	if (str[i] == '|')
+		return (ft_perror(0, "syntax error near unexpected token", -1));
+	while (str[i])
+	{
+		check = 0;
+		while (str[i] && (check_space(str[i]) || str[i] == ';'))
+		{
+			check = 1;
+			i++;
+		}
+		if (check && str[i] == '|')
+			return (ft_perror(0, "syntax error near unexpected token", -1));
+		i++;
+	}
+	return (check_allerr(str));
+}
+
+char			*aff_prompt(t_env *env)
 {
 	int		ret;
 	char	*cmdl;
 	char	*temp;
 
-	cmdl = read_line(str);
+	cmdl = read_line("21sh");
 	if (!cmdl)
 		return (0);
-	ret = check_errline(cmdl);
+	ret = check_aller(cmdl);
 	while (ret == 1 || ret == 2)
 	{
 		if ((temp = read_line(">")))
@@ -59,7 +105,7 @@ char			*aff_prompt(char *str)
 			if (ret == 2)
 				cmdl = ft_strjoin_f(cmdl, "\n", 1, 0);
 			cmdl = ft_strjoin_f(cmdl, temp, 1, 1);
-			ret = check_errline(cmdl);
+			ret = check_aller(cmdl);
 		}
 		else
 			ret = ft_perror(0, "syntax error: unexpected end of file", -1);

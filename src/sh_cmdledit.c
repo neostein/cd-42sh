@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:53 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/02 03:26:50 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/10 00:54:24 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,24 @@ static int	check_valarg(char c)
 static char	*edit_tilda(char *str, t_env *env)
 {
 	int		i;
-	char	*tp;
-	char	*ret;
+	char	*tmp;
 
-	str++;
-	ret = 0;
-	if (check_valarg(*str))
+	i = 1;
+	if (!str[i] || str[i] == '/')
 	{
-		i = 0;
-		while (str[i] && check_valarg(str[i]))
-			i++;
-		if ((ret = ft_strsub(str, 0, i)))
-			if ((tp = ft_strjoin("/Users/", ret)))
-			{
-				ft_memdel((void **)&ret);
-				ret = ft_strjoin(tp, str + i);
-				ft_memdel((void **)&tp);
-			}
+		if (!(tmp = ft_getenv(env, "HOME")))
+		{
+			ft_perror(0, "HOME: not exists", 1);
+			return (0);
+		}
+		return (ft_strjoin(tmp, str + 1));
 	}
-	else if ((tp = ft_getenv(env, "HOME")))
-		ret = ft_strjoin(tp, str);
-	if (!ret)
-		ft_perror(0, "HOME: not exists", 1);
-	return (ret);
+	if (!(tmp = ft_strjoin("/Users/", str + 1)))
+		return (0);
+	if (!access(tmp, F_OK))
+		return (tmp);
+	ft_memdel((void **)&tmp);
+	return (ft_strdup(str));
 }
 
 static char	*edit_dollar(char *str, t_env *env)
@@ -108,7 +103,7 @@ char		*parse_line(char *tmp, t_env *env)
 	i = 0;
 	while (tmp && tmp[i])
 	{
-		if (tmp[i] == '~')
+		if (tmp[i] == '~' && (i == 0 || check_space(tmp[i - 1])))
 			if (!(tmp = join_line(tmp, i, env, 0)))
 				return (0);
 		if (tmp[i] == '$' && check_valarg(tmp[i + 1]))
@@ -116,9 +111,12 @@ char		*parse_line(char *tmp, t_env *env)
 				return (0);
 		if (tmp[i] == 34 || tmp[i] == 39)
 		{
-			be = i++;
-			while (tmp[i] && tmp[i] != tmp[be])
-				i++;
+			be = i;
+			while (tmp[++i] && tmp[i] != tmp[be])
+				if (tmp[be] == 34 && tmp[i] == '$' && check_valarg(tmp[i + 1]))
+					if (!(tmp = join_line(tmp, i, env, 1)))
+						return (0);
+			i++;
 		}
 		else
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_shell.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 14:45:45 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/13 22:04:16 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct	s_file
 	int	err;
 }				t_file;
 
-char			*aff_prompt(char *str);
+char			*aff_prompt(t_env *env);
 int				split_pipe(char *tmp, t_env **env);
 int				split_lines(char *line, t_env **env);
 char			*sub_line(char **tmp, char *line, char c);
@@ -123,6 +123,7 @@ char			*ft_getenv(t_env *env, char *name);
 
 int				isdir(char *path);
 t_fd			*add_secredi(int fir, int sec);
+char			*path_of_link(char *dir, char *pwd);
 
 int				ft_perror(char *s, char *str, int ret);
 char			*parse_line(char *tmp, t_env *env);

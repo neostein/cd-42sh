@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/03 23:03:41 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/11 06:10:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ static int	built_echo(char **args)
 	int i;
 	int check;
 
-	if (args[1] == NULL)
-		ft_putchar('\n');
-	else
+	check = 1;
+	if (args[1])
 	{
 		i = 1;
-		check = 1;
-		if (!ft_strcmp("-n", args[1]))
+		if (!ft_strcmp("-n", args[i]))
 		{
-			i = 2;
+			while (args[i] && !ft_strcmp("-n", args[i]))
+				i++;
 			check = 0;
 		}
 		while (args[i])
@@ -35,9 +34,9 @@ static int	built_echo(char **args)
 				ft_putstr(" ");
 			i++;
 		}
-		if (check)
-			ft_putchar('\n');
 	}
+	if (check)
+		ft_putchar('\n');
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:47:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/11/23 17:58:58 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/07 22:51:20 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,21 @@ int		check_space(char c)
 int		check_token(char *token)
 {
 	int	i;
+	int	be;
 
 	i = 0;
 	while (token[i])
 	{
 		if (check_spechar(token[i]))
 			return (1);
-		i++;
+		if (token[i] == 34 || token[i] == 39)
+		{
+			be = i++;
+			while (token[i] && token[i] != token[be])
+				i++;
+		}
+		else
+			i++;
 	}
 	return (0);
 }

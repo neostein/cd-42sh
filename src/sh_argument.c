@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/02 02:25:07 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/13 21:40:13 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,23 @@ static char	*check_path(char *str, char **path)
 	char	*tmp;
 
 	i = 0;
-	while (path && path[i])
-	{
-		if (!(tp = ft_strjoin(path[i], "/")))
-			return (0);
-		if (!(tmp = ft_strjoin(tp, str)))
-			return (0);
-		ft_memdel((void **)&tp);
-		if (!access(tmp, F_OK))
+	if (ft_strcmp(str, ".") && ft_strcmp(str, ".."))
+		while (path && path[i])
 		{
-			tp = check_file(tmp);
+			if (!(tp = ft_strjoin(path[i], "/")))
+				return (0);
+			if (!(tmp = ft_strjoin(tp, str)))
+				return (0);
+			ft_memdel((void **)&tp);
+			if (!access(tmp, F_OK))
+			{
+				tp = check_file(tmp);
+				ft_memdel((void **)&tmp);
+				return (tp);
+			}
 			ft_memdel((void **)&tmp);
-			return (tp);
+			i++;
 		}
-		ft_memdel((void **)&tmp);
-		i++;
-	}
 	return (0);
 }
 

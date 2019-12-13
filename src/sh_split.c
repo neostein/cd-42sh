@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/04 03:32:02 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/13 04:30:23 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,25 @@ static int	check_split(t_tok **toks, char *line)
 	int		i;
 	char	*temp;
 
-	i = 0;
-	while (line[i] && check_spechar(line[i]))
-		i++;
-	if (!(temp = ft_strsub(line, 0, i)))
-		return (1);
-	if (save_tokens(toks, temp, 1))
-		return (1);
-	ft_memdel((void **)&temp);
-	line += i;
-	if (*line)
+	while (*line)
 	{
 		i = 0;
-		while (line[i] && !check_spechar(line[i]))
+		while (line[i] && check_spechar(line[i]))
 			i++;
-		if (!(temp = ft_strsub(line, 0, i)))
-			return (1);
-		if (edit_etoile(toks, temp, 1))
+		if (!(temp = ft_strsub(line, 0, i)) || edit_etoile(toks, temp, 1))
 			return (1);
 		ft_memdel((void **)&temp);
+		line += i;
+		if (*line)
+		{
+			i = 0;
+			while (line[i] && !check_spechar(line[i]))
+				i++;
+			if (!(temp = ft_strsub(line, 0, i)) || edit_etoile(toks, temp, 1))
+				return (1);
+			ft_memdel((void **)&temp);
+		}
+		line += i;
 	}
 	return (0);
 }
@@ -50,8 +50,12 @@ int			check_save(t_tok **toks, char *line)
 	check = 0;
 	if (check_token(line))
 		check = 1;
-	while (line[i] && !check_spechar(line[i]))
+	while (line[i])
+	{
+		if (check && check_spechar(line[i]))
+			break ;
 		i++;
+	}
 	if (i > 0)
 	{
 		if (!(temp = ft_strsub(line, 0, i)))

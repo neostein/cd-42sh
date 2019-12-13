@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 00:43:40 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/04 05:05:32 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/07 22:05:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	add_token(char *str, t_tok **toks, char *path)
 	{
 		tmp = ft_strcmp(".", path) ? ft_strjoin(path, dp->d_name)
 			: ft_strdup(dp->d_name);
-		if (dp->d_name[0] != '.' && match(tmp, str))
+		if ((str[0] == '.' || dp->d_name[0] != '.') && match(tmp, str))
 		{
 			check = 1;
 			if (save_tokens(toks, tmp, 0))
