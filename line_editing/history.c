@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/10 22:33:17 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/13 14:25:54 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_history(void)
 	int		i;
 
 	if ((hist = (t_hist *)malloc(sizeof(t_hist))) == NULL)
-		exit(0);//TODO: exit really what about terminal mode
+		exit(0);
 	hist->tmp = NULL;
 	hist->col = 0;
 	hist->count = 0;
