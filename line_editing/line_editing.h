@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/13 22:13:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/13 22:59:39 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@
 # define RED "\e[0;91m"
 # define WHITE "\e[0;97m"
 # define RESET "\e[39m"
-# define HISTORY_FILE_PATH ".21sh_history"
+# define HISTORY_FILE_PATH "/tmp/.21sh_history"
 # define O_FILL (O_CREAT | O_WRONLY | O_TRUNC)
 
 typedef struct		s_cmd
