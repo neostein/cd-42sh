@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:46:01 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/13 22:59:39 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/13 23:39:17 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 
-# define READ_SIZE 100000
+# define READ_SIZE 1000000
 # define BUFF_SIZE 1000000
 # define LEFT_K 4479771
 # define TOP_K 4283163
