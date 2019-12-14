@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 02:26:55 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 06:24:25 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 02:47:22 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static char	*del_slash(char *str)
 {
 	int		i;
 	int		p;
-	char	buff[1337];
+	char	buff[READ_SIZE];
 
 	i = 0;
 	p = 0;
-	while (str[i])
+	while (str[i] && p < READ_SIZE - 1)
 	{
 		buff[p++] = str[i];
 		if (str[i] == '/')
@@ -39,11 +39,11 @@ static char	*del_point(char *str)
 {
 	int		i;
 	int		p;
-	char	buf[1337];
+	char	buf[READ_SIZE];
 
 	i = 0;
 	p = 0;
-	while (str[i])
+	while (str[i] && p < READ_SIZE - 1)
 	{
 		buf[p++] = str[i];
 		if (str[i] == '/')
@@ -60,8 +60,6 @@ static char	**tab_path(char *str)
 {
 	int		i;
 	int		cont;
-	char	*ret;
-	char	*tmp;
 	char	**tab;
 
 	i = 0;

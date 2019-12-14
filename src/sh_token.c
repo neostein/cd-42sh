@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/07 22:57:15 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 02:38:54 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ static char	*del_quotes(char *str)
 {
 	int		i;
 	char	b;
-	char	buf[65535];
+	char	buf[READ_SIZE];
 
 	i = 0;
 	if (!str)
 		return (0);
-	while (*str)
+	while (*str && i < READ_SIZE - 1)
 	{
 		if (*str == 34 || *str == 39)
 		{
 			b = *str++;
-			while (*str && *str != b)
+			while (*str && *str != b && i < READ_SIZE - 1)
 				buf[i++] = *str++;
 			str++;
 		}

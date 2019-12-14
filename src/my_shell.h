@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 22:04:16 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 03:04:53 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <dirent.h>
+
+# define READ_SIZE 1000000
 
 typedef struct	s_tok
 {
@@ -130,6 +132,7 @@ char			*parse_line(char *tmp, t_env *env);
 char			*excutable(char *str, t_env *env);
 int				execute_p(int inp, int pi[2], t_env **env, t_pipe *pipes);
 
+char			*prompt(t_env *env);
 int				edit_etoile(t_tok **toks, char *str, int id);
 char			*ft_strjoin_f(char *s1, char *s2, int a, int b);
 

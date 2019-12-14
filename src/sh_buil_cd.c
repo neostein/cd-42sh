@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 16:29:59 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 06:28:33 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 02:46:53 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	change_dir(char *dir, t_env **env)
 int			built_cd(char **args, t_env **env)
 {
 	char	*dir;
-	char	*old;
 
 	if (args[1])
 	{

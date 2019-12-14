@@ -6,13 +6,13 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:15 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 05:56:16 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 03:06:47 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-void			kill_seg(int seg)
+static void	kill_seg(int seg)
 {
 	t_cmd	*l;
 	char	buf[2];
@@ -32,7 +32,23 @@ void			kill_seg(int seg)
 		ft_putchar('\n');
 }
 
-int				main(int ac, char **av, char **env)
+char		*prompt(t_env *env)
+{
+	char	*tp;
+	char	*ret;
+
+	if ((tp = ft_getenv(env, "PWD")))
+		tp = ft_strdup(tp);
+	else
+		tp = getcwd(0, 0);
+	if (!tp)
+		return (read_line("21sh"));
+	ret = read_line(tp);
+	ft_memdel((void **)&tp);
+	return (ret);
+}
+
+int			main(int ac, char **av, char **env)
 {
 	char	*line;
 	t_env	*my_env;

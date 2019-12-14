@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/13 22:06:48 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 03:04:16 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char			*aff_prompt(t_env *env)
 	char	*cmdl;
 	char	*temp;
 
-	cmdl = read_line("21sh");
+	cmdl = prompt(env);
 	if (!cmdl)
 		return (0);
 	ret = check_aller(cmdl);
