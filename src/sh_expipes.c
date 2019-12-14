@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:31:09 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/02 02:59:42 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 06:03:17 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static int		child_process(t_pipe *pipes, char **env)
 		}
 	}
 	if (execve(pipes->cmdl->excu, pipes->cmdl->args, env) == -1)
-		return (ft_perror(0, "execve output failed", 1));
+		ft_perror(0, "execve output failed", 1);
+	exit(1);
 	return (0);
 }
 
