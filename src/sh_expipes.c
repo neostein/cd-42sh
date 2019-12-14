@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:31:09 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/14 06:03:17 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 00:46:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ static int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
 	char	**my_env;
 
 	ret = 0;
-	my_env = list_to_tab(env);
 	if ((pid = fork()) == -1)
 		return (ft_perror(0, "fork failed", 1));
+	my_env = list_to_tab(env);
 	if (pid == 0)
 	{
 		if (inp)
@@ -113,7 +113,12 @@ int				execute_p(int inp, int pi[2], t_env **env, t_pipe *pipes)
 				return (1);
 		}
 		else if (fork_pipe(inp, pi, *env, pipes))
+		{
+			if (inp)
+				close(inp);
+			close(pi[1]);
 			return (1);
+		}
 	}
 	if (inp)
 		close(inp);

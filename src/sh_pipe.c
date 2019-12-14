@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/01 03:36:55 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 00:38:31 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int		execute_pipe(t_pipe *pipes, t_env **env)
 				if (pipe(pi) == -1)
 					return (ft_perror(0, "pipe failed", 1));
 			if (execute_p(inp, pi, env, pipes))
-				return (1);
+				break ;
 			len++;
 			inp = pi[0];
 		}
