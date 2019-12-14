@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:39:13 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/13 22:12:25 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/14 20:57:09 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	fill_from_histfile(void)
 void	init_history(void)
 {
 	t_hist	*hist;
-	int		i;
 
 	if ((hist = (t_hist *)malloc(sizeof(t_hist))) == NULL)
 		exit(0);

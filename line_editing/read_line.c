@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/13 23:32:22 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/14 20:59:16 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void		print_cmd(t_cmd *l)
 	int		i;
 
 	i = -1;
-	l->cur_p->r = l->init_p->r - 1;
-	l->cur_p->c = l->init_p->c + ft_strlen(l->prompt) + 4;
+	init_cur(l);
 	ft_putstr_fd(tgoto(CM, l->init_p->c - 1, l->init_p->r - 1), 1);
 	ft_putstr_fd(CD, 1);
 	show_prompt(l);

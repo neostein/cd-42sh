@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 06:48:48 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/10 22:01:20 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/14 20:58:01 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	alt_a(t_cmd *l)
 		hist->col = 0;
 	else
 		hist->col++;
+}
+
+void	init_cur(t_cmd *l)
+{
+	l->cur_p->r = l->init_p->r - 1 +
+	((ft_strlen(l->prompt) + 5) / (l->w.ws_col));
+	l->cur_p->c = l->init_p->c - 1 +
+	((ft_strlen(l->prompt) + 5) % (l->w.ws_col));
 }
 
 void	write_backword(int fd, t_data *list)
