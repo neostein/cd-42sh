@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:31:09 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/15 00:46:50 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 04:41:28 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int		execut_bpipe(int inp, int pi[2], t_pipe *pipes, t_env **env)
 	return (0);
 }
 
-static int		child_process(t_pipe *pipes, char **env)
+static int		child_process(t_pipe *pipes, char **env, t_env *m_env)
 {
 	t_fd	*lrd;
 
@@ -70,8 +70,9 @@ static int		child_process(t_pipe *pipes, char **env)
 			lrd = lrd->next;
 		}
 	}
-	if (execve(pipes->cmdl->excu, pipes->cmdl->args, env) == -1)
-		ft_perror(0, "execve output failed", 1);
+	if ((pipes->cmdl->excu = excutable(pipes->cmdl->args[0], m_env)))
+		if (execve(pipes->cmdl->excu, pipes->cmdl->args, env) == -1)
+			ft_perror(0, "execve output failed", 1);
 	exit(1);
 	return (0);
 }
@@ -96,7 +97,7 @@ static int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
 			if (dup2(pi[1], 1) == -1)
 				ret = ft_perror(0, "duplicate output failed", 1);
 		close(pi[1]);
-		if (ret || child_process(pipes, my_env))
+		if (ret || child_process(pipes, my_env, env))
 			exit(1);
 	}
 	free_tab(my_env);
@@ -105,20 +106,17 @@ static int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
 
 int				execute_p(int inp, int pi[2], t_env **env, t_pipe *pipes)
 {
-	if ((pipes->cmdl->excu = excutable(pipes->cmdl->args[0], *env)))
+	if (check_built(pipes->cmdl->args[0]))
 	{
-		if (check_built(pipes->cmdl->excu))
-		{
-			if (execut_bpipe(inp, pi, pipes, env))
-				return (1);
-		}
-		else if (fork_pipe(inp, pi, *env, pipes))
-		{
-			if (inp)
-				close(inp);
-			close(pi[1]);
+		if (execut_bpipe(inp, pi, pipes, env))
 			return (1);
-		}
+	}
+	else if (fork_pipe(inp, pi, *env, pipes))
+	{
+		if (inp)
+			close(inp);
+		close(pi[1]);
+		return (1);
 	}
 	if (inp)
 		close(inp);

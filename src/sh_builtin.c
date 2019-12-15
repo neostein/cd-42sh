@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/11 06:10:50 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 03:50:01 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ int			check_built(char *str)
 
 int			execute_built(t_cmdl *cmdl, t_env **env)
 {
-	if (!ft_strcmp(cmdl->excu, "cd"))
+	if (!ft_strcmp(cmdl->args[0], "cd"))
 		built_cd(cmdl->args, env);
-	if (!ft_strcmp(cmdl->excu, "env"))
+	if (!ft_strcmp(cmdl->args[0], "env"))
 		ft_putenv(*env);
-	if (!ft_strcmp(cmdl->excu, "echo"))
+	if (!ft_strcmp(cmdl->args[0], "echo"))
 		built_echo(cmdl->args);
-	if (!ft_strcmp(cmdl->excu, "setenv"))
+	if (!ft_strcmp(cmdl->args[0], "setenv"))
 		ft_setenv(env, cmdl->args);
-	if (!ft_strcmp(cmdl->excu, "unsetenv"))
+	if (!ft_strcmp(cmdl->args[0], "unsetenv"))
 		ft_unsetenv(env, cmdl->args);
 	return (0);
 }
@@ -77,7 +77,7 @@ int			built_cmd(t_cmdl *cmdl, t_env **env)
 	t_fd	*lrd;
 	t_file	*fil;
 
-	if (check_built(cmdl->excu))
+	if (check_built(cmdl->args[0]))
 	{
 		if (save_file(&fil, 0, 1, 2))
 			exit(1);
