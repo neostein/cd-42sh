@@ -6,53 +6,56 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:50:25 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/15 04:39:39 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 05:19:07 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 #include <sys/wait.h>
 
-static t_pipe	*add_pipe(t_cmdl *cmdl)
+static t_pipe	*add_pipe(t_cmdl *cmdl, t_tok *tok)
 {
 	t_pipe	*pi;
 
 	if (!(pi = (t_pipe *)malloc(sizeof(t_pipe))))
 		return (0);
+	pi->tok = tok;
 	pi->cmdl = cmdl;
 	pi->next = 0;
 	return (pi);
 }
 
-static t_cmdl	*add_elem_cmdline(char *line)
+static t_tok	*pipe_toks(char *line)
 {
+	t_tok	*tmp;
 	t_tok	*toks;
-	t_cmdl	*cmdl;
 
-	cmdl = 0;
 	if ((toks = split_tokens(line)))
 	{
-		if (analy_toks(toks) || check_error(toks))
+		tmp = toks;
+		if (analy_toks(tmp) || check_error(tmp))
 		{
-			free_tokens(toks);
+			ft_memdel((void **)&line);
 			return (0);
 		}
-		cmdl = save_to_excute(toks);
-		free_tokens(toks);
 	}
-	return (cmdl);
+	ft_memdel((void **)&line);
+	return (toks);
 }
 
 static int		add_pipes(t_pipe **pipes, char *line)
 {
+	t_tok	*tmp;
 	t_cmdl	*cmdl;
 	t_pipe	*temp;
 
-	if ((cmdl = add_elem_cmdline(line)))
+	if (!(tmp = pipe_toks(line)))
+		return (0);
+	if ((cmdl = save_to_excute(tmp)))
 	{
 		if (!(*pipes))
 		{
-			if (!(*pipes = add_pipe(cmdl)))
+			if (!(*pipes = add_pipe(cmdl, tmp)))
 				return (1);
 		}
 		else
@@ -60,13 +63,11 @@ static int		add_pipes(t_pipe **pipes, char *line)
 			temp = *pipes;
 			while (temp->next)
 				temp = temp->next;
-			if (!(temp->next = add_pipe(cmdl)))
+			if (!(temp->next = add_pipe(cmdl, tmp)))
 				return (1);
 		}
-		ft_memdel((void **)&line);
 		return (0);
 	}
-	ft_memdel((void **)&line);
 	return (1);
 }
 

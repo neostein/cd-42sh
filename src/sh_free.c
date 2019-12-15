@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:56:42 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/04 03:39:08 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 05:29:24 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_pipes(t_pipe *lst)
 	while (lst)
 	{
 		tmp = lst->next;
+		free_tokens(lst->tok);
 		free_cmdline(lst->cmdl);
 		ft_memdel((void **)&lst);
 		lst = tmp;

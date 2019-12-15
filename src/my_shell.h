@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/14 03:04:53 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/15 04:57:50 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct	s_cmdl
 
 typedef struct	s_pipe
 {
+	t_tok			*tok;
 	t_cmdl			*cmdl;
 	struct s_pipe	*next;
 }				t_pipe;
