@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:47:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/07 22:51:20 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/16 08:14:54 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int		check_token(char *token)
 			while (token[i] && token[i] != token[be])
 				i++;
 		}
-		else
-			i++;
+		i++;
 	}
 	return (0);
 }
