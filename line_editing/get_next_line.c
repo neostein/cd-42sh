@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 18:43:39 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/13 14:55:29 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/15 20:50:44 by llachgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ int				get_next_line(const int fd, char **line)
 	if (r_res < 0)
 		return (-1);
 	else if (r_res == 0 && (s[fd] == NULL || s[fd][0] == '\0'))
+	{
+		if (s[fd])
+			free(s[fd]);
 		return (0);
+	}
 	return (get_the_line(s, line, fd));
 }
