@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:31:09 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/15 05:18:11 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/18 01:31:18 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ static int		fork_pipe(int inp, int pi[2], t_env *env, t_pipe *pipes)
 		if (inp)
 			if (dup2(inp, 0) == -1)
 				ret = ft_perror(0, "duplicate input failed", 1);
-		inp ? close(inp) : close(pi[0]);
+		if (inp)
+			close(inp);
+		close(pi[0]);
 		if (pipes->next)
 			if (dup2(pi[1], 1) == -1)
 				ret = ft_perror(0, "duplicate output failed", 1);
