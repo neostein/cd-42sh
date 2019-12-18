@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/14 06:27:07 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/18 01:39:48 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,19 @@ static int		check_allerr(char *str)
 static int		check_aller(char *str)
 {
 	int	i;
-	int	check;
+	int	be;
 
 	i = 0;
 	if (str[0] == '|')
 		return (ft_perror(0, "syntax error near unexpected token", -1));
 	while (str[i])
 	{
-		check = 0;
-		if (str[i] == ';')
+		if (str[i] == ';' || str[i] == '|')
 		{
-			i++;
+			be = i++;
 			while (str[i] && check_space(str[i]))
 				i++;
-			if (str[i] == '|')
+			if (str[i] == '|' || (str[i] == ';' && str[be] == '|'))
 				return (ft_perror(0, "syntax error near unexpected token", -1));
 		}
 		else
