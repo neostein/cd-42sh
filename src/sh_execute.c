@@ -6,56 +6,12 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:44:00 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/15 04:37:35 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/19 14:51:03 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 #include <signal.h>
-
-static int	execute_cmdl(t_cmdl *cmdl, char **env)
-{
-	int		pid;
-	t_fd	*lrd;
-
-	if ((pid = fork()) == -1)
-		return (ft_perror(0, "fork failed", 1));
-	if (pid == 0)
-	{
-		if (cmdl->rd)
-		{
-			lrd = cmdl->lrd;
-			while (lrd)
-			{
-				if (lrd->sec == -3)
-					close(lrd->fir);
-				else
-					dup2(lrd->sec, lrd->fir);
-				lrd = lrd->next;
-			}
-		}
-		if (execve(cmdl->excu, cmdl->args, env) == -1)
-			if (ft_perror(0, "exceve failed", 1))
-				exit(1);
-	}
-	wait(0);
-	return (0);
-}
-
-static int	execute(t_cmdl *cmdl, t_env **env)
-{
-	char	**my_env;
-
-	if (!built_cmd(cmdl, env))
-		return (0);
-	else
-	{
-		my_env = list_to_tab(*env);
-		execute_cmdl(cmdl, my_env);
-		free_tab(my_env);
-	}
-	return (0);
-}
 
 char		**list_to_tab(t_env *env)
 {
@@ -86,44 +42,51 @@ char		**list_to_tab(t_env *env)
 	return (en);
 }
 
-t_cmdl		*save_to_excute(t_tok *toks)
+int			execute_cmdl(t_tok *tok, t_env **env)
 {
-	t_cmdl	*cmdl;
+	int		pid;
 
-	if (!(cmdl = init_cmdl()))
-		return (0);
-	if ((cmdl->rd = add_redirections(cmdl, toks)) == -1)
-		return (0);
-	if (add_args(cmdl, toks))
+	if ((pid = fork()) == -1)
+		return (ft_perror(0, "fork failed", 1));
+	if (pid == 0)
 	{
-		free_cmdline(cmdl);
-		return (0);
+		if (!duplicate(tok))
+			execute_tok(tok, env);
+		exit(1);
 	}
-	return (cmdl);
+	wait(0);
+	return (0);
+}
+
+int			execute(t_tok *t, t_env **env)
+{
+	t_tok	*tp;
+
+	tp = t;
+	while (tp && tp->id != 0)
+		tp = tp->next;
+	if (!tp)
+		return (0);
+	if (check_built(tp->value))
+		execute_builtins(t, env);
+	else if (execute_cmdl(t, env))
+		return (1);
+	return (0);
 }
 
 int			cmd_line(char *line, t_env **env)
 {
 	t_tok	*toks;
-	t_cmdl	*cmdl;
 
 	if (!(toks = split_tokens(line)))
 		return (1);
-	if (analy_toks(toks) || check_error(toks) ||
-			!(cmdl = save_to_excute(toks)))
+	if (search_exit(toks))
 	{
-		free_tokens(toks);
-		return (1);
-	}
-	if ((cmdl->args) && !ft_strcmp(cmdl->args[0], "exit"))
-	{
-		free_cmdline(cmdl);
 		free_tokens(toks);
 		return (-1);
 	}
-	if ((cmdl->args) && (cmdl->excu = excutable(cmdl->args[0], *env)))
-		execute(cmdl, env);
+	analy_toks(toks);
+	execute(toks, env);
 	free_tokens(toks);
-	free_cmdline(cmdl);
 	return (0);
 }

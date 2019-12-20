@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 19:42:58 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/05 19:46:44 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/19 13:48:09 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,6 @@ int		isdir(char *path)
 		return (1);
 	}
 	return (0);
-}
-
-t_fd	*add_secredi(int fir, int sec)
-{
-	t_fd	*lrd;
-
-	if (!(lrd = init_redirect()))
-		return (0);
-	lrd->fir = fir;
-	lrd->sec = sec;
-	return (lrd);
 }
 
 int		save_file(t_file **file, int in, int out, int err)

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 05:57:21 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/15 03:50:01 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/19 14:37:04 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,46 +57,35 @@ int			check_built(char *str)
 	return (0);
 }
 
-int			execute_built(t_cmdl *cmdl, t_env **env)
+static int	execute_builtin(char **args, t_env **env)
 {
-	if (!ft_strcmp(cmdl->args[0], "cd"))
-		built_cd(cmdl->args, env);
-	if (!ft_strcmp(cmdl->args[0], "env"))
+	if (!ft_strcmp(args[0], "cd"))
+		built_cd(args, env);
+	if (!ft_strcmp(args[0], "env"))
 		ft_putenv(*env);
-	if (!ft_strcmp(cmdl->args[0], "echo"))
-		built_echo(cmdl->args);
-	if (!ft_strcmp(cmdl->args[0], "setenv"))
-		ft_setenv(env, cmdl->args);
-	if (!ft_strcmp(cmdl->args[0], "unsetenv"))
-		ft_unsetenv(env, cmdl->args);
+	if (!ft_strcmp(args[0], "echo"))
+		built_echo(args);
+	if (!ft_strcmp(args[0], "setenv"))
+		ft_setenv(env, args);
+	if (!ft_strcmp(args[0], "unsetenv"))
+		ft_unsetenv(env, args);
 	return (0);
 }
 
-int			built_cmd(t_cmdl *cmdl, t_env **env)
+int			execute_builtins(t_tok *t, t_env **env)
 {
-	t_fd	*lrd;
+	char	**as;
 	t_file	*fil;
 
-	if (check_built(cmdl->args[0]))
-	{
-		if (save_file(&fil, 0, 1, 2))
-			exit(1);
-		if (cmdl->rd)
-		{
-			lrd = cmdl->lrd;
-			while (lrd)
-			{
-				if (lrd->sec == -1)
-					close(lrd->fir);
-				else if (dup2(lrd->sec, lrd->fir) == -1)
-					return (ft_perror(0, "duplicate failed.", 0));
-				lrd = lrd->next;
-			}
-		}
-		execute_built(cmdl, env);
-		free_file(fil);
-	}
-	else
+	if (save_file(&fil, 0, 1, 2))
 		return (1);
+	if (!duplicate(t))
+	{
+		if (!(as = args_execve(t)))
+			return (1);
+		execute_builtin(as, env);
+		free_tab(as);
+	}
+	free_file(fil);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:10 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/14 05:44:43 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/20 13:32:15 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ static int	check_split(t_tok **toks, char *line)
 		line += i;
 		if (*line)
 		{
-			i = 0;
-			while (line[i] && !check_spechar(line[i]))
-				i++;
+			i = -1;
+			while (line[++i] && !check_spechar(line[i]))
+				if (line[i] == 34 || line[i] == 39)
+					i = end_quotes(line, i, line[i]);
 			if (!(temp = ft_strsub(line, 0, i)) || edit_etoile(toks, temp, 1))
 				return (1);
 			ft_memdel((void **)&temp);

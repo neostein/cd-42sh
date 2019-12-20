@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:53 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/10 00:54:24 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/20 10:13:08 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*edit_tilda(char *str, t_env *env)
 	char	*tmp;
 
 	i = 1;
-	if (!str[i] || str[i] == '/')
+	if (!str[i] || str[i] == '/' || check_space(str[i]))
 	{
 		if (!(tmp = ft_getenv(env, "HOME")))
 		{

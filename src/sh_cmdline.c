@@ -6,114 +6,76 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:20:06 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/05 19:46:52 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/19 14:56:00 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-static int	heredirect(char *fin)
+static char	*check_file(char *tmp)
 {
-	int		pi[2];
-	char	*s2;
-	char	*tmp;
-	char	*file;
-
-	file = 0;
-	s2 = read_line(">");
-	if (pipe(pi) == -1)
-		return (ft_perror(0, "fork failed", -1));
-	while (fin && s2 && ft_strcmp(fin, s2))
-	{
-		if (!(tmp = add_to_file(file, s2)))
-			return (-1);
-		file = tmp;
-		ft_memdel((void **)&s2);
-		s2 = read_line(">");
-	}
-	ft_memdel((void **)&s2);
-	if (file)
-		write(pi[1], file, ft_strlen(file));
-	if (file)
-		ft_memdel((void **)&file);
-	close(pi[1]);
-	return (pi[0]);
-}
-
-static int	ret_fildis(int rd, char *file, int n_id)
-{
-	if ((rd == 6 || rd == 9) && n_id != 1)
-		return (!ft_strcmp(file, "-") ? -3 : ft_atoi(file));
-	else if (rd == 5 || (rd == 6 && n_id == 1) || rd == 11)
-		return (open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644));
-	else if (rd == 8 || (rd == 9 && n_id == 1) || rd == 12)
-		return (open(file, O_RDONLY));
-	else if (rd == 7)
-		return (open(file, O_WRONLY | O_APPEND | O_CREAT, 0644));
-	else if (rd == 10)
-		return (heredirect(file));
-	return (-1);
-}
-
-static t_fd	*add_redirect(char *fd, int rd, char *file, int n_id)
-{
-	t_fd	*lrd;
-
-	if (!(lrd = init_redirect()))
-		return (0);
-	if ((lrd->sec = ret_fildis(rd, file, n_id)) == -1)
-	{
-		ft_perror(0, "open failed", 0);
-		return (0);
-	}
-	if (fd)
-		lrd->fir = ft_atoi(fd);
-	else if (rd == 5 || rd == 6 || rd == 7 || rd == 11)
-		lrd->fir = 1;
-	else if (rd == 8 || rd == 9 || rd == 10 || rd == 12)
-		lrd->fir = 0;
-	if (rd == 11 || rd == 12 || rd == 6 || rd == 9)
-		if (!(lrd->next = add_secredi(2, lrd->sec)))
-			return (0);
-	return (lrd);
-}
-
-static int	add_to_list(t_cmdl *cmdl, char *fd, int id, t_tok toks)
-{
-	t_fd	*lrd;
-
-	if (cmdl->lrd)
-	{
-		lrd = cmdl->lrd;
-		while (lrd->next)
-			lrd = lrd->next;
-		if (!(lrd->next = add_redirect(fd, id, toks.value, toks.id)))
-			return (1);
-	}
-	else if (!(cmdl->lrd = add_redirect(fd, id, toks.value, toks.id)))
-		return (1);
+	if (isdir(tmp))
+		ft_perror(tmp, ": is a directory", 0);
+	else if (!access(tmp, X_OK))
+		return (ft_strdup(tmp));
+	else
+		ft_perror(tmp, ": Permission denied", 0);
 	return (0);
 }
 
-int			add_redirections(t_cmdl *cmdl, t_tok *toks)
+static char	*check_exe(char *str, char **path)
 {
-	char	*fd;
+	int		i;
+	char	*tp1;
+	char	*tp2;
 
-	fd = 0;
-	while (toks)
+	i = 0;
+	while (path[i])
 	{
-		if (toks->id == 14)
-			fd = toks->value;
-		if (toks->id > 4 && toks->id < 13)
+		if (!(tp1 = ft_strjoin(path[i], "/")))
+			return (0);
+		if (!(tp2 = ft_strjoin(tp1, str)))
+			return (0);
+		ft_memdel((void **)&tp1);
+		if (!access(tp2, F_OK))
 		{
-			if (toks->id == 11 || toks->id == 12 ||
-					toks->id == 6 || toks->id == 9)
-				fd = 0;
-			if (add_to_list(cmdl, fd, toks->id, *(toks->next)))
-				return (-1);
-			fd = 0;
+			tp1 = check_file(tp2);
+			ft_memdel((void **)&tp2);
+			return (tp1);
 		}
-		toks = toks->next;
+		ft_memdel((void **)&tp2);
+		i++;
 	}
-	return ((cmdl->lrd == 0) ? 0 : 1);
+	return (0);
+}
+
+static char	*search_in_path(char *exe, t_env *env)
+{
+	char	*tp;
+	char	**path;
+
+	tp = 0;
+	if (!ft_strcmp(exe, ".") || !ft_strcmp(exe, "..") || ft_strchr(exe, '/'))
+		return (tp);
+	if ((path = ft_strsplit(ft_getenv(env, "PATH"), ':')))
+	{
+		tp = check_exe(exe, path);
+		free_tab(path);
+	}
+	return (tp);
+}
+
+char		*search_executable(char *exe, t_env *env)
+{
+	char	*tp;
+
+	if (exe[0])
+	{
+		if ((tp = search_in_path(exe, env)))
+			return (tp);
+		if (!access(exe, F_OK))
+			return (check_file(exe));
+	}
+	ft_perror(exe, ": command not found", 1);
+	return (0);
 }

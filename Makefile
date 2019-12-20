@@ -6,7 +6,7 @@
 #    By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 18:30:14 by hastid            #+#    #+#              #
-#    Updated: 2019/12/13 02:30:27 by hastid           ###   ########.fr        #
+#    Updated: 2019/12/19 11:16:28 by hastid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC = src/main.c \
 	  src/sh_cmdledit.c \
 	  src/sh_checkline.c \
 	  src/sh_checkerror.c \
+	  src/sh_checkexecute.c \
 
 OBJ = $(SRC:.c=.o)
 

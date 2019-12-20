@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/18 01:39:48 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/20 13:39:08 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char			*ft_strjoin_f(char *s1, char *s2, int a, int b)
 	ft_strcpy(str, (char *)s1);
 	ft_strcat(str, (char *)s2);
 	if (a)
-		free(s1);
+		ft_memdel((void **)&s1);
 	if (b)
-		free(s2);
+		ft_memdel((void **)&s2);
 	return (str);
 }
 
@@ -95,12 +95,10 @@ char			*aff_prompt(t_env *env)
 	char	*cmdl;
 	char	*temp;
 
-	cmdl = prompt(env);
-	if (!cmdl)
+	if (!(cmdl = prompt(env)))
 		return (0);
 	ret = check_aller(cmdl);
 	while (ret == 1 || ret == 2)
-	{
 		if ((temp = read_line(">")))
 		{
 			if (ret == 2)
@@ -110,10 +108,12 @@ char			*aff_prompt(t_env *env)
 		}
 		else
 			ret = ft_perror(0, "syntax error: unexpected end of file", -1);
-	}
 	if (!check_spacestr(cmdl))
 		add_to_hist(ft_strdup(cmdl));
 	if (ret == -1)
+	{
+		ft_memdel((void**)&cmdl);
 		return (ft_strdup("\0"));
+	}
 	return (cmdl);
 }

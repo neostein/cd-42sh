@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:45:13 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/15 04:35:20 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/20 13:31:45 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,97 +26,45 @@ static int	args_len(t_tok *toks)
 	return (i);
 }
 
-static char	*check_file(char *tmp)
-{
-	if (isdir(tmp))
-		ft_perror(tmp, ": is a directory", 0);
-	else if (!access(tmp, X_OK))
-		return (ft_strdup(tmp));
-	else
-		ft_perror(tmp, ": Permission denied", 0);
-	return (0);
-}
-
-static char	*check_path(char *str, char **path)
+char		**args_execve(t_tok *t)
 {
 	int		i;
-	char	*tp;
-	char	*tmp;
+	char	**args;
 
+	if (!(args = (char **)malloc(sizeof(char *) * (args_len(t) + 1))))
+		return (0);
 	i = 0;
-	if (ft_strcmp(str, ".") && ft_strcmp(str, ".."))
-		while (path && path[i])
+	while (t)
+	{
+		if (t->id == 0)
 		{
-			if (!(tp = ft_strjoin(path[i], "/")))
+			if (!(args[i] = ft_strdup(t->value)))
 				return (0);
-			if (!(tmp = ft_strjoin(tp, str)))
-				return (0);
-			ft_memdel((void **)&tp);
-			if (!access(tmp, F_OK))
-			{
-				tp = check_file(tmp);
-				ft_memdel((void **)&tmp);
-				return (tp);
-			}
-			ft_memdel((void **)&tmp);
 			i++;
 		}
-	return (0);
-}
-
-char		*excutable(char *str, t_env *env)
-{
-	char	*tmp;
-	char	**path;
-
-	tmp = 0;
-	if (str[0])
-	{
-		if (check_built(str))
-			return (ft_strdup(str));
-		if (!ft_strchr(str, '/'))
-		{
-			path = ft_strsplit(ft_getenv(env, "PATH"), ':');
-			if (path)
-			{
-				tmp = check_path(str, path);
-				free_tab(path);
-				if (tmp)
-					return (tmp);
-			}
-		}
-		if (!access(str, F_OK))
-			return (check_file(str));
+		t = t->next;
 	}
-	if (!tmp)
-		ft_perror(str, ": command not found", 1);
-	return (tmp);
+	args[i] = 0;
+	return (args);
 }
 
-int			add_args(t_cmdl *cmdl, t_tok *toks)
+int			search_exit(t_tok *t)
 {
-	int		i;
-
-	while (toks && toks->id != 0)
-		toks = toks->next;
-	if (toks)
-	{
-		if (!(cmdl->args = (char **)malloc(sizeof(char *) *
-						(args_len(toks) + 1))))
+	while (t && t->id != 0)
+		t = t->next;
+	if (t)
+		if (!ft_strcmp("exit", t->value))
 			return (1);
-		i = 0;
-		while (toks)
-		{
-			if (toks->id == 0)
-			{
-				if (!(cmdl->args[i] = ft_strdup(toks->value)))
-					return (1);
-				i++;
-			}
-			toks = toks->next;
-		}
-		cmdl->args[i] = 0;
-		return (0);
-	}
 	return (0);
+}
+
+int			end_quotes(char *str, int be, char q)
+{
+	int	count;
+
+	count = 0;
+	while (str[be++])
+		if (str[be] == q)
+			return (be);
+	return (count);
 }
