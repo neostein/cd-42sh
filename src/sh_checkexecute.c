@@ -6,13 +6,13 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 08:40:11 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/19 14:46:15 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/22 13:29:05 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
 
-static int	heredirect(char *fin)
+int			heredirect(char *fin)
 {
 	int		pi[2];
 	char	*s2;
@@ -51,7 +51,7 @@ static int	ret_fildis(int rd, char *file, int n_id)
 	else if (rd == 7)
 		return (open(file, O_WRONLY | O_APPEND | O_CREAT, 0644));
 	else if (rd == 10)
-		return (heredirect(file));
+		return (ft_atoi(file));
 	return (-1);
 }
 
@@ -77,6 +77,8 @@ int			duplicate_file(char *fd, int rd, char *file, int n_id)
 		if (rd == 11 || rd == 12 || rd == 6 || rd == 9)
 			if (dup2(sec, 2) == -1)
 				return (ft_perror(0, "duplicate failed", 1));
+		if (sec != 0 && sec != 1 && sec != 2)
+			close(sec);
 	}
 	return (0);
 }

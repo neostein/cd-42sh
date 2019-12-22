@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 06:13:50 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/14 02:38:54 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/22 13:36:07 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,28 @@
 static char	*del_quotes(char *str)
 {
 	int		i;
+	int		j;
 	char	b;
 	char	buf[READ_SIZE];
 
 	i = 0;
+	j = 0;
 	if (!str)
 		return (0);
-	while (*str && i < READ_SIZE - 1)
+	while (str[j] && i < READ_SIZE - 1)
 	{
-		if (*str == 34 || *str == 39)
+		if (str[j] == 34 || str[j] == 39)
 		{
-			b = *str++;
-			while (*str && *str != b && i < READ_SIZE - 1)
-				buf[i++] = *str++;
-			str++;
+			b = str[j++];
+			while (str[j] && str[j] != b && i < READ_SIZE - 1)
+				buf[i++] = str[j++];
+			j++;
 		}
 		else
-			buf[i++] = *str++;
+			buf[i++] = str[j++];
 	}
 	buf[i] = '\0';
+	ft_memdel((void **)&str);
 	return (ft_strdup(buf));
 }
 
@@ -92,11 +95,13 @@ int			analy_toks(t_tok *toks)
 	{
 		if (toks->id == 4)
 			toks->id = edit_redirct(toks->value);
-		if ((tmp = toks->value))
+		if (toks->id == 10)
 		{
-			toks->value = del_quotes(tmp);
-			ft_memdel((void **)&tmp);
+			tmp = toks->next->value;
+			if ((toks->next->value = ft_itoa(heredirect(tmp))))
+				ft_memdel((void **)&tmp);
 		}
+		toks->value = del_quotes(toks->value);
 		toks = toks->next;
 	}
 	return (0);

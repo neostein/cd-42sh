@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:08:36 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/20 13:32:10 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/22 13:20:52 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ char			*search_executable(char *exe, t_env *env);
 int				duplicate_file(char *fd, int rd, char *file, int n_id);
 int				search_exit(t_tok *t);
 int				end_quotes(char *str, int be, char q);
+int				heredirect(char *file);
 
 #endif
