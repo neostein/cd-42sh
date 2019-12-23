@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 18:04:31 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/20 13:39:08 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/23 13:48:39 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,21 @@ char			*aff_prompt(t_env *env)
 		return (0);
 	ret = check_aller(cmdl);
 	while (ret == 1 || ret == 2)
-		if ((temp = read_line(">")))
+		if ((temp = read_line(">")) && *temp != '\n')
 		{
-			if (ret == 2)
-				cmdl = ft_strjoin_f(cmdl, "\n", 1, 0);
+			(ret == 2) ? (cmdl = ft_strjoin_f(cmdl, "\n", 1, 0)) : 0;
 			cmdl = ft_strjoin_f(cmdl, temp, 1, 1);
 			ret = check_aller(cmdl);
 		}
+		else if (temp && *temp == '\n')
+		{
+			ft_memdel((void **)&temp);
+			ret = -1;
+		}
 		else
 			ret = ft_perror(0, "syntax error: unexpected end of file", -1);
-	if (!check_spacestr(cmdl))
-		add_to_hist(ft_strdup(cmdl));
+	!check_spacestr(cmdl) ? add_to_hist(ft_strdup(cmdl)) : 0;
 	if (ret == -1)
-	{
 		ft_memdel((void**)&cmdl);
-		return (ft_strdup("\0"));
-	}
-	return (cmdl);
+	return (cmdl ? cmdl : ft_strdup("\0"));
 }

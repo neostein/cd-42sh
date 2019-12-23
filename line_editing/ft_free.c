@@ -6,22 +6,11 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 05:39:04 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/23 11:09:16 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:21:27 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_editing.h"
-
-char	*return_cmd(t_cmd *l)
-{
-	char tmp[2];
-
-	tmp[0] = -3;
-	tmp[1] = 0;
-	if (l->ctl_c)
-		return (ft_strdup(tmp));
-	return (ft_strdup(l->chars));
-}
 
 void	free_out(t_cmd *l)
 {

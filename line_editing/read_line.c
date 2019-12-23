@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:13:47 by llachgar          #+#    #+#             */
-/*   Updated: 2019/12/23 10:59:58 by llachgar         ###   ########.fr       */
+/*   Updated: 2019/12/23 13:28:31 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char		*read_line(char *prompt)
 	if (l->ctl_d)
 		result = NULL;
 	else
-		result = return_cmd(l);
+		result = ft_strdup(l->ctl_c ? "\n" : l->chars);
 	free_out(l);
 	return (result);
 }

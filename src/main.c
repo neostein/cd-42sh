@@ -6,7 +6,7 @@
 /*   By: llachgar <llachgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 23:07:15 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/14 03:06:47 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/23 13:28:49 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			main(int ac, char **av, char **env)
 	{
 		if (!(line = aff_prompt(my_env)))
 			break ;
-		if (line && *line)
+		if (line && *line && *line != '\n')
 			if (split_lines(line, &my_env) == -1)
 				break ;
 		if (line)
