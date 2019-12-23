@@ -6,7 +6,7 @@
 /*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 03:56:42 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/19 13:42:50 by hastid           ###   ########.fr       */
+/*   Updated: 2019/12/23 20:18:42 by hastid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_tokens(t_tok *lst)
 	while (lst)
 	{
 		tmp = lst->next;
+		if (lst->id == 10)
+			close(ft_atoi(lst->next->value));
 		ft_memdel((void **)&(lst->value));
 		ft_memdel((void **)&lst);
 		lst = tmp;
