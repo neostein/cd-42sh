@@ -3,25 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   sh_filedis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hastid <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nsaber <nsaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 19:42:58 by hastid            #+#    #+#             */
-/*   Updated: 2019/12/19 13:48:09 by hastid           ###   ########.fr       */
+/*   Updated: 2020/02/14 21:06:36 by nsaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_shell.h"
+#include <sys/stat.h>
 
 int		isdir(char *path)
 {
 	DIR *dir;
 
 	dir = opendir(path);
+	// perror("error is :");
 	if (dir != 0)
 	{
 		closedir(dir);
 		return (1);
 	}
+	struct stat buf;
+
+	if (lstat(path, &buf) == -1)
+		return(0);
+	else
+	{
+		if ((buf.st_mode & S_IFMT) == S_IFDIR && (buf.st_mode & S_IXUSR))
+			return(1);
+	}
+// printf("arrived here\n");
 	return (0);
 }
 
